@@ -99,6 +99,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
 .wi-name{font-size:13px;font-weight:500;color:var(--text-dark);margin-bottom:2px;}
 .wi-meta{font-size:11px;color:var(--text-light);}
 .ph-icon{font-size:40px;color:var(--sand);}
+.wi-actions{position:absolute;bottom:0;left:0;right:0;display:flex;gap:0;opacity:0;transition:opacity .2s;pointer-events:none;}
+.wardrobe-item:hover .wi-actions,.wardrobe-item:active .wi-actions{opacity:1;pointer-events:all;}
+.wi-act-btn{flex:1;padding:8px 4px;border:none;font-size:11px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:4px;}
+.wi-act-edit{background:rgba(61,43,36,.85);color:white;}
+.wi-act-del{background:rgba(180,50,50,.85);color:white;}
+/* Always-visible action strip on mobile (no hover) */
+@media (hover:none){.wi-actions{opacity:1;pointer-events:all;}}
+/* Edit modal confirm btn */
+.btn-danger{background:#c0392b;color:white;}
 .add-card{background:var(--white);border-radius:var(--r-md);border:1.5px dashed var(--sand);aspect-ratio:3/5;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:8px;color:var(--text-light);}
 .add-card i{font-size:28px;}
 .add-card span{font-size:12px;font-weight:500;}
@@ -290,6 +299,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
       <option value="top">Верх</option><option value="bottom">Низ</option>
       <option value="shoes">Обувь</option><option value="outerwear">Верхняя одежда</option>
       <option value="accessories">Аксессуары</option>
+      <option value="dress">Платья / комбинезоны</option>
     </select>
     <select class="filter-sel" id="wbSea" onchange="renderWardrobe()">
       <option value="all">Весь год</option>
@@ -436,10 +446,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
     <div class="handle"></div>
     <div class="modal-title">Создать образ</div>
     <div class="fg"><label class="fl">Название</label><input class="fi" id="lookName" placeholder="Весенний casual"></div>
-    <div class="fg"><label class="fl">Верх</label><select class="fs" id="lTop"></select></div>
-    <div class="fg"><label class="fl">Низ</label><select class="fs" id="lBottom"></select></div>
+    <div class="fg"><label class="fl">Платье / комбинезон (опц.)</label><select class="fs" id="lDress"></select></div>
+    <div class="fg"><label class="fl">Верх (опц.)</label><select class="fs" id="lTop"></select></div>
+    <div class="fg"><label class="fl">Низ (опц.)</label><select class="fs" id="lBottom"></select></div>
     <div class="fg"><label class="fl">Обувь</label><select class="fs" id="lShoes"></select></div>
-    <div class="fg"><label class="fl">Верхняя (опц.)</label><select class="fs" id="lOuter"></select></div>
+    <div class="fg"><label class="fl">Верхняя одежда (опц.)</label><select class="fs" id="lOuter"></select></div>
     <div class="fg"><label class="fl">Стиль</label>
       <select class="fs" id="lStyle"><option value="casual">Casual</option><option value="office">Офис</option><option value="evening">Вечерний</option><option value="sport">Спорт</option><option value="street">Street</option></select>
     </div>
@@ -450,6 +461,72 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
   </div>
 </div>
 
+
+<!-- ═══ MODAL: EDIT ITEM ═══ -->
+<div class="overlay" id="editModal">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="modal-title">Редактировать вещь</div>
+    <div class="fg">
+      <label class="fl">Фото</label>
+      <div id="editPhotoWrap">
+        <img id="editPreview" style="width:100%;max-height:180px;object-fit:cover;border-radius:var(--r-md);display:none;margin-bottom:8px">
+        <label for="editFile" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px dashed var(--sand);border-radius:var(--r-sm);font-size:13px;color:var(--text-mid);cursor:pointer;background:var(--cream)">
+          <i class="ti ti-camera-plus"></i> Заменить фото
+        </label>
+        <input type="file" id="editFile" accept="image/*" style="display:none" onchange="previewEdit(event)">
+      </div>
+    </div>
+    <div class="fg"><label class="fl">Название</label><input class="fi" id="editName" type="text"></div>
+    <div class="fg"><label class="fl">Категория</label>
+      <select class="fs" id="editCat">
+        <option value="top">Верх (блузы, свитера, футболки)</option>
+        <option value="bottom">Низ (брюки, юбки, джинсы)</option>
+        <option value="shoes">Обувь</option>
+        <option value="outerwear">Верхняя одежда</option>
+        <option value="accessories">Аксессуары</option>
+        <option value="dress">Платья / комбинезоны</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Сезон</label>
+      <select class="fs" id="editSea">
+        <option value="all">Всесезонный</option>
+        <option value="spring">Весна/Осень</option>
+        <option value="summer">Лето</option>
+        <option value="winter">Зима</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Стиль</label>
+      <select class="fs" id="editStyle">
+        <option value="casual">Casual</option>
+        <option value="office">Офис</option>
+        <option value="evening">Вечерний</option>
+        <option value="sport">Спорт</option>
+        <option value="street">Street style</option>
+        <option value="chic">Шик</option>
+      </select>
+    </div>
+    <div class="fg"><label class="fl">Цвет</label>
+      <div class="color-chips" id="editColorChips">
+        <div class="cc" style="background:#FDFAF6;border:1px solid #ccc" data-c="white" onclick="pickEditColor(this)"></div>
+        <div class="cc" style="background:#2A1F1A" data-c="black" onclick="pickEditColor(this)"></div>
+        <div class="cc" style="background:#7A8FA6" data-c="blue" onclick="pickEditColor(this)"></div>
+        <div class="cc" style="background:#9BAF96" data-c="green" onclick="pickEditColor(this)"></div>
+        <div class="cc" style="background:#E8C4B8" data-c="pink" onclick="pickEditColor(this)"></div>
+        <div class="cc" style="background:#C9A84C" data-c="yellow" onclick="pickEditColor(this)"></div>
+        <div class="cc" style="background:#8B6F5E" data-c="brown" onclick="pickEditColor(this)"></div>
+        <div class="cc" style="background:#D4C4A8" data-c="beige" onclick="pickEditColor(this)"></div>
+        <div class="cc" style="background:#D85A30" data-c="red" onclick="pickEditColor(this)"></div>
+        <div class="cc" style="background:#666" data-c="gray" onclick="pickEditColor(this)"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:8px">
+      <button class="btn btn-danger" onclick="deleteItemConfirm()" style="flex:1">🗑 Удалить</button>
+      <button class="btn btn-dark" id="editSaveBtn" onclick="saveEdit()" style="flex:2">Сохранить</button>
+    </div>
+    <button class="btn btn-light" onclick="closeModal('editModal')" style="width:100%;margin-top:8px">Отмена</button>
+  </div>
+</div>
 <!-- ═══ MODAL: WISH ═══ -->
 <div class="overlay" id="wishModal">
   <div class="sheet">
@@ -610,8 +687,18 @@ async function genOutfit(){
   const seas=t>=22?['summer','all']:t>=12?['spring','all']:['winter','all'];
   const pick=arr=>arr.length?arr[Math.floor(Math.random()*arr.length)]:null;
   const by=cat=>wardrobe.filter(i=>i.category===cat&&seas.includes(i.season));
-  const top=pick(by('top')),bot=pick(by('bottom')),shoe=pick(by('shoes')),outer=t<20?pick(by('outerwear')):null;
-  const slots=[{i:top,l:'Верх',ic:'ti-shirt'},{i:bot,l:'Низ',ic:'ti-viewfinder'},{i:shoe,l:'Обувь',ic:'ti-shoe'}];
+  const shoe=pick(by('shoes')),outer=t<20?pick(by('outerwear')):null;
+  // 30% шанс показать платье вместо верх+низ, если есть платья
+  const dresses=by('dress');
+  const useDress=dresses.length>0&&Math.random()<0.3;
+  let slots;
+  if(useDress){
+    const dress=pick(dresses);
+    slots=[{i:dress,l:'Платье',ic:'ti-dress'},{i:shoe,l:'Обувь',ic:'ti-shoe'}];
+  } else {
+    const top=pick(by('top')),bot=pick(by('bottom'));
+    slots=[{i:top,l:'Верх',ic:'ti-shirt'},{i:bot,l:'Низ',ic:'ti-viewfinder'},{i:shoe,l:'Обувь',ic:'ti-shoe'}];
+  }
   if(outer)slots.push({i:outer,l:'Верхняя',ic:'ti-jacket'});
   const photos=await Promise.all(slots.map(s=>s.i?photo(s.i.id):Promise.resolve(null)));
   document.getElementById('outfitSlots').innerHTML=slots.map(({i,l,ic},idx)=>{
@@ -817,13 +904,112 @@ async function saveOne(){
   btn.disabled=false;btn.textContent='Добавить';
 }
 
+
+// ═══════════════════════════════════════════════
+// EDIT & DELETE ITEM
+// ═══════════════════════════════════════════════
+let editingId=null, editPhotoData=null, editColor='black';
+
+async function openEdit(id, e){
+  e.stopPropagation();
+  const item=wardrobe.find(i=>i.id===id);
+  if(!item)return;
+  editingId=id;
+  editPhotoData=null;
+  // Prefill fields
+  document.getElementById('editName').value=item.name;
+  document.getElementById('editCat').value=item.category;
+  document.getElementById('editSea').value=item.season;
+  document.getElementById('editStyle').value=item.style;
+  editColor=item.color||'black';
+  document.querySelectorAll('#editColorChips .cc').forEach(c=>{
+    c.classList.toggle('sel', c.dataset.c===editColor);
+  });
+  // Show photo
+  const src=item.hasPhoto?await photo(id):null;
+  const prev=document.getElementById('editPreview');
+  if(src){prev.src=src;prev.style.display='block';}
+  else{prev.style.display='none';}
+  document.getElementById('editFile').value='';
+  document.getElementById('editModal').classList.add('open');
+}
+
+function previewEdit(e){
+  const f=e.target.files[0];if(!f)return;
+  resizeImg(f,800,0.75,d=>{
+    editPhotoData=d;
+    const p=document.getElementById('editPreview');
+    p.src=d;p.style.display='block';
+  });
+}
+
+function pickEditColor(el){
+  document.querySelectorAll('#editColorChips .cc').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');editColor=el.dataset.c;
+}
+
+async function saveEdit(){
+  const name=document.getElementById('editName').value.trim();
+  if(!name){toast('Введите название');return;}
+  const btn=document.getElementById('editSaveBtn');
+  btn.disabled=true;btn.textContent='Сохранение...';
+  const idx=wardrobe.findIndex(i=>i.id===editingId);
+  if(idx===-1){btn.disabled=false;btn.textContent='Сохранить';return;}
+  const item=wardrobe[idx];
+  item.name=name;
+  item.category=document.getElementById('editCat').value;
+  item.season=document.getElementById('editSea').value;
+  item.style=document.getElementById('editStyle').value;
+  item.color=editColor;
+  if(editPhotoData){
+    await dbSet(editingId,editPhotoData);
+    PC[editingId]=editPhotoData;
+    item.hasPhoto=true;
+  }
+  save();
+  closeModal('editModal');
+  renderWardrobe();
+  renderRecent();
+  genOutfit();
+  toast('✓ Вещь обновлена');
+  btn.disabled=false;btn.textContent='Сохранить';
+}
+
+function deleteItem(id, e){
+  e.stopPropagation();
+  if(!confirm('Удалить эту вещь из гардероба?'))return;
+  wardrobe=wardrobe.filter(i=>i.id!==id);
+  dbDel(id);
+  delete PC[id];
+  save();updateStats();renderWardrobe();renderRecent();genOutfit();
+  toast('🗑 Вещь удалена');
+}
+
+function deleteItemConfirm(){
+  if(!confirm('Удалить эту вещь из гардероба?'))return;
+  wardrobe=wardrobe.filter(i=>i.id!==editingId);
+  dbDel(editingId);
+  delete PC[editingId];
+  save();updateStats();closeModal('editModal');renderWardrobe();renderRecent();genOutfit();
+  toast('🗑 Вещь удалена');
+}
 // ═══════════════════════════════════════════════
 // RENDER WARDROBE
 // ═══════════════════════════════════════════════
 const CL={top:'Верх',bottom:'Низ',shoes:'Обувь',outerwear:'Верхняя',accessories:'Акс.',dress:'Платье'};
 async function wiHTML(item){
   const src=item.hasPhoto?await photo(item.id):null;
-  return`<div class="wardrobe-item"><div class="wi-img">${src?`<img src="${src}" alt="${item.name}">`:`<i class="ti ti-hanger ph-icon"></i>`}<span class="wi-badge">${CL[item.category]||item.category}</span></div><div class="wi-info"><div class="wi-name">${item.name}</div><div class="wi-meta">${item.style}·${item.color}</div></div></div>`;
+  return`<div class="wardrobe-item">
+    <div class="wi-img">
+      ${src?`<img src="${src}" alt="${item.name}">`:`<i class="ti ti-hanger ph-icon"></i>`}
+      <span class="wi-badge">${CL[item.category]||item.category}</span>
+      <div class="wi-actions">
+        <button class="wi-act-btn wi-act-edit" onclick="openEdit(${item.id},event)"><i class="ti ti-pencil"></i> Изменить</button>
+        <button class="wi-act-btn wi-act-del" onclick="deleteItem(${item.id},event)"><i class="ti ti-trash"></i> Удалить</button>
+      </div>
+    </div>
+    <div class="wi-info"><div class="wi-name">${item.name}</div><div class="wi-meta">${CL[item.category]||item.category} · ${item.style}</div></div>
+  </div>`;
 }
 const addCard=()=>`<div class="add-card" onclick="openAdd()"><i class="ti ti-plus"></i><span>Добавить</span></div>`;
 
@@ -853,6 +1039,7 @@ function recentFilter(cat,el){document.querySelectorAll('#screen-home .chip').fo
 // ═══════════════════════════════════════════════
 function openLookModal(){
   const opts=arr=>['<option value="">— не выбрано —</option>',...arr.map(i=>`<option value="${i.id}">${i.name}</option>`)].join('');
+  document.getElementById('lDress').innerHTML=opts(wardrobe.filter(i=>i.category==='dress'));
   document.getElementById('lTop').innerHTML=opts(wardrobe.filter(i=>i.category==='top'));
   document.getElementById('lBottom').innerHTML=opts(wardrobe.filter(i=>i.category==='bottom'));
   document.getElementById('lShoes').innerHTML=opts(wardrobe.filter(i=>i.category==='shoes'));
@@ -861,9 +1048,9 @@ function openLookModal(){
   document.getElementById('lookModal').classList.add('open');
 }
 function saveLook(){
-  const tId=document.getElementById('lTop').value,bId=document.getElementById('lBottom').value,sId=document.getElementById('lShoes').value,oId=document.getElementById('lOuter').value;
+  const dId=document.getElementById('lDress').value,tId=document.getElementById('lTop').value,bId=document.getElementById('lBottom').value,sId=document.getElementById('lShoes').value,oId=document.getElementById('lOuter').value;
   const gn=id=>id?(wardrobe.find(i=>i.id==id)?.name||null):null;
-  looks.unshift({id:Date.now(),name:document.getElementById('lookName').value.trim()||'Образ '+(looks.length+1),topId:tId||null,topName:gn(tId),bottomId:bId||null,bottomName:gn(bId),shoesId:sId||null,outerId:oId||null,style:document.getElementById('lStyle').value,createdAt:new Date().toISOString()});
+  looks.unshift({id:Date.now(),name:document.getElementById('lookName').value.trim()||'Образ '+(looks.length+1),dressId:dId||null,dressName:gn(dId),topId:tId||null,topName:gn(tId),bottomId:bId||null,bottomName:gn(bId),shoesId:sId||null,outerId:oId||null,style:document.getElementById('lStyle').value,createdAt:new Date().toISOString()});
   save();closeModal('lookModal');updateStats();renderLooks();toast('✓ Образ сохранён');
 }
 function saveLookFromOutfit(){looks.unshift({id:Date.now(),name:'Образ '+(looks.length+1),style:'casual',createdAt:new Date().toISOString()});save();updateStats();toast('✓ Образ сохранён');}
@@ -872,9 +1059,9 @@ async function renderLooks(){
   if(!looks.length){g.innerHTML=`<div class="empty-state">Нет сохранённых образов.<br>Создайте свой первый!</div>`;return;}
   const sl={casual:'Casual',office:'Офис',evening:'Вечерний',sport:'Спорт',street:'Street'};
   const parts=await Promise.all(looks.map(async l=>{
-    const ids=[l.topId,l.bottomId,l.shoesId,l.outerId].filter(Boolean);
+    const ids=[l.dressId,l.topId,l.bottomId,l.shoesId,l.outerId].filter(Boolean);
     const photos=await Promise.all(ids.slice(0,4).map(id=>photo(id)));
-    const names=[l.topName,l.bottomName].filter(Boolean);
+    const names=[l.dressName,l.topName,l.bottomName].filter(Boolean);
     const cells=ids.length?photos.map(src=>`<div class="lc-cell">${src?`<img src="${src}">`:`<i class="ti ti-hanger" style="font-size:24px;color:var(--sand)"></i>`}</div>`).join(''):`<div class="lc-cell" style="grid-column:span 2;grid-row:span 3"><i class="ti ti-layout-grid" style="font-size:36px;color:var(--sand)"></i></div>`;
     return`<div class="look-card"><div class="look-collage">${cells}</div><div class="look-info"><div class="look-name">${l.name}</div><div class="look-tags"><span class="look-tag">${sl[l.style]||l.style}</span>${names.slice(0,2).map(n=>`<span class="look-tag">${n.split(' ')[0]}</span>`).join('')}</div></div></div>`;
   }));
