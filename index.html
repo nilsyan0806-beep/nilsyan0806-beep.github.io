@@ -8,8 +8,8 @@
 <meta name="apple-mobile-web-app-title" content="Wardrobe">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#3D2B24">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon-192.png">
 <title>WARDROBE</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
@@ -349,12 +349,21 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
     <div class="modal-title">Загрузить несколько вещей</div>
 
     <!-- Drop zone -->
-    <div class="bulk-drop" id="bulkDrop" onclick="document.getElementById('bulkFileInput').click()">
+    <div class="bulk-drop" id="bulkDrop">
       <i class="ti ti-photo-plus"></i>
-      <div class="drop-title">Выберите несколько фото сразу</div>
-      <div class="drop-sub">Нажмите или перетащите файлы<br>Поддерживается JPEG, PNG, HEIC</div>
+      <div class="drop-title">Выберите фото из галереи</div>
+      <div class="drop-sub">Можно выбрать несколько сразу<br>JPEG, PNG, HEIC</div>
+      <label for="bulkFileInput" style="display:inline-block;margin-top:14px;padding:10px 24px;background:var(--espresso);color:white;border-radius:50px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif">
+        📷 Выбрать фото
+      </label>
     </div>
     <input type="file" id="bulkFileInput" accept="image/*" multiple style="display:none" onchange="handleBulkFiles(event)">
+    <div id="bulkAddMoreRow" style="display:none;margin-bottom:4px">
+      <label for="bulkFileInputMore" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border:1px solid var(--warm-beige);border-radius:var(--r-sm);background:var(--cream);font-size:13px;color:var(--text-mid);cursor:pointer;font-family:'DM Sans',sans-serif">
+        <i class="ti ti-plus"></i> Добавить ещё фото
+      </label>
+      <input type="file" id="bulkFileInputMore" accept="image/*" multiple style="display:none" onchange="handleBulkFiles(event)">
+    </div>
 
     <!-- Queue -->
     <div id="bulkQueue" class="bulk-queue"></div>
@@ -380,6 +389,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
       </div>
       <img id="addPreview" style="width:100%;max-height:180px;object-fit:cover;border-radius:var(--r-md);display:none;margin-top:8px">
       <input type="file" id="addFile" accept="image/*" style="display:none" onchange="previewAdd(event)">
+      <div id="aiIndicator" style="display:none;align-items:center;gap:6px;margin-top:10px;font-size:12px;color:var(--text-light);padding:8px 12px;background:var(--warm-beige);border-radius:var(--r-sm)">
+        <div class="spinner" style="width:14px;height:14px;border-width:2px;margin:0;flex-shrink:0"></div>
+        <span>AI анализирует фото и заполняет поля...</span>
+      </div>
     </div>
     <div class="fg"><label class="fl">Название</label><input class="fi" id="addName" placeholder="Например: белая блуза" type="text"></div>
     <div class="fg"><label class="fl">Категория</label>
@@ -614,15 +627,30 @@ const CATS=[{v:'top',l:'Верх'},{v:'bottom',l:'Низ'},{v:'shoes',l:'Обу�
 const SEAS=[{v:'all',l:'Всесезонный'},{v:'spring',l:'Весна/Осень'},{v:'summer',l:'Лето'},{v:'winter',l:'Зима'}];
 const STYLES=[{v:'casual',l:'Casual'},{v:'office',l:'Офис'},{v:'evening',l:'Вечерний'},{v:'sport',l:'Спорт'},{v:'street',l:'Street'},{v:'chic',l:'Шик'}];
 
-function openBulk(){bulkQueue=[];renderBulkQueue();document.getElementById('bulkSaveBtn').style.display='none';document.getElementById('bulkModal').classList.add('open');}
+function openBulk(){
+  bulkQueue=[];renderBulkQueue();
+  document.getElementById('bulkSaveBtn').style.display='none';
+  document.getElementById('bulkDrop').style.display='block';
+  document.getElementById('bulkAddMoreRow').style.display='none';
+  document.getElementById('bulkModal').classList.add('open');
+}
 
 function handleBulkFiles(e){
   const files=Array.from(e.target.files);
+  if(!files.length)return;
+  document.getElementById('bulkAddMoreRow').style.display='block';
+  document.getElementById('bulkDrop').style.display='none';
   files.forEach(file=>{
     const id=Date.now()+Math.random();
-    const entry={id,name:file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '),cat:'top',sea:'all',style:'casual',data:null,status:'loading'};
+    const entry={id,name:'',cat:'top',sea:'all',style:'casual',data:null,status:'loading'};
     bulkQueue.push(entry);
-    resizeImg(file,800,0.75,data=>{entry.data=data;entry.status='ready';renderBulkQueue();});
+    const entryIdx=bulkQueue.length-1;
+    resizeImg(file,800,0.75,data=>{
+      entry.data=data;
+      entry.status='analyzing';
+      renderBulkQueue();
+      aiAutofillBulk(entry, entryIdx);
+    });
   });
   renderBulkQueue();
   e.target.value='';
@@ -645,7 +673,7 @@ function renderBulkQueue(){
         </div>
         <select class="bq-select" style="width:100%" onchange="bulkQueue[${i}].style=this.value">${stOpts.replace(`value="${item.style}"`,`value="${item.style}" selected`)}</select>
         <div class="bq-progress"><div class="bq-progress-bar" id="bqpb-${i}" style="width:${item.status==='done'?100:0}%"></div></div>
-        <div class="bq-status" id="bqst-${i}">${item.status==='done'?'✓ Добавлено':item.status==='loading'?'Обработка фото...':'Готово к загрузке'}</div>
+        <div class="bq-status" id="bqst-${i}">${item.status==='done'?'✓ Добавлено':item.status==='loading'?'Обработка фото...':item.status==='analyzing'?'✨ AI заполняет поля...':'✓ Проверьте и сохраните'}</div>
       </div>
       <button class="bq-remove" onclick="removeBulkItem(${i})"><i class="ti ti-x"></i></button>
     </div>
@@ -698,9 +726,85 @@ function openAdd(){
   document.getElementById('addPreview').style.display='none';document.getElementById('addPreview').src='';
   document.getElementById('addZone').style.display='block';
   document.getElementById('addName').value='';document.getElementById('addFile').value='';
+  document.getElementById('aiIndicator').style.display='none';
+  document.getElementById('addCat').value='top';
+  document.getElementById('addSea').value='all';
+  document.getElementById('addStyle').value='casual';
+  document.querySelectorAll('#addModal .cc').forEach(c=>c.classList.remove('sel'));
+  document.querySelector('#addModal .cc[data-c="white"]').classList.add('sel');
   document.getElementById('addModal').classList.add('open');
 }
-function previewAdd(e){const f=e.target.files[0];if(!f)return;resizeImg(f,800,0.75,d=>{addPhotoData=d;const p=document.getElementById('addPreview');p.src=d;p.style.display='block';document.getElementById('addZone').style.display='none';});}
+function previewAdd(e){
+  const f=e.target.files[0];if(!f)return;
+  resizeImg(f,800,0.75,d=>{
+    addPhotoData=d;
+    const p=document.getElementById('addPreview');p.src=d;p.style.display='block';
+    document.getElementById('addZone').style.display='none';
+    aiAutofill(d);
+  });
+}
+
+async function aiAutofill(base64){
+  const btn=document.getElementById('addSaveBtn');
+  const indicator=document.getElementById('aiIndicator');
+  indicator.style.display='flex';
+  btn.disabled=true;
+  try{
+    const b64=base64.split(',')[1];
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:300,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:'image/jpeg',data:b64}},
+          {type:'text',text:'Ты помощник стилиста. Определи по фото одежды следующее и ответь ТОЛЬКО JSON без пояснений:\n{"name":"короткое название вещи на русском (макс 4 слова)","category":"top|bottom|shoes|outerwear|accessories|dress","season":"all|spring|summer|winter","style":"casual|office|evening|sport|street|chic","color":"white|black|blue|green|pink|yellow|brown|beige|red|gray"}'}
+        ]}]
+      })
+    });
+    const data=await resp.json();
+    const text=data.content?.[0]?.text||'';
+    const json=JSON.parse(text.replace(/```json|```/g,'').trim());
+    if(json.name)document.getElementById('addName').value=json.name;
+    if(json.category){const s=document.getElementById('addCat');s.value=json.category;if(!s.value)s.value='top';}
+    if(json.season){const s=document.getElementById('addSea');s.value=json.season;if(!s.value)s.value='all';}
+    if(json.style){const s=document.getElementById('addStyle');s.value=json.style;if(!s.value)s.value='casual';}
+    if(json.color){const chip=document.querySelector(`#addModal .cc[data-c="${json.color}"]`);if(chip){document.querySelectorAll('#addModal .cc').forEach(c=>c.classList.remove('sel'));chip.classList.add('sel');addColor=json.color;}}
+    indicator.innerHTML='<i class="ti ti-sparkles" style="color:var(--sage)"></i><span style="color:var(--sage)">Заполнено автоматически — проверьте и сохраните</span>';
+  }catch(err){
+    indicator.innerHTML='<span style="color:var(--text-light)">Заполните поля вручную</span>';
+  }
+  btn.disabled=false;
+}
+
+async function aiAutofillBulk(entry, idx){
+  if(!entry.data)return;
+  try{
+    const b64=entry.data.split(',')[1];
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:200,
+        messages:[{role:'user',content:[
+          {type:'image',source:{type:'base64',media_type:'image/jpeg',data:b64}},
+          {type:'text',text:'Ответь ТОЛЬКО JSON без пояснений: {"name":"короткое название на русском (макс 4 слова)","category":"top|bottom|shoes|outerwear|accessories|dress","season":"all|spring|summer|winter","style":"casual|office|evening|sport|street|chic"}'}
+        ]}]
+      })
+    });
+    const data=await resp.json();
+    const text=data.content?.[0]?.text||'';
+    const json=JSON.parse(text.replace(/```json|```/g,'').trim());
+    if(json.name)entry.name=json.name;
+    if(json.category)entry.cat=json.category;
+    if(json.season)entry.sea=json.season;
+    if(json.style)entry.style=json.style;
+    entry.status='ready';
+  }catch{entry.status='ready';}
+  renderBulkQueue();
+}
 function pickColor(el){document.querySelectorAll('#addModal .cc').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');addColor=el.dataset.c;}
 async function saveOne(){
   const name=document.getElementById('addName').value.trim();
@@ -875,7 +979,7 @@ openDB().then(()=>{
 // Register Service Worker for PWA/offline support
 if('serviceWorker' in navigator){
   window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('sw.js').catch(()=>{});
+    navigator.serviceWorker.register('/sw.js').catch(()=>{});
   });
 }
 </script>
