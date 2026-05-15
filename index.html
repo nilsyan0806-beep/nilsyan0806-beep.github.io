@@ -2,11 +2,10 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Wardrobe">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Wardrobe">
 <meta name="theme-color" content="#3D2B24">
 <link rel="manifest" href="/manifest.json">
 <link rel="apple-touch-icon" href="/icon-192.png">
@@ -14,218 +13,272 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <style>
-:root{--cream:#F5F0E8;--warm-beige:#EDE5D8;--sand:#D4C4A8;--mocha:#8B6F5E;--espresso:#3D2B24;--sage:#9BAF96;--gold:#C9A84C;--white:#FDFAF6;--text-dark:#2A1F1A;--text-mid:#6B5A52;--text-light:#A09088;--r-sm:8px;--r-md:16px;--r-lg:24px;--r-xl:32px;}
+:root{
+  --cream:#F5F0E8;--warm-beige:#EDE5D8;--sand:#D4C4A8;
+  --mocha:#8B6F5E;--espresso:#3D2B24;--sage:#9BAF96;
+  --gold:#C9A84C;--white:#FDFAF6;--blush:#E8C4B8;
+  --text-dark:#2A1F1A;--text-mid:#6B5A52;--text-light:#A09088;
+  --r-sm:8px;--r-md:16px;--r-lg:24px;--r-xl:32px;
+}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-dark);min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;}
 
-/* ── IPHONE GUIDE BANNER ── */
-.iphone-guide{background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;padding:16px 20px;position:relative;}
-.iphone-guide h3{font-family:'Playfair Display',serif;font-size:16px;margin-bottom:10px;color:var(--gold);}
-.iphone-steps{display:flex;flex-direction:column;gap:8px;}
-.iphone-step{display:flex;align-items:flex-start;gap:10px;font-size:12px;line-height:1.5;}
-.iphone-step .num{width:20px;height:20px;border-radius:50%;background:var(--gold);color:#1a1a2e;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.iphone-guide-close{position:absolute;top:12px;right:16px;background:rgba(255,255,255,0.15);border:none;color:white;width:28px;height:28px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-.iphone-guide.hidden{display:none;}
-
-/* ── HEADER ── */
-.app-header{background:var(--white);padding:16px 20px 0;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--warm-beige);}
-.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
-.app-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--espresso);}
+/* HEADER */
+.app-header{background:var(--white);padding:14px 16px 0;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--warm-beige);}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.app-logo{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:var(--espresso);}
 .app-logo span{color:var(--gold);}
-.header-actions{display:flex;gap:8px;}
-.icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--warm-beige);background:var(--cream);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--espresso);font-size:18px;position:relative;}
-.icon-btn .badge{position:absolute;top:-3px;right:-3px;background:var(--gold);color:white;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.hdr-btns{display:flex;gap:6px;}
+.icon-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--warm-beige);background:var(--cream);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--espresso);font-size:17px;flex-shrink:0;}
 .nav-tabs{display:flex;overflow-x:auto;scrollbar-width:none;}
 .nav-tabs::-webkit-scrollbar{display:none;}
-.nav-tab{flex-shrink:0;padding:10px 16px;font-size:13px;font-weight:500;color:var(--text-light);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;}
+.nav-tab{flex-shrink:0;padding:9px 14px;font-size:13px;font-weight:500;color:var(--text-light);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;}
 .nav-tab.active{color:var(--espresso);border-bottom-color:var(--gold);}
 
-/* ── SCREENS ── */
-.screen{display:none;padding:20px;padding-bottom:100px;}
+/* SCREENS */
+.screen{display:none;padding:16px;padding-bottom:96px;}
 .screen.active{display:block;}
 
-/* ── WEATHER ── */
-.weather-card{background:linear-gradient(135deg,var(--espresso),var(--mocha));border-radius:var(--r-lg);padding:20px;color:white;margin-bottom:20px;position:relative;overflow:hidden;}
-.weather-card::before{content:'';position:absolute;right:-20px;top:-20px;width:140px;height:140px;background:rgba(255,255,255,0.06);border-radius:50%;}
+/* WEATHER */
+.weather-card{background:linear-gradient(135deg,var(--espresso),var(--mocha));border-radius:var(--r-lg);padding:18px;color:white;margin-bottom:16px;position:relative;overflow:hidden;}
+.weather-card::before{content:'';position:absolute;right:-20px;top:-20px;width:130px;height:130px;background:rgba(255,255,255,.06);border-radius:50%;}
 .weather-top{display:flex;justify-content:space-between;align-items:flex-start;}
-.weather-temp{font-family:'Playfair Display',serif;font-size:52px;font-weight:700;line-height:1;}
-.weather-feel{font-size:12px;opacity:.7;margin-top:4px;}
-.weather-icon{font-size:48px;}
-.weather-details{display:flex;gap:16px;margin-top:16px;}
+.weather-temp{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;line-height:1;}
+.weather-feel{font-size:12px;opacity:.7;margin-top:3px;}
+.weather-details{display:flex;gap:14px;margin-top:14px;}
 .weather-detail{font-size:12px;opacity:.8;display:flex;align-items:center;gap:4px;}
-.city-row{display:flex;align-items:center;gap:8px;margin-top:6px;}
-.city-name{font-size:14px;font-weight:500;opacity:.9;}
-.city-edit{background:rgba(255,255,255,.2);border:none;color:white;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.city-row{display:flex;align-items:center;gap:8px;margin-top:5px;}
+.city-name{font-size:13px;font-weight:500;opacity:.9;}
+.city-edit-btn{background:rgba(255,255,255,.2);border:none;color:white;border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;}
 .city-search-row{display:none;margin-top:8px;gap:8px;}
 .city-search-row.open{display:flex;}
-.city-input{flex:1;padding:8px 12px;border-radius:8px;border:none;background:rgba(255,255,255,.2);color:white;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;}
-.city-input::placeholder{color:rgba(255,255,255,.6);}
-.city-go{background:rgba(255,255,255,.3);border:none;color:white;border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.city-inp{flex:1;padding:7px 11px;border-radius:8px;border:none;background:rgba(255,255,255,.2);color:white;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;}
+.city-inp::placeholder{color:rgba(255,255,255,.6);}
+.city-go{background:rgba(255,255,255,.3);border:none;color:white;border-radius:8px;padding:7px 12px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
 
-/* ── COMMON ── */
-.section-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--espresso);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+/* COMMON */
+.section-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--espresso);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
 .see-all{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:400;color:var(--mocha);cursor:pointer;}
-.stat-row{display:flex;gap:10px;margin-bottom:20px;}
-.stat-card{flex:1;background:var(--white);border-radius:var(--r-md);padding:14px;text-align:center;border:1px solid var(--warm-beige);}
-.stat-num{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--espresso);}
+.stat-row{display:flex;gap:8px;margin-bottom:16px;}
+.stat-card{flex:1;background:var(--white);border-radius:var(--r-md);padding:12px;text-align:center;border:1px solid var(--warm-beige);}
+.stat-num{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--espresso);}
 .stat-label{font-size:11px;color:var(--text-light);margin-top:2px;}
-.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:16px;}
+.chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:14px;}
 .chips::-webkit-scrollbar{display:none;}
-.chip{flex-shrink:0;padding:8px 16px;border-radius:50px;font-size:13px;cursor:pointer;border:1px solid var(--warm-beige);background:var(--white);color:var(--text-mid);}
+.chip{flex-shrink:0;padding:7px 14px;border-radius:50px;font-size:13px;cursor:pointer;border:1px solid var(--warm-beige);background:var(--white);color:var(--text-mid);}
 .chip.active{background:var(--espresso);color:white;border-color:var(--espresso);}
-.btn{flex:1;padding:12px;border-radius:var(--r-sm);font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;}
+.btn{flex:1;padding:11px;border-radius:var(--r-sm);font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;}
 .btn-dark{background:var(--espresso);color:white;}
 .btn-light{background:var(--cream);color:var(--espresso);border:1px solid var(--warm-beige);}
 .btn-gold{background:var(--gold);color:white;}
+.btn-danger{background:#c0392b;color:white;}
+.btn-green{background:var(--sage);color:white;}
 
-/* ── OUTFIT ── */
-.outfit-card{background:var(--white);border-radius:var(--r-lg);padding:20px;margin-bottom:20px;border:1px solid var(--warm-beige);}
-.outfit-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:12px;}
-.outfit-items{display:flex;gap:10px;margin-bottom:16px;}
+/* OUTFIT */
+.outfit-card{background:var(--white);border-radius:var(--r-lg);padding:16px;margin-bottom:16px;border:1px solid var(--warm-beige);}
+.outfit-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-light);margin-bottom:10px;}
+.outfit-items{display:flex;gap:8px;margin-bottom:14px;}
 .outfit-slot{flex:1;aspect-ratio:3/4;border-radius:var(--r-md);background:var(--warm-beige);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .outfit-slot img{width:100%;height:100%;object-fit:cover;}
-.outfit-slot .slot-label{position:absolute;bottom:6px;left:6px;right:6px;background:rgba(61,43,36,.85);color:white;font-size:10px;padding:4px 6px;border-radius:6px;text-align:center;}
-.outfit-slot .empty-icon{font-size:28px;color:var(--sand);display:flex;flex-direction:column;align-items:center;gap:4px;}
-.outfit-slot .empty-icon span{font-size:10px;color:var(--text-light);}
-.outfit-actions{display:flex;gap:10px;}
+.slot-label{position:absolute;bottom:4px;left:4px;right:4px;background:rgba(61,43,36,.85);color:white;font-size:9px;padding:3px 5px;border-radius:5px;text-align:center;}
+.empty-icon{font-size:24px;color:var(--sand);display:flex;flex-direction:column;align-items:center;gap:3px;}
+.empty-icon span{font-size:9px;color:var(--text-light);}
+.outfit-actions{display:flex;gap:8px;}
 
-/* ── GRID ── */
-.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
-.wardrobe-item{background:var(--white);border-radius:var(--r-md);overflow:hidden;border:1px solid var(--warm-beige);cursor:pointer;position:relative;}
-.wardrobe-item .wi-img{aspect-ratio:3/4;background:var(--warm-beige);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
-.wardrobe-item .wi-img img{width:100%;height:100%;object-fit:cover;}
-.wi-badge{position:absolute;top:8px;right:8px;background:var(--espresso);color:white;font-size:10px;padding:3px 8px;border-radius:50px;}
-.wi-info{padding:10px 12px;}
+/* WARDROBE GRID */
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.wardrobe-item{background:var(--white);border-radius:var(--r-md);overflow:hidden;border:1px solid var(--warm-beige);position:relative;}
+.wi-img{aspect-ratio:3/4;background:var(--warm-beige);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;}
+.wi-img img{width:100%;height:100%;object-fit:cover;}
+.wi-badge{position:absolute;top:7px;right:7px;background:var(--espresso);color:white;font-size:9px;padding:3px 7px;border-radius:50px;}
+.ph-icon{font-size:36px;color:var(--sand);}
+.wi-info{padding:8px 10px;}
 .wi-name{font-size:13px;font-weight:500;color:var(--text-dark);margin-bottom:2px;}
-.wi-meta{font-size:11px;color:var(--text-light);}
-.ph-icon{font-size:40px;color:var(--sand);}
-.wi-actions{position:absolute;bottom:0;left:0;right:0;display:flex;gap:0;opacity:0;transition:opacity .2s;pointer-events:none;}
-.wardrobe-item:hover .wi-actions,.wardrobe-item:active .wi-actions{opacity:1;pointer-events:all;}
-.wi-act-btn{flex:1;padding:8px 4px;border:none;font-size:11px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:4px;}
+.wi-meta{font-size:11px;color:var(--text-light);display:flex;align-items:center;gap:5px;}
+.wi-color-dot{width:9px;height:9px;border-radius:50%;border:1px solid rgba(0,0,0,.15);flex-shrink:0;}
+.wi-actions{position:absolute;bottom:0;left:0;right:0;display:flex;}
+.wi-act-btn{flex:1;padding:7px 3px;border:none;font-size:11px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:3px;}
 .wi-act-edit{background:rgba(61,43,36,.85);color:white;}
 .wi-act-del{background:rgba(180,50,50,.85);color:white;}
-/* Always-visible action strip on mobile (no hover) */
-@media (hover:none){.wi-actions{opacity:1;pointer-events:all;}}
-/* Edit modal confirm btn */
-.btn-danger{background:#c0392b;color:white;}
-.add-card{background:var(--white);border-radius:var(--r-md);border:1.5px dashed var(--sand);aspect-ratio:3/5;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:8px;color:var(--text-light);}
-.add-card i{font-size:28px;}
+.add-card{background:var(--white);border-radius:var(--r-md);border:1.5px dashed var(--sand);aspect-ratio:3/5;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;gap:7px;color:var(--text-light);}
+.add-card i{font-size:26px;}
 .add-card span{font-size:12px;font-weight:500;}
 
-/* ── MODAL ── */
-.overlay{display:none;position:fixed;inset:0;background:rgba(61,43,36,.5);z-index:200;align-items:flex-end;}
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(61,43,36,.55);z-index:200;align-items:flex-end;}
 .overlay.open{display:flex;}
-.sheet{background:var(--white);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:24px 20px;width:100%;max-height:92vh;overflow-y:auto;animation:up .3s ease;}
+.sheet{background:var(--white);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:20px 16px;width:100%;max-height:94vh;overflow-y:auto;animation:up .3s ease;}
 @keyframes up{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.handle{width:40px;height:4px;background:var(--sand);border-radius:2px;margin:0 auto 20px;}
-.modal-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--espresso);margin-bottom:20px;}
-.fg{margin-bottom:16px;}
-.fl{font-size:12px;font-weight:500;color:var(--text-mid);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;display:block;}
-.fi,.fs{width:100%;padding:12px 14px;border:1px solid var(--warm-beige);border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text-dark);background:var(--cream);outline:none;}
+.handle{width:38px;height:4px;background:var(--sand);border-radius:2px;margin:0 auto 18px;}
+.modal-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:600;color:var(--espresso);margin-bottom:18px;}
+.fg{margin-bottom:14px;}
+.fl{font-size:11px;font-weight:600;color:var(--text-mid);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;display:block;}
+.fi,.fs{width:100%;padding:11px 13px;border:1px solid var(--warm-beige);border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text-dark);background:var(--cream);outline:none;}
 .fs{appearance:none;}
-.color-chips{display:flex;gap:8px;flex-wrap:wrap;}
-.cc{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent;}
-.cc.sel{border-color:var(--espresso);}
 
-/* ── BULK UPLOAD ── */
-.bulk-drop{border:2px dashed var(--sand);border-radius:var(--r-lg);padding:28px 20px;text-align:center;cursor:pointer;background:var(--cream);transition:all .2s;margin-bottom:20px;}
-.bulk-drop:hover,.bulk-drop.drag{border-color:var(--mocha);background:var(--warm-beige);}
-.bulk-drop i{font-size:40px;color:var(--sand);display:block;margin-bottom:8px;}
-.bulk-drop .drop-title{font-size:15px;font-weight:500;color:var(--text-dark);margin-bottom:4px;}
-.bulk-drop .drop-sub{font-size:12px;color:var(--text-light);}
-.bulk-queue{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;}
-.bq-item{background:var(--cream);border-radius:var(--r-md);padding:12px;border:1px solid var(--warm-beige);display:flex;gap:12px;align-items:flex-start;}
-.bq-thumb{width:70px;height:90px;border-radius:var(--r-sm);object-fit:cover;flex-shrink:0;background:var(--warm-beige);}
-.bq-fields{flex:1;display:flex;flex-direction:column;gap:8px;}
-.bq-name{font-size:13px;font-weight:500;color:var(--text-dark);margin-bottom:2px;}
-.bq-selects{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.bq-select{padding:8px 10px;border:1px solid var(--warm-beige);border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text-dark);background:var(--white);outline:none;appearance:none;width:100%;}
-.bq-remove{background:none;border:none;color:var(--text-light);cursor:pointer;font-size:18px;padding:0;flex-shrink:0;margin-top:-2px;}
-.bq-progress{height:3px;background:var(--warm-beige);border-radius:2px;margin-top:6px;overflow:hidden;}
-.bq-progress-bar{height:100%;background:var(--sage);border-radius:2px;width:0%;transition:width .3s;}
-.bq-status{font-size:10px;color:var(--text-light);margin-top:4px;}
-.bq-done .bq-progress-bar{background:var(--sage);width:100%;}
-.bq-done .bq-status{color:var(--sage);}
-.bulk-save-btn{width:100%;padding:15px;border-radius:var(--r-md);background:var(--espresso);color:white;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;gap:8px;}
-.bulk-save-btn:disabled{opacity:.5;cursor:default;}
-.bulk-count{font-size:12px;opacity:.7;}
+/* SEASON CHIPS */
+.sea-chips{display:flex;gap:6px;flex-wrap:wrap;}
+.sea-chip{padding:7px 13px;border-radius:50px;font-size:12px;cursor:pointer;border:1px solid var(--warm-beige);background:var(--white);color:var(--text-mid);user-select:none;}
+.sea-chip.sel{background:var(--espresso);color:white;border-color:var(--espresso);}
 
-/* ── SHOP ── */
-.shop-info-bar{background:var(--white);border-radius:var(--r-lg);padding:14px 16px;margin-bottom:16px;border:1px solid var(--warm-beige);display:flex;align-items:center;gap:10px;}
-.shop-info-bar i{font-size:18px;color:var(--gold);flex-shrink:0;}
+/* COLOR PICKER */
+.color-picker-canvas{width:100%;height:110px;border-radius:var(--r-sm);cursor:crosshair;touch-action:none;display:block;}
+.color-hue-slider{width:100%;margin-top:7px;-webkit-appearance:none;appearance:none;height:14px;border-radius:7px;outline:none;cursor:pointer;}
+.color-hue-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;border:3px solid white;box-shadow:0 1px 4px rgba(0,0,0,.3);}
+.color-preview-row{display:flex;align-items:center;gap:9px;margin-top:7px;}
+.color-swatch{width:32px;height:32px;border-radius:50%;border:2px solid var(--warm-beige);flex-shrink:0;}
+.color-hex{font-size:12px;color:var(--text-mid);}
+
+/* CROP */
+.crop-wrap{position:relative;width:100%;background:#111;border-radius:var(--r-md);overflow:hidden;touch-action:none;max-height:340px;}
+.crop-canvas{display:block;width:100%;max-height:340px;object-fit:contain;}
+.crop-box{position:absolute;border:2px solid white;box-shadow:0 0 0 9999px rgba(0,0,0,.5);}
+.crop-handle{position:absolute;width:18px;height:18px;background:white;border-radius:3px;}
+.ch-tl{top:-9px;left:-9px;cursor:nwse-resize;}
+.ch-tr{top:-9px;right:-9px;cursor:nesw-resize;}
+.ch-bl{bottom:-9px;left:-9px;cursor:nesw-resize;}
+.ch-br{bottom:-9px;right:-9px;cursor:nwse-resize;}
+
+/* BULK */
+.bulk-drop{border:2px dashed var(--sand);border-radius:var(--r-lg);padding:24px 16px;text-align:center;background:var(--cream);margin-bottom:14px;}
+.bulk-drop i{font-size:36px;color:var(--sand);display:block;margin-bottom:7px;}
+.bulk-queue{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+.bq-item{background:var(--cream);border-radius:var(--r-md);padding:10px;border:1px solid var(--warm-beige);display:flex;gap:10px;align-items:flex-start;}
+.bq-thumb{width:64px;height:82px;border-radius:var(--r-sm);object-fit:cover;flex-shrink:0;background:var(--warm-beige);cursor:pointer;border:2px solid transparent;}
+.bq-thumb:hover{border-color:var(--gold);}
+.bq-fields{flex:1;display:flex;flex-direction:column;gap:6px;min-width:0;}
+.bq-sel{padding:7px 9px;border:1px solid var(--warm-beige);border-radius:var(--r-sm);font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text-dark);background:var(--white);outline:none;appearance:none;width:100%;}
+.bq-grid2{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.bq-sea-chips{display:flex;gap:4px;flex-wrap:wrap;}
+.bq-sea-chip{padding:4px 9px;border-radius:50px;font-size:11px;cursor:pointer;border:1px solid var(--warm-beige);background:var(--white);color:var(--text-mid);}
+.bq-sea-chip.sel{background:var(--espresso);color:white;border-color:var(--espresso);}
+.bq-color-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
+.bq-cc{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;flex-shrink:0;}
+.bq-cc.sel{border-color:var(--espresso);}
+.bq-remove{background:none;border:none;color:var(--text-light);cursor:pointer;font-size:17px;padding:0;flex-shrink:0;}
+.bq-status{font-size:10px;color:var(--text-light);}
+.bq-status.done{color:var(--sage);}
+.bulk-save-btn{width:100%;padding:14px;border-radius:var(--r-md);background:var(--espresso);color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;gap:7px;}
+.bulk-save-btn:disabled{opacity:.5;}
+
+/* SHOP */
+.shop-info-bar{background:var(--white);border-radius:var(--r-lg);padding:12px 14px;margin-bottom:14px;border:1px solid var(--warm-beige);display:flex;align-items:center;gap:9px;}
+.shop-info-bar i{font-size:17px;color:var(--gold);flex-shrink:0;}
 .shop-info-bar p{font-size:12px;color:var(--text-mid);line-height:1.5;}
 .shop-item{background:var(--white);border-radius:var(--r-md);overflow:hidden;border:1px solid var(--warm-beige);}
-.si-img{aspect-ratio:3/4;background:var(--warm-beige);display:flex;align-items:center;justify-content:center;position:relative;font-size:64px;}
-.si-match{position:absolute;top:8px;left:8px;background:var(--sage);color:white;font-size:10px;font-weight:500;padding:4px 8px;border-radius:50px;}
-.si-store{position:absolute;top:8px;right:8px;font-size:10px;font-weight:700;padding:4px 8px;border-radius:50px;}
+.si-img{aspect-ratio:3/4;background:var(--warm-beige);display:flex;align-items:center;justify-content:center;position:relative;font-size:60px;}
+.si-match{position:absolute;top:7px;left:7px;background:var(--sage);color:white;font-size:10px;font-weight:500;padding:3px 7px;border-radius:50px;}
+.si-store{position:absolute;top:7px;right:7px;font-size:10px;font-weight:700;padding:3px 7px;border-radius:50px;}
 .wb{background:#CB11AB;color:white;}
 .oz{background:#005BFF;color:white;}
-.si-body{padding:10px 12px;}
-.si-name{font-size:13px;font-weight:500;color:var(--text-dark);margin-bottom:4px;}
-.si-price{font-size:14px;font-weight:500;color:var(--mocha);margin-bottom:8px;}
-.si-actions{display:flex;gap:6px;}
-.si-btn{flex:1;padding:8px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;}
+.si-body{padding:9px 11px;}
+.si-name{font-size:12px;font-weight:500;color:var(--text-dark);margin-bottom:3px;}
+.si-price{font-size:13px;font-weight:500;color:var(--mocha);margin-bottom:7px;}
+.si-actions{display:flex;gap:5px;}
+.si-btn{flex:1;padding:7px;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;}
 .si-wish{background:var(--cream);color:var(--text-mid);border:1px solid var(--warm-beige);}
 .si-go{background:var(--espresso);color:white;}
 
-/* ── LOOKS ── */
-.create-look-btn{width:100%;padding:15px;border-radius:var(--r-md);background:var(--espresso);color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;border:none;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;}
-.look-card{background:var(--white);border-radius:var(--r-md);overflow:hidden;border:1px solid var(--warm-beige);}
-.look-collage{aspect-ratio:3/5;display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,1fr);gap:2px;background:var(--warm-beige);}
-.lc-cell{background:var(--cream);display:flex;align-items:center;justify-content:center;overflow:hidden;}
-.lc-cell:first-child{grid-column:span 2;}
-.lc-cell img{width:100%;height:100%;object-fit:cover;}
-.look-info{padding:10px 12px;}
-.look-name{font-size:13px;font-weight:500;color:var(--text-dark);margin-bottom:4px;}
+/* LOOKS */
+.looks-filter-row{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin-bottom:14px;}
+.looks-filter-row::-webkit-scrollbar{display:none;}
+.lf-chip{flex-shrink:0;padding:7px 13px;border-radius:50px;font-size:12px;cursor:pointer;border:1px solid var(--warm-beige);background:var(--white);color:var(--text-mid);}
+.lf-chip.active{background:var(--espresso);color:white;border-color:var(--espresso);}
+.look-card{background:var(--white);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--warm-beige);margin-bottom:14px;position:relative;}
+.look-slots{display:flex;gap:6px;padding:14px 14px 8px;}
+.look-slot{flex:1;aspect-ratio:3/4;border-radius:var(--r-md);background:var(--warm-beige);overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;}
+.look-slot img{width:100%;height:100%;object-fit:cover;}
+.look-slot-tag{position:absolute;bottom:3px;left:3px;right:3px;background:rgba(61,43,36,.8);color:white;font-size:9px;padding:2px 4px;border-radius:4px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.look-footer{padding:7px 14px 12px;}
+.look-note{font-size:12px;color:var(--text-mid);margin-bottom:5px;font-style:italic;}
 .look-tags{display:flex;gap:4px;flex-wrap:wrap;}
-.look-tag{font-size:10px;padding:2px 8px;border-radius:50px;background:var(--cream);color:var(--text-mid);border:1px solid var(--warm-beige);}
+.look-tag{font-size:10px;padding:2px 7px;border-radius:50px;background:var(--cream);color:var(--text-mid);border:1px solid var(--warm-beige);}
+.look-tag.wish{background:var(--blush);border-color:var(--mocha);color:var(--espresso);}
+.look-del-btn{position:absolute;top:10px;right:10px;background:rgba(180,50,50,.85);border:none;color:white;width:26px;height:26px;border-radius:50%;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.look-wish-badge{position:absolute;top:10px;left:10px;background:var(--blush);color:var(--espresso);font-size:10px;font-weight:600;padding:3px 7px;border-radius:50px;border:1px solid var(--mocha);}
 
-/* ── WISHLIST ── */
+/* PICKER */
+.picker-section{margin-bottom:12px;}
+.picker-section-label{font-size:11px;font-weight:600;color:var(--text-mid);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px;display:flex;align-items:center;justify-content:space-between;}
+.picker-section-label .clr-btn{font-size:11px;color:var(--mocha);cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0;}
+.picker-scroll{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:3px;}
+.picker-scroll::-webkit-scrollbar{display:none;}
+.picker-thumb{flex-shrink:0;width:62px;height:78px;border-radius:var(--r-sm);overflow:hidden;border:2.5px solid transparent;cursor:pointer;background:var(--warm-beige);display:flex;align-items:center;justify-content:center;position:relative;}
+.picker-thumb img{width:100%;height:100%;object-fit:cover;}
+.picker-thumb.sel{border-color:var(--gold);}
+.picker-thumb .sel-check{position:absolute;inset:0;background:rgba(201,168,76,.35);display:flex;align-items:center;justify-content:center;}
+.picker-thumb .wish-dot{position:absolute;top:3px;right:3px;width:8px;height:8px;background:var(--mocha);border-radius:50%;border:1px solid white;}
+.picker-none{font-size:12px;color:var(--text-light);padding:4px 2px;}
+
+/* WISHLIST */
 .wish-item{background:var(--white);border-radius:var(--r-md);overflow:hidden;border:1px solid var(--warm-beige);position:relative;}
-.wish-img{aspect-ratio:3/4;background:var(--warm-beige);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:52px;}
+.wish-img{aspect-ratio:3/4;background:var(--warm-beige);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:48px;}
 .wish-img img{width:100%;height:100%;object-fit:cover;}
-.wish-body{padding:10px 12px;}
+.wish-body{padding:9px 11px;}
 .wish-name{font-size:13px;font-weight:500;margin-bottom:2px;}
-.wish-price{font-size:14px;font-weight:500;color:var(--mocha);margin-bottom:6px;}
-.wish-match{font-size:11px;color:var(--sage);display:flex;align-items:center;gap:4px;margin-bottom:6px;}
-.wish-buy{width:100%;padding:9px;border-radius:6px;background:var(--gold);color:white;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border:none;}
-.wish-del{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(61,43,36,.7);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;font-size:12px;}
+.wish-price{font-size:13px;font-weight:500;color:var(--mocha);margin-bottom:4px;}
+.wish-link-btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#5b8fd4;text-decoration:none;margin-bottom:5px;word-break:break-all;}
+.wish-match{font-size:11px;color:var(--sage);display:flex;align-items:center;gap:3px;margin-bottom:5px;}
+.wish-del{position:absolute;top:7px;right:7px;width:26px;height:26px;border-radius:50%;background:rgba(61,43,36,.7);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;font-size:11px;}
 
-/* ── BOTTOM NAV ── */
-.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--white);border-top:1px solid var(--warm-beige);padding:10px 0 20px;display:flex;justify-content:space-around;z-index:100;}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:4px 12px;color:var(--text-light);}
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--white);border-top:1px solid var(--warm-beige);padding:9px 0 18px;display:flex;justify-content:space-around;z-index:100;}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 10px;color:var(--text-light);}
 .nav-item.active{color:var(--espresso);}
-.nav-item i{font-size:22px;}
+.nav-item i{font-size:21px;}
 .nav-item span{font-size:10px;font-weight:500;}
 
-/* ── MISC ── */
-.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--espresso);color:white;padding:12px 20px;border-radius:50px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:all .3s;white-space:nowrap;pointer-events:none;}
+/* MISC */
+.toast{position:fixed;top:76px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--espresso);color:white;padding:11px 18px;border-radius:50px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-.spinner{width:32px;height:32px;border:3px solid var(--warm-beige);border-top-color:var(--espresso);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px;}
+.spinner{width:30px;height:30px;border:3px solid var(--warm-beige);border-top-color:var(--espresso);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 8px;}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-box{grid-column:span 2;text-align:center;padding:40px;color:var(--text-light);font-size:13px;}
-.filter-row{display:flex;gap:8px;margin-bottom:16px;}
-.filter-sel{flex:1;padding:10px 12px;border:1px solid var(--warm-beige);border-radius:50px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text-dark);background:var(--white);outline:none;appearance:none;}
-.tab-row{display:flex;gap:8px;margin-bottom:16px;}
-.tab-pill{flex:1;padding:10px;border-radius:50px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--warm-beige);background:var(--white);color:var(--text-mid);text-align:center;}
+.loading-box{grid-column:span 2;text-align:center;padding:36px;color:var(--text-light);font-size:13px;}
+.filter-row{display:flex;gap:8px;margin-bottom:14px;}
+.filter-sel{flex:1;padding:9px 11px;border:1px solid var(--warm-beige);border-radius:50px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text-dark);background:var(--white);outline:none;appearance:none;}
+.tab-row{display:flex;gap:7px;margin-bottom:14px;}
+.tab-pill{flex:1;padding:9px;border-radius:50px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--warm-beige);background:var(--white);color:var(--text-mid);text-align:center;}
 .tab-pill.active{background:var(--espresso);color:white;border-color:var(--espresso);}
-.empty-state{grid-column:span 2;text-align:center;padding:40px 20px;color:var(--text-light);font-size:14px;line-height:1.8;}
+.empty-state{grid-column:span 2;text-align:center;padding:36px 16px;color:var(--text-light);font-size:14px;line-height:1.8;}
+.ai-bar{display:none;align-items:center;gap:6px;margin-top:8px;font-size:12px;color:var(--text-mid);padding:8px 11px;background:var(--warm-beige);border-radius:var(--r-sm);}
+.ai-bar.show{display:flex;}
+.upload-zone{border:2px dashed var(--sand);border-radius:var(--r-md);padding:24px;text-align:center;background:var(--cream);cursor:pointer;}
+.upload-zone i{font-size:32px;color:var(--sand);display:block;margin-bottom:6px;}
+.upload-zone p{font-size:13px;color:var(--text-light);}
+/* BACKUP BANNER */
+.backup-banner{background:linear-gradient(135deg,#1c2a3a,#243447);color:white;padding:12px 14px;display:flex;align-items:center;gap:10px;font-size:12px;line-height:1.5;}
+.backup-banner i{font-size:18px;color:var(--gold);flex-shrink:0;}
+.backup-btns{display:flex;gap:6px;margin-top:7px;}
+.backup-btn{padding:6px 13px;border-radius:50px;font-size:12px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;}
+.backup-exp{background:var(--gold);color:white;}
+.backup-imp{background:rgba(255,255,255,.2);color:white;}
 </style>
 </head>
 <body>
-
-<!-- PWA — добавьте на экран домой через Safari -->
-
 <div class="toast" id="toast"></div>
 
-<!-- Header -->
+<!-- BACKUP BANNER -->
+<div class="backup-banner" id="backupBanner">
+  <i class="ti ti-shield-check"></i>
+  <div style="flex:1;">
+    <div style="font-weight:600;margin-bottom:3px;">Резервная копия данных</div>
+    <div style="opacity:.8;">Сохраняйте копию перед переустановкой ярлыка — данные иначе могут сброситься на iPhone</div>
+    <div class="backup-btns">
+      <button class="backup-btn backup-exp" onclick="exportBackup()">⬇ Экспорт</button>
+      <button class="backup-btn backup-imp" onclick="document.getElementById('importFile').click()">⬆ Импорт</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(event)">
+      <button class="backup-btn" style="background:rgba(255,255,255,.1);color:white;" onclick="document.getElementById('backupBanner').style.display='none'">✕</button>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
 <div class="app-header">
   <div class="header-top">
     <div class="app-logo">WARD<span>ROBE</span></div>
-    <div class="header-actions">
-      <div class="icon-btn" id="btnBulk" title="Добавить несколько вещей"><i class="ti ti-stack-2"></i><div class="badge" id="bulkBadge" style="display:none">0</div></div>
-      <div class="icon-btn" id="btnAdd" title="Добавить одну вещь"><i class="ti ti-plus"></i></div>
-      <div class="icon-btn" id="btnWish" title="Добавить в вишлист"><i class="ti ti-shopping-bag"></i></div>
+    <div class="hdr-btns">
+      <div class="icon-btn" id="btnBulk" title="Загрузить несколько вещей"><i class="ti ti-stack-2"></i></div>
+      <div class="icon-btn" id="btnAdd" title="Добавить вещь"><i class="ti ti-plus"></i></div>
     </div>
   </div>
   <div class="nav-tabs">
@@ -242,19 +295,19 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
   <div class="weather-card">
     <div class="weather-top">
       <div>
-        <div style="font-size:12px;opacity:.7;margin-bottom:4px" id="wDate"></div>
+        <div style="font-size:11px;opacity:.7;margin-bottom:3px" id="wDate"></div>
         <div class="weather-temp" id="wTemp">—°</div>
         <div class="weather-feel" id="wFeel">Загрузка...</div>
         <div class="city-row">
           <div class="city-name" id="wCity">Определяю...</div>
-          <button class="city-edit" onclick="toggleCitySearch()">✏️ изменить</button>
+          <button class="city-edit-btn" onclick="toggleCity()">✏️ изменить</button>
         </div>
         <div class="city-search-row" id="cityRow">
-          <input class="city-input" id="cityInput" placeholder="Введите город..." onkeydown="if(event.key==='Enter')findCity()">
+          <input class="city-inp" id="cityInp" placeholder="Введите город..." onkeydown="if(event.key==='Enter')findCity()">
           <button class="city-go" onclick="findCity()">Найти</button>
         </div>
       </div>
-      <div style="font-size:48px" id="wIcon">🌤️</div>
+      <div style="font-size:44px" id="wIcon">🌤️</div>
     </div>
     <div class="weather-details">
       <div class="weather-detail"><i class="ti ti-droplet"></i><span id="wHum">—%</span></div>
@@ -269,15 +322,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
   </div>
   <div class="section-title">Образ на сегодня <span class="see-all" onclick="genOutfit()">↻ Другой</span></div>
   <div class="outfit-card">
-    <div class="outfit-label">Подобрано по погоде</div>
-    <div class="outfit-items" id="outfitSlots">
-      <div class="outfit-slot"><div class="empty-icon"><i class="ti ti-shirt"></i><span>Верх</span></div></div>
-      <div class="outfit-slot"><div class="empty-icon"><i class="ti ti-viewfinder"></i><span>Низ</span></div></div>
-      <div class="outfit-slot"><div class="empty-icon"><i class="ti ti-shoe"></i><span>Обувь</span></div></div>
-    </div>
+    <div class="outfit-label" id="outfitLabel">По погоде</div>
+    <div class="outfit-items" id="outfitSlots"><div class="outfit-slot"><div class="empty-icon"><i class="ti ti-shirt"></i><span>Верх</span></div></div><div class="outfit-slot"><div class="empty-icon"><i class="ti ti-viewfinder"></i><span>Низ</span></div></div><div class="outfit-slot"><div class="empty-icon"><i class="ti ti-shoe"></i><span>Обувь</span></div></div></div>
     <div class="outfit-actions">
-      <button class="btn btn-light" onclick="saveLookFromOutfit()"><i class="ti ti-heart"></i> Сохранить</button>
-      <button class="btn btn-dark" onclick="genOutfit()">Новый образ</button>
+      <button class="btn btn-light" onclick="saveOutfitAsLook()"><i class="ti ti-heart"></i> Сохранить</button>
+      <button class="btn btn-dark" onclick="genOutfit()">↻ Новый</button>
     </div>
   </div>
   <div class="section-title">Последние добавления</div>
@@ -287,6 +336,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
     <div class="chip" onclick="recentFilter('bottom',this)">Низ</div>
     <div class="chip" onclick="recentFilter('shoes',this)">Обувь</div>
     <div class="chip" onclick="recentFilter('outerwear',this)">Верхняя</div>
+    <div class="chip" onclick="recentFilter('dress',this)">Платья</div>
   </div>
   <div class="grid2" id="recentGrid"></div>
 </div>
@@ -298,8 +348,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
       <option value="all">Все категории</option>
       <option value="top">Верх</option><option value="bottom">Низ</option>
       <option value="shoes">Обувь</option><option value="outerwear">Верхняя одежда</option>
-      <option value="accessories">Аксессуары</option>
       <option value="dress">Платья / комбинезоны</option>
+      <option value="accessories">Аксессуары</option>
     </select>
     <select class="filter-sel" id="wbSea" onchange="renderWardrobe()">
       <option value="all">Весь год</option>
@@ -311,14 +361,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
 
 <!-- LOOKS -->
 <div class="screen" id="screen-looks">
-  <button class="create-look-btn" onclick="openLookModal()"><i class="ti ti-sparkles"></i> Создать образ</button>
-  <div class="section-title">Мои образы</div>
-  <div class="grid2" id="looksGrid"></div>
+  <div style="display:flex;gap:8px;margin-bottom:14px;">
+    <button class="btn btn-dark" onclick="openLookModal()" style="flex:2;"><i class="ti ti-sparkles"></i> Создать образ</button>
+    <button class="btn btn-light" onclick="genOutfitForLooks()" style="flex:1;">↻ Случайный</button>
+  </div>
+  <div class="looks-filter-row" id="looksFilterRow">
+    <div class="lf-chip active" onclick="looksFilter('all',this)">Все</div>
+    <div class="lf-chip" onclick="looksFilter('casual',this)">Casual</div>
+    <div class="lf-chip" onclick="looksFilter('office',this)">Офис</div>
+    <div class="lf-chip" onclick="looksFilter('evening',this)">Вечерний</div>
+    <div class="lf-chip" onclick="looksFilter('sport',this)">Спорт</div>
+    <div class="lf-chip" onclick="looksFilter('wish',this)">🛍 С вишлистом</div>
+  </div>
+  <div id="looksGrid"></div>
 </div>
 
 <!-- SHOP -->
 <div class="screen" id="screen-shop">
-  <div class="shop-info-bar"><i class="ti ti-sparkles"></i><p>Подборка с <strong>Wildberries</strong> и <strong>Ozon</strong> — нажмите «Смотреть» чтобы перейти в магазин.</p></div>
+  <div class="shop-info-bar"><i class="ti ti-sparkles"></i><p>Подборка с <b>Wildberries</b> и <b>Ozon</b> — нажмите «Смотреть» чтобы перейти в магазин.</p></div>
   <div class="chips">
     <div class="chip active" onclick="shopFilter('all',this)">Все</div>
     <div class="chip" onclick="shopFilter('top',this)">Верх</div>
@@ -333,6 +393,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
 
 <!-- WISHLIST -->
 <div class="screen" id="screen-wishlist">
+  <div style="display:flex;gap:8px;margin-bottom:14px;">
+    <button class="btn btn-dark" onclick="openWishAddModal()"><i class="ti ti-plus"></i> Добавить желание</button>
+  </div>
   <div class="section-title">Вишлист <span style="font-size:13px;color:var(--text-light);font-family:'DM Sans'" id="wishCnt"></span></div>
   <div class="tab-row">
     <div class="tab-pill active" onclick="wishFilter('all',this)">Все</div>
@@ -352,134 +415,48 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
   <div class="nav-item" onclick="go('wishlist')"><i class="ti ti-heart"></i><span>Вишлист</span></div>
 </div>
 
-<!-- ═══ MODAL: BULK UPLOAD ═══ -->
-<div class="overlay" id="bulkModal">
+<!-- MODAL: CROP -->
+<div class="overlay" id="cropModal">
   <div class="sheet">
     <div class="handle"></div>
-    <div class="modal-title">Загрузить несколько вещей</div>
-
-    <!-- Drop zone -->
-    <div class="bulk-drop" id="bulkDrop">
-      <i class="ti ti-photo-plus"></i>
-      <div class="drop-title">Выберите фото из галереи</div>
-      <div class="drop-sub">Можно выбрать несколько сразу<br>JPEG, PNG, HEIC</div>
-      <label for="bulkFileInput" style="display:inline-block;margin-top:14px;padding:10px 24px;background:var(--espresso);color:white;border-radius:50px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif">
-        📷 Выбрать фото
-      </label>
+    <div class="modal-title">Кадрировать фото</div>
+    <div class="crop-wrap" id="cropWrap" style="margin-bottom:12px;">
+      <canvas id="cropCanvas" class="crop-canvas"></canvas>
+      <div id="cropBox" class="crop-box">
+        <div class="crop-handle ch-tl" data-h="tl"></div>
+        <div class="crop-handle ch-tr" data-h="tr"></div>
+        <div class="crop-handle ch-bl" data-h="bl"></div>
+        <div class="crop-handle ch-br" data-h="br"></div>
+      </div>
     </div>
-    <input type="file" id="bulkFileInput" accept="image/*" multiple style="display:none" onchange="handleBulkFiles(event)">
-    <div id="bulkAddMoreRow" style="display:none;margin-bottom:4px">
-      <label for="bulkFileInputMore" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;border:1px solid var(--warm-beige);border-radius:var(--r-sm);background:var(--cream);font-size:13px;color:var(--text-mid);cursor:pointer;font-family:'DM Sans',sans-serif">
-        <i class="ti ti-plus"></i> Добавить ещё фото
-      </label>
-      <input type="file" id="bulkFileInputMore" accept="image/*" multiple style="display:none" onchange="handleBulkFiles(event)">
-    </div>
-
-    <!-- Queue -->
-    <div id="bulkQueue" class="bulk-queue"></div>
-
-    <button class="bulk-save-btn" id="bulkSaveBtn" onclick="saveAllBulk()" style="display:none">
-      <i class="ti ti-check"></i> Добавить все в гардероб <span class="bulk-count" id="bulkSaveCount"></span>
-    </button>
-    <div style="display:flex;gap:10px;margin-top:10px">
-      <button class="btn btn-light" onclick="closeModal('bulkModal')" style="flex:1">Закрыть</button>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-light" onclick="cancelCrop()">Отмена</button>
+      <button class="btn btn-dark" onclick="applyCrop()" style="flex:2;">✓ Применить</button>
     </div>
   </div>
 </div>
 
-<!-- ═══ MODAL: SINGLE ITEM ═══ -->
+<!-- MODAL: ADD SINGLE -->
 <div class="overlay" id="addModal">
   <div class="sheet">
     <div class="handle"></div>
-    <div class="modal-title">Добавить вещь</div>
+    <div class="modal-title" id="addModalTitle">Добавить вещь</div>
     <div class="fg">
       <label class="fl">Фото</label>
-      <div class="bulk-drop" id="addZone" onclick="document.getElementById('addFile').click()">
-        <i class="ti ti-camera-plus"></i><div class="drop-title">Выбрать фото</div>
+      <div class="upload-zone" id="addUpZone" onclick="document.getElementById('addFile').click()">
+        <i class="ti ti-camera-plus"></i><p>Нажмите чтобы выбрать фото</p>
       </div>
-      <img id="addPreview" style="width:100%;max-height:180px;object-fit:cover;border-radius:var(--r-md);display:none;margin-top:8px">
-      <input type="file" id="addFile" accept="image/*" style="display:none" onchange="previewAdd(event)">
-      <div id="aiIndicator" style="display:none;align-items:center;gap:6px;margin-top:10px;font-size:12px;color:var(--text-light);padding:8px 12px;background:var(--warm-beige);border-radius:var(--r-sm)">
-        <div class="spinner" style="width:14px;height:14px;border-width:2px;margin:0;flex-shrink:0"></div>
-        <span>AI анализирует фото и заполняет поля...</span>
+      <img id="addPreview" style="width:100%;max-height:170px;object-fit:cover;border-radius:var(--r-md);display:none;margin-top:8px;">
+      <button id="addReCropBtn" style="display:none;margin-top:6px;width:100%;padding:8px;border:1px solid var(--warm-beige);border-radius:var(--r-sm);background:var(--cream);font-size:12px;color:var(--text-mid);cursor:pointer;font-family:'DM Sans',sans-serif;" onclick="reOpenCrop('add')">✂ Перекадрировать</button>
+      <input type="file" id="addFile" accept="image/*" style="display:none" onchange="onAddPhoto(event)">
+      <div class="ai-bar" id="aiBar">
+        <div class="spinner" style="width:13px;height:13px;border-width:2px;margin:0;flex-shrink:0;"></div>
+        <span id="aiBarText">AI анализирует фото...</span>
       </div>
     </div>
     <div class="fg"><label class="fl">Название</label><input class="fi" id="addName" placeholder="Например: белая блуза" type="text"></div>
     <div class="fg"><label class="fl">Категория</label>
       <select class="fs" id="addCat">
-        <option value="top">Верх (блузы, свитера, футболки)</option>
-        <option value="bottom">Низ (брюки, юбки, джинсы)</option>
-        <option value="shoes">Обувь</option><option value="outerwear">Верхняя одежда</option>
-        <option value="accessories">Аксессуары</option><option value="dress">Платья / комбинезоны</option>
-      </select>
-    </div>
-    <div class="fg"><label class="fl">Сезон</label>
-      <select class="fs" id="addSea"><option value="all">Всесезонный</option><option value="spring">Весна/Осень</option><option value="summer">Лето</option><option value="winter">Зима</option></select>
-    </div>
-    <div class="fg"><label class="fl">Стиль</label>
-      <select class="fs" id="addStyle"><option value="casual">Casual</option><option value="office">Офис</option><option value="evening">Вечерний</option><option value="sport">Спорт</option><option value="street">Street style</option><option value="chic">Шик</option></select>
-    </div>
-    <div class="fg"><label class="fl">Цвет</label>
-      <div class="color-chips">
-        <div class="cc sel" style="background:#FDFAF6;border:1px solid #ccc" data-c="white" onclick="pickColor(this)"></div>
-        <div class="cc" style="background:#2A1F1A" data-c="black" onclick="pickColor(this)"></div>
-        <div class="cc" style="background:#7A8FA6" data-c="blue" onclick="pickColor(this)"></div>
-        <div class="cc" style="background:#9BAF96" data-c="green" onclick="pickColor(this)"></div>
-        <div class="cc" style="background:#E8C4B8" data-c="pink" onclick="pickColor(this)"></div>
-        <div class="cc" style="background:#C9A84C" data-c="yellow" onclick="pickColor(this)"></div>
-        <div class="cc" style="background:#8B6F5E" data-c="brown" onclick="pickColor(this)"></div>
-        <div class="cc" style="background:#D4C4A8" data-c="beige" onclick="pickColor(this)"></div>
-        <div class="cc" style="background:#D85A30" data-c="red" onclick="pickColor(this)"></div>
-        <div class="cc" style="background:#666" data-c="gray" onclick="pickColor(this)"></div>
-      </div>
-    </div>
-    <div style="display:flex;gap:10px;margin-top:8px">
-      <button class="btn btn-light" onclick="closeModal('addModal')">Отмена</button>
-      <button class="btn btn-dark" id="addSaveBtn" onclick="saveOne()" style="flex:2">Добавить</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ MODAL: LOOK ═══ -->
-<div class="overlay" id="lookModal">
-  <div class="sheet">
-    <div class="handle"></div>
-    <div class="modal-title">Создать образ</div>
-    <div class="fg"><label class="fl">Название</label><input class="fi" id="lookName" placeholder="Весенний casual"></div>
-    <div class="fg"><label class="fl">Платье / комбинезон (опц.)</label><select class="fs" id="lDress"></select></div>
-    <div class="fg"><label class="fl">Верх (опц.)</label><select class="fs" id="lTop"></select></div>
-    <div class="fg"><label class="fl">Низ (опц.)</label><select class="fs" id="lBottom"></select></div>
-    <div class="fg"><label class="fl">Обувь</label><select class="fs" id="lShoes"></select></div>
-    <div class="fg"><label class="fl">Верхняя одежда (опц.)</label><select class="fs" id="lOuter"></select></div>
-    <div class="fg"><label class="fl">Стиль</label>
-      <select class="fs" id="lStyle"><option value="casual">Casual</option><option value="office">Офис</option><option value="evening">Вечерний</option><option value="sport">Спорт</option><option value="street">Street</option></select>
-    </div>
-    <div style="display:flex;gap:10px;margin-top:8px">
-      <button class="btn btn-light" onclick="closeModal('lookModal')">Отмена</button>
-      <button class="btn btn-dark" onclick="saveLook()" style="flex:2">Сохранить</button>
-    </div>
-  </div>
-</div>
-
-
-<!-- ═══ MODAL: EDIT ITEM ═══ -->
-<div class="overlay" id="editModal">
-  <div class="sheet">
-    <div class="handle"></div>
-    <div class="modal-title">Редактировать вещь</div>
-    <div class="fg">
-      <label class="fl">Фото</label>
-      <div id="editPhotoWrap">
-        <img id="editPreview" style="width:100%;max-height:180px;object-fit:cover;border-radius:var(--r-md);display:none;margin-bottom:8px">
-        <label for="editFile" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px dashed var(--sand);border-radius:var(--r-sm);font-size:13px;color:var(--text-mid);cursor:pointer;background:var(--cream)">
-          <i class="ti ti-camera-plus"></i> Заменить фото
-        </label>
-        <input type="file" id="editFile" accept="image/*" style="display:none" onchange="previewEdit(event)">
-      </div>
-    </div>
-    <div class="fg"><label class="fl">Название</label><input class="fi" id="editName" type="text"></div>
-    <div class="fg"><label class="fl">Категория</label>
-      <select class="fs" id="editCat">
         <option value="top">Верх (блузы, свитера, футболки)</option>
         <option value="bottom">Низ (брюки, юбки, джинсы)</option>
         <option value="shoes">Обувь</option>
@@ -488,101 +465,191 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
         <option value="dress">Платья / комбинезоны</option>
       </select>
     </div>
-    <div class="fg"><label class="fl">Сезон</label>
-      <select class="fs" id="editSea">
-        <option value="all">Всесезонный</option>
-        <option value="spring">Весна/Осень</option>
-        <option value="summer">Лето</option>
-        <option value="winter">Зима</option>
+    <div class="fg">
+      <label class="fl">Сезон (можно несколько)</label>
+      <div class="sea-chips" id="addSeaChips">
+        <div class="sea-chip sel" data-v="all" onclick="toggleSea(this,'addSeaChips')">Весь год</div>
+        <div class="sea-chip" data-v="spring" onclick="toggleSea(this,'addSeaChips')">Весна/Осень</div>
+        <div class="sea-chip" data-v="summer" onclick="toggleSea(this,'addSeaChips')">Лето</div>
+        <div class="sea-chip" data-v="winter" onclick="toggleSea(this,'addSeaChips')">Зима</div>
+      </div>
+    </div>
+    <div class="fg"><label class="fl">Стиль</label>
+      <select class="fs" id="addStyle">
+        <option value="casual">Casual</option><option value="office">Офис</option>
+        <option value="evening">Вечерний</option><option value="sport">Спорт</option>
+        <option value="street">Street style</option><option value="chic">Шик</option>
       </select>
+    </div>
+    <div class="fg">
+      <label class="fl">Цвет — нажмите на палитру</label>
+      <canvas id="addColorCanvas" class="color-picker-canvas"></canvas>
+      <input type="range" id="addHue" class="color-hue-slider" min="0" max="360" value="0">
+      <div class="color-preview-row">
+        <div class="color-swatch" id="addSwatch" style="background:#888;"></div>
+        <span class="color-hex" id="addHex">#888888</span>
+        <span style="font-size:11px;color:var(--text-light);">выбранный цвет</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:6px;">
+      <button class="btn btn-light" onclick="closeModal('addModal')">Отмена</button>
+      <button class="btn btn-dark" id="addSaveBtn" onclick="saveOne()" style="flex:2;">Добавить</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: EDIT ITEM -->
+<div class="overlay" id="editModal">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="modal-title">Редактировать вещь</div>
+    <div class="fg">
+      <label class="fl">Фото</label>
+      <img id="editPreview" style="width:100%;max-height:170px;object-fit:cover;border-radius:var(--r-md);display:none;margin-bottom:8px;">
+      <label for="editFile" style="display:flex;align-items:center;justify-content:center;gap:7px;padding:9px;border:1px dashed var(--sand);border-radius:var(--r-sm);font-size:13px;color:var(--text-mid);cursor:pointer;background:var(--cream);">
+        <i class="ti ti-camera-plus"></i> Заменить фото
+      </label>
+      <input type="file" id="editFile" accept="image/*" style="display:none" onchange="onEditPhoto(event)">
+    </div>
+    <div class="fg"><label class="fl">Название</label><input class="fi" id="editName" type="text"></div>
+    <div class="fg"><label class="fl">Категория</label>
+      <select class="fs" id="editCat">
+        <option value="top">Верх</option><option value="bottom">Низ</option>
+        <option value="shoes">Обувь</option><option value="outerwear">Верхняя одежда</option>
+        <option value="accessories">Аксессуары</option><option value="dress">Платья / комбинезоны</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label class="fl">Сезон (можно несколько)</label>
+      <div class="sea-chips" id="editSeaChips">
+        <div class="sea-chip" data-v="all" onclick="toggleSea(this,'editSeaChips')">Весь год</div>
+        <div class="sea-chip" data-v="spring" onclick="toggleSea(this,'editSeaChips')">Весна/Осень</div>
+        <div class="sea-chip" data-v="summer" onclick="toggleSea(this,'editSeaChips')">Лето</div>
+        <div class="sea-chip" data-v="winter" onclick="toggleSea(this,'editSeaChips')">Зима</div>
+      </div>
     </div>
     <div class="fg"><label class="fl">Стиль</label>
       <select class="fs" id="editStyle">
-        <option value="casual">Casual</option>
-        <option value="office">Офис</option>
-        <option value="evening">Вечерний</option>
-        <option value="sport">Спорт</option>
-        <option value="street">Street style</option>
-        <option value="chic">Шик</option>
+        <option value="casual">Casual</option><option value="office">Офис</option>
+        <option value="evening">Вечерний</option><option value="sport">Спорт</option>
+        <option value="street">Street style</option><option value="chic">Шик</option>
       </select>
     </div>
-    <div class="fg"><label class="fl">Цвет</label>
-      <div class="color-chips" id="editColorChips">
-        <div class="cc" style="background:#FDFAF6;border:1px solid #ccc" data-c="white" onclick="pickEditColor(this)"></div>
-        <div class="cc" style="background:#2A1F1A" data-c="black" onclick="pickEditColor(this)"></div>
-        <div class="cc" style="background:#7A8FA6" data-c="blue" onclick="pickEditColor(this)"></div>
-        <div class="cc" style="background:#9BAF96" data-c="green" onclick="pickEditColor(this)"></div>
-        <div class="cc" style="background:#E8C4B8" data-c="pink" onclick="pickEditColor(this)"></div>
-        <div class="cc" style="background:#C9A84C" data-c="yellow" onclick="pickEditColor(this)"></div>
-        <div class="cc" style="background:#8B6F5E" data-c="brown" onclick="pickEditColor(this)"></div>
-        <div class="cc" style="background:#D4C4A8" data-c="beige" onclick="pickEditColor(this)"></div>
-        <div class="cc" style="background:#D85A30" data-c="red" onclick="pickEditColor(this)"></div>
-        <div class="cc" style="background:#666" data-c="gray" onclick="pickEditColor(this)"></div>
+    <div class="fg">
+      <label class="fl">Цвет</label>
+      <canvas id="editColorCanvas" class="color-picker-canvas"></canvas>
+      <input type="range" id="editHue" class="color-hue-slider" min="0" max="360" value="0">
+      <div class="color-preview-row">
+        <div class="color-swatch" id="editSwatch" style="background:#888;"></div>
+        <span class="color-hex" id="editHex">#888888</span>
       </div>
     </div>
-    <div style="display:flex;gap:10px;margin-top:8px">
-      <button class="btn btn-danger" onclick="deleteItemConfirm()" style="flex:1">🗑 Удалить</button>
-      <button class="btn btn-dark" id="editSaveBtn" onclick="saveEdit()" style="flex:2">Сохранить</button>
+    <div style="display:flex;gap:8px;margin-top:6px;">
+      <button class="btn btn-danger" onclick="deleteFromEdit()">🗑 Удалить</button>
+      <button class="btn btn-dark" id="editSaveBtn" onclick="saveEdit()" style="flex:2;">Сохранить</button>
     </div>
-    <button class="btn btn-light" onclick="closeModal('editModal')" style="width:100%;margin-top:8px">Отмена</button>
+    <button class="btn btn-light" onclick="closeModal('editModal')" style="width:100%;margin-top:8px;">Отмена</button>
   </div>
 </div>
-<!-- ═══ MODAL: WISH ═══ -->
-<div class="overlay" id="wishModal">
+
+<!-- MODAL: BULK UPLOAD -->
+<div class="overlay" id="bulkModal">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="modal-title">Загрузить несколько вещей</div>
+    <div class="bulk-drop" id="bulkDrop">
+      <i class="ti ti-photo-plus"></i>
+      <div style="font-size:14px;font-weight:500;color:var(--text-dark);margin-bottom:4px;">Выберите фото из галереи</div>
+      <div style="font-size:12px;color:var(--text-light);">JPEG, PNG, HEIC</div>
+      <label for="bulkFileInput" style="display:inline-block;margin-top:12px;padding:9px 22px;background:var(--espresso);color:white;border-radius:50px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;">📷 Выбрать фото</label>
+    </div>
+    <input type="file" id="bulkFileInput" accept="image/*" multiple style="display:none" onchange="handleBulkFiles(event)">
+    <div id="bulkAddMoreRow" style="display:none;margin-bottom:10px;">
+      <label for="bulkMore" style="display:flex;align-items:center;justify-content:center;gap:7px;padding:10px;border:1px solid var(--warm-beige);border-radius:var(--r-sm);background:var(--cream);font-size:13px;color:var(--text-mid);cursor:pointer;font-family:'DM Sans',sans-serif;"><i class="ti ti-plus"></i> Добавить ещё</label>
+      <input type="file" id="bulkMore" accept="image/*" multiple style="display:none" onchange="handleBulkFiles(event)">
+    </div>
+    <div id="bulkQueue" class="bulk-queue"></div>
+    <button class="bulk-save-btn" id="bulkSaveBtn" style="display:none;" onclick="saveAllBulk()"><i class="ti ti-check"></i> Добавить все <span id="bulkCnt" style="font-size:12px;opacity:.7;"></span></button>
+    <button class="btn btn-light" onclick="closeModal('bulkModal')" style="width:100%;margin-top:8px;">Закрыть</button>
+  </div>
+</div>
+
+<!-- MODAL: LOOK BUILDER -->
+<div class="overlay" id="lookModal">
+  <div class="sheet">
+    <div class="handle"></div>
+    <div class="modal-title">Создать образ</div>
+    <div id="itemPicker"></div>
+    <div class="fg"><label class="fl">Примечания (необязательно)</label><input class="fi" id="lookNote" placeholder="Например: на встречу в пятницу..."></div>
+    <div style="display:flex;gap:8px;margin-top:6px;">
+      <button class="btn btn-light" onclick="closeModal('lookModal')">Отмена</button>
+      <button class="btn btn-dark" onclick="saveLook()" style="flex:2;">Сохранить образ</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: WISH ADD -->
+<div class="overlay" id="wishAddModal">
   <div class="sheet">
     <div class="handle"></div>
     <div class="modal-title">Добавить в вишлист</div>
     <div class="fg">
-      <label class="fl">Фото товара</label>
-      <div class="bulk-drop" onclick="document.getElementById('wishFile').click()">
-        <i class="ti ti-camera-plus"></i><div class="drop-title">Скриншот из магазина</div>
+      <label class="fl">Фото</label>
+      <div class="upload-zone" id="wishUpZone" onclick="document.getElementById('wishAddFile').click()">
+        <i class="ti ti-camera-plus"></i><p>Фото из магазина или своё</p>
       </div>
-      <img id="wishPreview" style="width:100%;max-height:180px;object-fit:cover;border-radius:var(--r-md);display:none;margin-top:8px">
-      <input type="file" id="wishFile" accept="image/*" style="display:none" onchange="previewWish(event)">
+      <img id="wishAddPreview" style="width:100%;max-height:160px;object-fit:cover;border-radius:var(--r-md);display:none;margin-top:8px;">
+      <input type="file" id="wishAddFile" accept="image/*" style="display:none" onchange="onWishPhoto(event)">
     </div>
-    <div class="fg"><label class="fl">Название</label><input class="fi" id="wishName" placeholder="Название вещи"></div>
-    <div class="fg"><label class="fl">Магазин</label><input class="fi" id="wishBrand" placeholder="Wildberries, Ozon..."></div>
-    <div class="fg"><label class="fl">Цена</label><input class="fi" id="wishPrice" placeholder="0" type="number"></div>
-    <div class="fg"><label class="fl">Ссылка</label><input class="fi" id="wishLink" placeholder="https://..." type="url"></div>
+    <div class="fg"><label class="fl">Название</label><input class="fi" id="waN" placeholder="Название вещи" type="text"></div>
     <div class="fg"><label class="fl">Категория</label>
-      <select class="fs" id="wishCat"><option value="top">Верх</option><option value="bottom">Низ</option><option value="shoes">Обувь</option><option value="outerwear">Верхняя</option><option value="accessories">Аксессуары</option></select>
+      <select class="fs" id="waCat">
+        <option value="top">Верх</option><option value="bottom">Низ</option>
+        <option value="shoes">Обувь</option><option value="outerwear">Верхняя одежда</option>
+        <option value="dress">Платья / комбинезоны</option><option value="accessories">Аксессуары</option>
+      </select>
     </div>
-    <div style="display:flex;gap:10px;margin-top:8px">
-      <button class="btn btn-light" onclick="closeModal('wishModal')">Отмена</button>
-      <button class="btn btn-gold" onclick="saveWish()" style="flex:2">В вишлист</button>
+    <div class="fg"><label class="fl">Магазин / Бренд</label><input class="fi" id="waBrand" placeholder="Zara, Wildberries..." type="text"></div>
+    <div class="fg">
+      <label class="fl">Цена (₽)</label>
+      <input class="fi" id="waPrice" placeholder="0" type="number">
+    </div>
+    <div class="fg">
+      <label class="fl">Ссылка на товар</label>
+      <input class="fi" id="waLink" placeholder="https://..." type="url">
+    </div>
+    <div style="display:flex;gap:8px;margin-top:6px;">
+      <button class="btn btn-light" onclick="closeModal('wishAddModal')">Отмена</button>
+      <button class="btn btn-gold" onclick="saveWishAdd()" style="flex:2;">В вишлист</button>
     </div>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════
-// IndexedDB — фото хранятся отдельно (не в localStorage)
-// Это устраняет зависание при добавлении вещей
-// ═══════════════════════════════════════════════
-let db = null;
-const PC = {}; // photo cache
-
-function openDB(){
-  return new Promise((res,rej)=>{
-    const r=indexedDB.open('WardrobeDB',1);
-    r.onupgradeneeded=e=>{if(!e.target.result.objectStoreNames.contains('photos'))e.target.result.createObjectStore('photos');};
-    r.onsuccess=e=>{db=e.target.result;res();};
-    r.onerror=()=>rej(r.error);
-  });
-}
+// ═══════════════════════════════
+// IndexedDB
+// ═══════════════════════════════
+let db=null; const PC={};
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open('WardrobeDB',2);r.onupgradeneeded=e=>{if(!e.target.result.objectStoreNames.contains('photos'))e.target.result.createObjectStore('photos');};r.onsuccess=e=>{db=e.target.result;res();};r.onerror=()=>rej(r.error);});}
 function dbSet(id,data){return new Promise((res,rej)=>{const tx=db.transaction('photos','readwrite');tx.objectStore('photos').put(data,String(id));tx.oncomplete=res;tx.onerror=()=>rej(tx.error);});}
 function dbGet(id){return new Promise(res=>{try{const tx=db.transaction('photos','readonly');const r=tx.objectStore('photos').get(String(id));r.onsuccess=()=>res(r.result||null);r.onerror=()=>res(null);}catch{res(null);}});}
 function dbDel(id){if(!db)return;try{db.transaction('photos','readwrite').objectStore('photos').delete(String(id));}catch{}}
-async function photo(id){if(!id)return null;if(PC[id])return PC[id];const s=await dbGet(id);if(s)PC[id]=s;return s;}
+async function photo(id){if(!id)return null;const k=String(id);if(PC[k])return PC[k];const s=await dbGet(k);if(s)PC[k]=s;return s;}
+function dbGetAll(){return new Promise(res=>{try{const tx=db.transaction('photos','readonly');const r=tx.objectStore('photos').getAll();const kr=tx.objectStore('photos').getAllKeys();let keys,vals;kr.onsuccess=e=>{keys=e.target.result;if(vals!==undefined)res(Object.fromEntries(keys.map((k,i)=>[k,vals[i]])));};r.onsuccess=e=>{vals=e.target.result;if(keys!==undefined)res(Object.fromEntries(keys.map((k,i)=>[k,vals[i]])));};r.onerror=()=>res({});}catch{res({});}});}
+async function dbSetAll(obj){for(const[k,v] of Object.entries(obj)){await dbSet(k,v);PC[k]=v;}}
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 // STATE
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 let wardrobe=[],looks=[],wishlist=[];
-let addColor='white', addPhotoData=null, wishPhotoData=null;
+let addColor='#888888',editColor='#888888',wishAddPhotoData=null;
+let editingId=null,editPhotoData=null,addPhotoData=null;
 let weather={temp:18};
-let shopCat='all', wishCat='all';
-let bulkQueue=[]; // [{id,name,cat,sea,style,data}]
+let shopCat='all',wishCat='all',looksFilterVal='all';
+let bulkQueue=[];
+// crop
+let cropSrc=null,cropCb=null,cropImgEl=null;
+let cropBox={x:30,y:30,w:200,h:200},cropDrag=null,cropDragStart=null,cropBoxStart=null;
 
 function load(){
   try{wardrobe=JSON.parse(localStorage.getItem('wb_w')||'[]');}catch{wardrobe=[];}
@@ -594,408 +661,359 @@ function save(){
   catch{toast('⚠️ Хранилище заполнено');}
 }
 
-// ═══════════════════════════════════════════════
-// IPHONE
-// ═══════════════════════════════════════════════
-function initIphone(){
-  if(localStorage.getItem('iphGuide')==='1'){document.getElementById('iphoneGuide').classList.add('hidden');return;}
-  const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
-  if(!ios)document.getElementById('iphoneGuide').classList.add('hidden');
+// ═══════════════════════════════
+// BACKUP / RESTORE (п.14)
+// ═══════════════════════════════
+async function exportBackup(){
+  const photos=await dbGetAll();
+  const backup={v:2,wardrobe,looks,wishlist,photos,ts:Date.now()};
+  const blob=new Blob([JSON.stringify(backup)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='wardrobe-backup.json';a.click();
+  URL.revokeObjectURL(url);toast('✓ Резервная копия сохранена');
+}
+async function importBackup(e){
+  const file=e.target.files[0];if(!file)return;
+  const text=await file.text();
+  try{
+    const data=JSON.parse(text);
+    if(!data.wardrobe)throw new Error('Invalid');
+    if(confirm('Восстановить данные из резервной копии? Текущие данные будут заменены.')){
+      wardrobe=data.wardrobe||[];looks=data.looks||[];wishlist=data.wishlist||[];
+      save();
+      if(data.photos)await dbSetAll(data.photos);
+      updateStats();renderRecent();renderLooks();renderWishlist();genOutfit();
+      toast('✓ Данные восстановлены');
+    }
+  }catch{toast('Ошибка: неверный файл резервной копии');}
+  e.target.value='';
 }
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
+// COLOR PICKER
+// ═══════════════════════════════
+function initColorPicker(canvasId,hueId,swatchId,hexId,onPick){
+  const canvas=document.getElementById(canvasId);
+  const hueEl=document.getElementById(hueId);
+  if(!canvas||!hueEl)return;
+  let H=0;
+  function draw(){
+    const W=canvas.offsetWidth||300;canvas.width=W;canvas.height=110;
+    const ctx=canvas.getContext('2d');
+    const wg=ctx.createLinearGradient(0,0,W,0);
+    wg.addColorStop(0,'white');wg.addColorStop(1,`hsl(${H},100%,50%)`);
+    ctx.fillStyle=wg;ctx.fillRect(0,0,W,110);
+    const bg=ctx.createLinearGradient(0,0,0,110);
+    bg.addColorStop(0,'transparent');bg.addColorStop(1,'black');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,110);
+  }
+  function pick(x,y){
+    const W=canvas.width,hh=canvas.height;
+    const s=Math.min(1,Math.max(0,x/W));
+    const b=Math.min(1,Math.max(0,1-y/hh));
+    const hex=hsbToHex(H,s*100,b*100);
+    document.getElementById(swatchId).style.background=hex;
+    document.getElementById(hexId).textContent=hex;
+    onPick(hex);
+  }
+  canvas.addEventListener('click',e=>{const r=canvas.getBoundingClientRect();pick(e.clientX-r.left,e.clientY-r.top);});
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();const r=canvas.getBoundingClientRect();const t=e.touches[0];pick(t.clientX-r.left,t.clientY-r.top);},{passive:false});
+  canvas.addEventListener('touchmove',e=>{e.preventDefault();const r=canvas.getBoundingClientRect();const t=e.touches[0];pick(t.clientX-r.left,t.clientY-r.top);},{passive:false});
+  hueEl.addEventListener('input',()=>{H=parseInt(hueEl.value);draw();});
+  setTimeout(draw,80);
+}
+function hsbToHex(h,s,b){s/=100;b/=100;const k=(n,k=(n+h/60)%6)=>b-b*s*Math.max(Math.min(k,4-k,1),0);const r=Math.round(k(5)*255),g=Math.round(k(3)*255),bl=Math.round(k(1)*255);return'#'+[r,g,bl].map(x=>x.toString(16).padStart(2,'0')).join('');}
+
+// ═══════════════════════════════
+// CROP
+// ═══════════════════════════════
+function openCrop(src,cb){
+  cropSrc=src;cropCb=cb;
+  document.getElementById('cropModal').classList.add('open');
+  cropImgEl=new Image();
+  cropImgEl.onload=()=>{
+    const canvas=document.getElementById('cropCanvas');
+    const wrap=document.getElementById('cropWrap');
+    const maxW=wrap.offsetWidth||340;
+    const ratio=cropImgEl.naturalHeight/cropImgEl.naturalWidth;
+    const H=Math.min(maxW*ratio,340);
+    canvas.width=maxW;canvas.height=H;
+    canvas.getContext('2d').drawImage(cropImgEl,0,0,maxW,H);
+    const pad=Math.min(maxW,H)*0.1;
+    cropBox={x:pad,y:pad,w:maxW-pad*2,h:H-pad*2};
+    renderCropBox();
+  };
+  cropImgEl.src=src;
+}
+function renderCropBox(){
+  const b=document.getElementById('cropBox');
+  b.style.cssText=`left:${cropBox.x}px;top:${cropBox.y}px;width:${cropBox.w}px;height:${cropBox.h}px;`;
+}
+function cancelCrop(){document.getElementById('cropModal').classList.remove('open');}
+function applyCrop(){
+  const canvas=document.getElementById('cropCanvas');
+  const sx=cropImgEl.naturalWidth/canvas.width,sy=cropImgEl.naturalHeight/canvas.height;
+  const out=document.createElement('canvas');
+  out.width=Math.round(cropBox.w*sx);out.height=Math.round(cropBox.h*sy);
+  out.getContext('2d').drawImage(cropImgEl,Math.round(cropBox.x*sx),Math.round(cropBox.y*sy),out.width,out.height,0,0,out.width,out.height);
+  const result=out.toDataURL('image/jpeg',0.88);
+  document.getElementById('cropModal').classList.remove('open');
+  if(cropCb)cropCb(result);
+}
+function reOpenCrop(ctx){openCrop(ctx==='add'?(addPhotoData||cropSrc):(editPhotoData||cropSrc),result=>{if(ctx==='add'){addPhotoData=result;document.getElementById('addPreview').src=result;}else{editPhotoData=result;document.getElementById('editPreview').src=result;}});}
+// crop drag handlers
+(function(){
+  let dx,dy,bx;
+  function gp(e){return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY};}
+  function start(handle,e){e.stopPropagation();e.preventDefault();cropDrag=handle;const p=gp(e);dx=p.x;dy=p.y;bx={...cropBox};}
+  function move(e){
+    if(!cropDrag)return;e.preventDefault();
+    const p=gp(e);const ddx=p.x-dx,ddy=p.y-dy;
+    const canvas=document.getElementById('cropCanvas');
+    const W=canvas.width,H=canvas.height;
+    let{x,y,w,h}=bx;
+    if(cropDrag==='move'){x=Math.max(0,Math.min(W-w,x+ddx));y=Math.max(0,Math.min(H-h,y+ddy));}
+    else if(cropDrag==='br'){w=Math.max(40,Math.min(W-x,w+ddx));h=Math.max(40,Math.min(H-y,h+ddy));}
+    else if(cropDrag==='bl'){const nw=Math.max(40,w-ddx);x=x+w-nw;w=nw;h=Math.max(40,Math.min(H-y,h+ddy));}
+    else if(cropDrag==='tr'){w=Math.max(40,Math.min(W-x,w+ddx));const nh=Math.max(40,h-ddy);y=y+h-nh;h=nh;}
+    else if(cropDrag==='tl'){const nw=Math.max(40,w-ddx);x=x+w-nw;w=nw;const nh=Math.max(40,h-ddy);y=y+h-nh;h=nh;}
+    cropBox={x,y,w,h};renderCropBox();
+  }
+  function end(){cropDrag=null;}
+  document.addEventListener('DOMContentLoaded',()=>{
+    document.querySelectorAll('.crop-handle').forEach(h=>{
+      h.addEventListener('mousedown',e=>start(h.dataset.h,e));
+      h.addEventListener('touchstart',e=>start(h.dataset.h,e),{passive:false});
+    });
+    const cb=document.getElementById('cropBox');
+    cb.addEventListener('mousedown',e=>{if(!e.target.classList.contains('crop-handle'))start('move',e);});
+    cb.addEventListener('touchstart',e=>{if(!e.target.classList.contains('crop-handle'))start('move',e);},{passive:false});
+  });
+  document.addEventListener('mousemove',move);document.addEventListener('touchmove',move,{passive:false});
+  document.addEventListener('mouseup',end);document.addEventListener('touchend',end);
+})();
+
+// ═══════════════════════════════
 // WEATHER
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 async function loadWeatherCoords(lat,lon){
   try{
     const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code&wind_speed_unit=ms`);
     const d=await r.json();applyWeather(d.current);
-    try{
-      const g=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=ru`);
-      const gd=await g.json();
-      const city=gd.address?.city||gd.address?.town||gd.address?.village||'Ваш город';
-      document.getElementById('wCity').textContent=city;localStorage.setItem('wb_city',city);
-    }catch{}
-  }catch{setDefaultWeather();}
+    try{const g=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=ru`);const gd=await g.json();const city=gd.address?.city||gd.address?.town||gd.address?.village||'Ваш город';document.getElementById('wCity').textContent=city;localStorage.setItem('wb_city',city);}catch{}
+  }catch{setDfltWeather();}
 }
-function loadWeather(){
-  if(!navigator.geolocation){setDefaultWeather();return;}
-  navigator.geolocation.getCurrentPosition(p=>loadWeatherCoords(p.coords.latitude,p.coords.longitude),()=>setDefaultWeather(),{timeout:8000});
-}
-function applyWeather(c){
-  weather={temp:Math.round(c.temperature_2m)};
-  document.getElementById('wTemp').textContent=weather.temp+'°';
-  document.getElementById('wFeel').textContent=condRu(c.weather_code);
-  document.getElementById('wHum').textContent=c.relative_humidity_2m+'%';
-  document.getElementById('wWind').textContent=Math.round(c.wind_speed_10m)+' м/с';
-  document.getElementById('wFeel2').textContent=Math.round(c.apparent_temperature)+'°';
-  document.getElementById('wIcon').textContent=wEmoji(c.weather_code);
-  genOutfit();
-}
-function setDefaultWeather(){
-  weather={temp:18};
-  document.getElementById('wTemp').textContent='18°';
-  document.getElementById('wFeel').textContent='Ясно';
-  document.getElementById('wCity').textContent=localStorage.getItem('wb_city')||'Введите город →';
-  document.getElementById('wIcon').textContent='☀️';
-  document.getElementById('wHum').textContent='—';
-  document.getElementById('wWind').textContent='—';
-  document.getElementById('wFeel2').textContent='—';
-  genOutfit();
-}
-function toggleCitySearch(){const r=document.getElementById('cityRow');r.classList.toggle('open');if(r.classList.contains('open'))setTimeout(()=>document.getElementById('cityInput').focus(),100);}
-async function findCity(){
-  const q=document.getElementById('cityInput').value.trim();if(!q)return;
-  document.getElementById('wCity').textContent='Поиск...';
-  try{
-    const r=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&accept-language=ru`);
-    const d=await r.json();
-    if(!d.length){toast('Город не найден');return;}
-    const city=d[0].display_name.split(',')[0];
-    document.getElementById('wCity').textContent=city;localStorage.setItem('wb_city',city);
-    document.getElementById('cityRow').classList.remove('open');document.getElementById('cityInput').value='';
-    await loadWeatherCoords(parseFloat(d[0].lat),parseFloat(d[0].lon));
-  }catch{toast('Ошибка поиска');setDefaultWeather();}
-}
+function loadWeather(){if(!navigator.geolocation){setDfltWeather();return;}navigator.geolocation.getCurrentPosition(p=>loadWeatherCoords(p.coords.latitude,p.coords.longitude),()=>setDfltWeather(),{timeout:8000});}
+function applyWeather(c){weather={temp:Math.round(c.temperature_2m)};document.getElementById('wTemp').textContent=weather.temp+'°';document.getElementById('wFeel').textContent=condRu(c.weather_code);document.getElementById('wHum').textContent=c.relative_humidity_2m+'%';document.getElementById('wWind').textContent=Math.round(c.wind_speed_10m)+' м/с';document.getElementById('wFeel2').textContent=Math.round(c.apparent_temperature)+'°';document.getElementById('wIcon').textContent=wEmoji(c.weather_code);genOutfit();}
+function setDfltWeather(){weather={temp:18};document.getElementById('wTemp').textContent='18°';document.getElementById('wFeel').textContent='Ясно';document.getElementById('wCity').textContent=localStorage.getItem('wb_city')||'Введите город →';document.getElementById('wIcon').textContent='☀️';['wHum','wWind','wFeel2'].forEach(id=>document.getElementById(id).textContent='—');genOutfit();}
+function toggleCity(){const r=document.getElementById('cityRow');r.classList.toggle('open');if(r.classList.contains('open'))setTimeout(()=>document.getElementById('cityInp').focus(),100);}
+async function findCity(){const q=document.getElementById('cityInp').value.trim();if(!q)return;document.getElementById('wCity').textContent='Поиск...';try{const r=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&accept-language=ru`);const d=await r.json();if(!d.length){toast('Город не найден');return;}const city=d[0].display_name.split(',')[0];document.getElementById('wCity').textContent=city;localStorage.setItem('wb_city',city);document.getElementById('cityRow').classList.remove('open');document.getElementById('cityInp').value='';await loadWeatherCoords(parseFloat(d[0].lat),parseFloat(d[0].lon));}catch{toast('Ошибка поиска');setDfltWeather();}}
 function condRu(c){if(c===0)return'Ясно';if(c<=2)return'Переменная облачность';if(c<=3)return'Пасмурно';if(c<=48)return'Туман';if(c<=57)return'Морось';if(c<=67)return'Дождь';if(c<=77)return'Снег';if(c<=82)return'Ливень';return'Гроза';}
 function wEmoji(c){if(c===0)return'☀️';if(c<=2)return'⛅';if(c<=3)return'☁️';if(c<=48)return'🌫️';if(c<=67)return'🌧️';if(c<=77)return'❄️';return'⛈️';}
 function setDate(){document.getElementById('wDate').textContent=new Date().toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});}
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 // NAV
-// ═══════════════════════════════════════════════
-function go(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.nav-tab,.nav-item').forEach(t=>t.classList.remove('active'));
-  document.getElementById('screen-'+id).classList.add('active');
-  const idx=['home','wardrobe','looks','shop','wishlist'].indexOf(id);
-  document.querySelectorAll('.nav-tab')[idx].classList.add('active');
-  document.querySelectorAll('.nav-item')[idx].classList.add('active');
-  if(id==='wardrobe')renderWardrobe();
-  if(id==='looks')renderLooks();
-  if(id==='shop')renderShop();
-  if(id==='wishlist')renderWishlist();
-  if(id==='home'){renderRecent();updateStats();}
-}
+// ═══════════════════════════════
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-tab,.nav-item').forEach(t=>t.classList.remove('active'));document.getElementById('screen-'+id).classList.add('active');const idx=['home','wardrobe','looks','shop','wishlist'].indexOf(id);document.querySelectorAll('.nav-tab')[idx].classList.add('active');document.querySelectorAll('.nav-item')[idx].classList.add('active');if(id==='wardrobe')renderWardrobe();if(id==='looks')renderLooks();if(id==='shop')renderShop();if(id==='wishlist')renderWishlist();if(id==='home'){renderRecent();updateStats();}}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open');}));
 
-// ═══════════════════════════════════════════════
-// OUTFIT
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
+// SEASON HELPERS
+// ═══════════════════════════════
+function toggleSea(el,gid){
+  const g=document.getElementById(gid);
+  if(el.dataset.v==='all'){g.querySelectorAll('.sea-chip').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');return;}
+  g.querySelector('[data-v="all"]')?.classList.remove('sel');
+  el.classList.toggle('sel');
+  if(![...g.querySelectorAll('.sea-chip')].some(c=>c.classList.contains('sel')))g.querySelector('[data-v="all"]').classList.add('sel');
+}
+function getSeasons(gid){const s=[...document.getElementById(gid).querySelectorAll('.sea-chip.sel')].map(c=>c.dataset.v);return s.length?s:['all'];}
+function setSeasons(gid,seasons){const g=document.getElementById(gid);g.querySelectorAll('.sea-chip').forEach(c=>c.classList.remove('sel'));(Array.isArray(seasons)?seasons:[seasons||'all']).forEach(v=>{const el=g.querySelector(`[data-v="${v}"]`);if(el)el.classList.add('sel');});}
+function seasonsMatch(item,t){const s=Array.isArray(item.seasons)?item.seasons:[item.season||'all'];if(s.includes('all'))return true;if(t>=22)return s.includes('summer');if(t>=12)return s.includes('spring');return s.includes('winter');}
+
+// ═══════════════════════════════
+// OUTFIT GENERATOR
+// ═══════════════════════════════
+let lastOutfitItems=[];
 async function genOutfit(){
   const t=weather.temp;
-  const seas=t>=22?['summer','all']:t>=12?['spring','all']:['winter','all'];
   const pick=arr=>arr.length?arr[Math.floor(Math.random()*arr.length)]:null;
-  const by=cat=>wardrobe.filter(i=>i.category===cat&&seas.includes(i.season));
+  const by=cat=>wardrobe.filter(i=>i.category===cat&&seasonsMatch(i,t));
   const shoe=pick(by('shoes')),outer=t<20?pick(by('outerwear')):null;
-  // 30% шанс показать платье вместо верх+низ, если есть платья
-  const dresses=by('dress');
-  const useDress=dresses.length>0&&Math.random()<0.3;
-  let slots;
-  if(useDress){
-    const dress=pick(dresses);
-    slots=[{i:dress,l:'Платье',ic:'ti-dress'},{i:shoe,l:'Обувь',ic:'ti-shoe'}];
-  } else {
-    const top=pick(by('top')),bot=pick(by('bottom'));
-    slots=[{i:top,l:'Верх',ic:'ti-shirt'},{i:bot,l:'Низ',ic:'ti-viewfinder'},{i:shoe,l:'Обувь',ic:'ti-shoe'}];
-  }
-  if(outer)slots.push({i:outer,l:'Верхняя',ic:'ti-jacket'});
-  const photos=await Promise.all(slots.map(s=>s.i?photo(s.i.id):Promise.resolve(null)));
-  document.getElementById('outfitSlots').innerHTML=slots.map(({i,l,ic},idx)=>{
-    const src=photos[idx];
-    return`<div class="outfit-slot">${i&&src?`<img src="${src}"><div class="slot-label">${i.name}</div>`:i?`<div class="empty-icon"><i class="ti ${ic}" style="font-size:24px;color:var(--mocha)"></i><span>${i.name}</span></div>`:`<div class="empty-icon"><i class="ti ${ic}"></i><span>${l}</span></div>`}</div>`;
-  }).join('');
+  const dresses=by('dress');const useDress=dresses.length>0&&Math.random()<0.3;
+  let items=[];
+  if(useDress){const d=pick(dresses);if(d)items.push(d);}
+  else{const top=pick(by('top')),bot=pick(by('bottom'));if(top)items.push(top);if(bot)items.push(bot);}
+  if(shoe)items.push(shoe);if(outer)items.push(outer);
+  lastOutfitItems=items;
+  if(!items.length){document.getElementById('outfitSlots').innerHTML=`<div style="padding:20px;color:var(--text-light);font-size:13px;width:100%;text-align:center;">Добавьте вещи в гардероб</div>`;return;}
+  const photos=await Promise.all(items.map(i=>photo(i.id)));
+  document.getElementById('outfitSlots').innerHTML=items.map((item,i)=>{const src=photos[i];return`<div class="outfit-slot">${src?`<img src="${src}">`:`<div class="empty-icon"><i class="ti ti-hanger" style="font-size:22px;color:var(--mocha)"></i></div>`}<div class="slot-label">${item.name}</div></div>`;}).join('');
+}
+async function saveOutfitAsLook(){
+  if(!lastOutfitItems.length){toast('Сначала сгенерируйте образ');return;}
+  const look={id:Date.now(),itemIds:lastOutfitItems.map(i=>i.id),itemNames:lastOutfitItems.map(i=>i.name),itemCats:lastOutfitItems.map(i=>i.category),note:'',hasWish:false,style:'casual',createdAt:new Date().toISOString()};
+  looks.unshift(look);save();updateStats();toast('✓ Образ сохранён в Луки');
+}
+async function genOutfitForLooks(){
+  const t=weather.temp;
+  const pick=arr=>arr.length?arr[Math.floor(Math.random()*arr.length)]:null;
+  const by=cat=>wardrobe.filter(i=>i.category===cat&&seasonsMatch(i,t));
+  const shoe=pick(by('shoes')),outer=t<20?pick(by('outerwear')):null;
+  const dresses=by('dress');const useDress=dresses.length>0&&Math.random()<0.3;
+  let items=[];
+  if(useDress){const d=pick(dresses);if(d)items.push(d);}
+  else{const top=pick(by('top')),bot=pick(by('bottom'));if(top)items.push(top);if(bot)items.push(bot);}
+  if(shoe)items.push(shoe);if(outer)items.push(outer);
+  if(!items.length){toast('Добавьте вещи в гардероб');return;}
+  const look={id:Date.now(),itemIds:items.map(i=>i.id),itemNames:items.map(i=>i.name),itemCats:items.map(i=>i.category),note:'',hasWish:false,style:'casual',createdAt:new Date().toISOString()};
+  looks.unshift(look);save();updateStats();renderLooks();toast('✓ Случайный образ сохранён');
 }
 
-// ═══════════════════════════════════════════════
-// BULK UPLOAD — загрузка нескольких вещей сразу
-// ═══════════════════════════════════════════════
-const CATS=[{v:'top',l:'Верх'},{v:'bottom',l:'Низ'},{v:'shoes',l:'Обувь'},{v:'outerwear',l:'Верхняя'},{v:'accessories',l:'Аксессуары'},{v:'dress',l:'Платье'}];
-const SEAS=[{v:'all',l:'Всесезонный'},{v:'spring',l:'Весна/Осень'},{v:'summer',l:'Лето'},{v:'winter',l:'Зима'}];
-const STYLES=[{v:'casual',l:'Casual'},{v:'office',l:'Офис'},{v:'evening',l:'Вечерний'},{v:'sport',l:'Спорт'},{v:'street',l:'Street'},{v:'chic',l:'Шик'}];
-
-function openBulk(){
-  bulkQueue=[];renderBulkQueue();
-  document.getElementById('bulkSaveBtn').style.display='none';
-  document.getElementById('bulkDrop').style.display='block';
-  document.getElementById('bulkAddMoreRow').style.display='none';
-  document.getElementById('bulkModal').classList.add('open');
-}
-
-function handleBulkFiles(e){
-  const files=Array.from(e.target.files);
-  if(!files.length)return;
-  document.getElementById('bulkAddMoreRow').style.display='block';
-  document.getElementById('bulkDrop').style.display='none';
-  files.forEach(file=>{
-    const id=Date.now()+Math.random();
-    const entry={id,name:'',cat:'top',sea:'all',style:'casual',data:null,status:'loading'};
-    bulkQueue.push(entry);
-    const entryIdx=bulkQueue.length-1;
-    resizeImg(file,800,0.75,data=>{
-      entry.data=data;
-      entry.status='analyzing';
-      renderBulkQueue();
-      aiAutofillBulk(entry, entryIdx);
-    });
-  });
-  renderBulkQueue();
-  e.target.value='';
-}
-
-function renderBulkQueue(){
-  const q=document.getElementById('bulkQueue');
-  if(!bulkQueue.length){q.innerHTML='';document.getElementById('bulkSaveBtn').style.display='none';return;}
-  const catOpts=CATS.map(c=>`<option value="${c.v}">${c.l}</option>`).join('');
-  const seaOpts=SEAS.map(s=>`<option value="${s.v}">${s.l}</option>`).join('');
-  const stOpts=STYLES.map(s=>`<option value="${s.v}">${s.l}</option>`).join('');
-  q.innerHTML=bulkQueue.map((item,i)=>`
-    <div class="bq-item ${item.status==='done'?'bq-done':''}" id="bqitem-${i}">
-      ${item.data?`<img class="bq-thumb" src="${item.data}">`:`<div class="bq-thumb" style="display:flex;align-items:center;justify-content:center"><div class="spinner" style="width:24px;height:24px;border-width:2px"></div></div>`}
-      <div class="bq-fields">
-        <input class="fi" style="font-size:13px;padding:8px 10px" value="${item.name}" oninput="bulkQueue[${i}].name=this.value" placeholder="Название">
-        <div class="bq-selects">
-          <select class="bq-select" onchange="bulkQueue[${i}].cat=this.value">${catOpts.replace(`value="${item.cat}"`,`value="${item.cat}" selected`)}</select>
-          <select class="bq-select" onchange="bulkQueue[${i}].sea=this.value">${seaOpts.replace(`value="${item.sea}"`,`value="${item.sea}" selected`)}</select>
-        </div>
-        <select class="bq-select" style="width:100%" onchange="bulkQueue[${i}].style=this.value">${stOpts.replace(`value="${item.style}"`,`value="${item.style}" selected`)}</select>
-        <div class="bq-progress"><div class="bq-progress-bar" id="bqpb-${i}" style="width:${item.status==='done'?100:0}%"></div></div>
-        <div class="bq-status" id="bqst-${i}">${item.status==='done'?'✓ Добавлено':item.status==='loading'?'Обработка фото...':item.status==='analyzing'?'✨ AI заполняет поля...':'✓ Проверьте и сохраните'}</div>
-      </div>
-      <button class="bq-remove" onclick="removeBulkItem(${i})"><i class="ti ti-x"></i></button>
-    </div>
-  `).join('');
-  const ready=bulkQueue.filter(x=>x.status==='ready'||x.status==='done').length;
-  const btn=document.getElementById('bulkSaveBtn');
-  if(ready>0){btn.style.display='flex';document.getElementById('bulkSaveCount').textContent=`(${ready})`;}
-  else btn.style.display='none';
-}
-
-function removeBulkItem(i){bulkQueue.splice(i,1);renderBulkQueue();}
-
-async function saveAllBulk(){
-  const btn=document.getElementById('bulkSaveBtn');
-  btn.disabled=true;btn.innerHTML='<div class="spinner" style="width:20px;height:20px;border-width:2px;margin:0"></div> Сохранение...';
-  let saved=0;
-  for(let i=0;i<bulkQueue.length;i++){
-    const item=bulkQueue[i];
-    if(item.status==='done')continue;
-    if(!item.name.trim()){item.name='Вещь '+(wardrobe.length+1);}
-    const id=Date.now()+i;
-    const wItem={id,name:item.name.trim(),category:item.cat,season:item.sea,style:item.style,color:'beige',hasPhoto:!!item.data,addedAt:new Date().toISOString()};
-    if(item.data){await dbSet(id,item.data);PC[id]=item.data;}
-    wardrobe.unshift(wItem);
-    item.status='done';
-    // animate progress
-    const pb=document.getElementById('bqpb-'+i);
-    const st=document.getElementById('bqst-'+i);
-    if(pb){pb.style.width='100%';}
-    if(st){st.textContent='✓ Добавлено';st.style.color='var(--sage)';}
-    saved++;
-    await new Promise(r=>setTimeout(r,120));
-  }
-  save();updateStats();renderRecent();genOutfit();
-  btn.disabled=false;btn.innerHTML=`<i class="ti ti-check"></i> Готово — добавлено ${saved} вещей`;
-  setTimeout(()=>{closeModal('bulkModal');bulkQueue=[];},1500);
-  toast(`✓ Добавлено ${saved} вещей в гардероб`);
-}
-
-// Drag & drop
-const dropEl=()=>document.getElementById('bulkDrop');
-['dragenter','dragover'].forEach(ev=>{document.addEventListener(ev,e=>{if(e.target===dropEl()||dropEl().contains(e.target)){e.preventDefault();dropEl().classList.add('drag');}});});
-['dragleave','drop'].forEach(ev=>{document.addEventListener(ev,e=>{dropEl().classList.remove('drag');if(ev==='drop'){e.preventDefault();const files=Array.from(e.dataTransfer?.files||[]).filter(f=>f.type.startsWith('image/'));if(files.length){const dt=new DataTransfer();files.forEach(f=>dt.items.add(f));document.getElementById('bulkFileInput').files=dt.files;handleBulkFiles({target:document.getElementById('bulkFileInput')});}}});});
-
-// ═══════════════════════════════════════════════
-// SINGLE ADD
-// ═══════════════════════════════════════════════
-function openAdd(){
-  addPhotoData=null;addColor='white';
-  document.getElementById('addPreview').style.display='none';document.getElementById('addPreview').src='';
-  document.getElementById('addZone').style.display='block';
-  document.getElementById('addName').value='';document.getElementById('addFile').value='';
-  document.getElementById('aiIndicator').style.display='none';
-  document.getElementById('addCat').value='top';
-  document.getElementById('addSea').value='all';
-  document.getElementById('addStyle').value='casual';
-  document.querySelectorAll('#addModal .cc').forEach(c=>c.classList.remove('sel'));
-  document.querySelector('#addModal .cc[data-c="white"]').classList.add('sel');
-  document.getElementById('addModal').classList.add('open');
-}
-function previewAdd(e){
-  const f=e.target.files[0];if(!f)return;
-  resizeImg(f,800,0.75,d=>{
-    addPhotoData=d;
-    const p=document.getElementById('addPreview');p.src=d;p.style.display='block';
-    document.getElementById('addZone').style.display='none';
-    aiAutofill(d);
-  });
-}
-
+// ═══════════════════════════════
+// AI AUTOFILL (п.13 — добавлен required header)
+// ═══════════════════════════════
 async function aiAutofill(base64){
-  const btn=document.getElementById('addSaveBtn');
-  const indicator=document.getElementById('aiIndicator');
-  indicator.style.display='flex';
+  const bar=document.getElementById('aiBar');const btn=document.getElementById('addSaveBtn');
+  bar.classList.add('show');document.getElementById('aiBarText').textContent='AI анализирует фото...';
+  const spin=bar.querySelector('.spinner');if(spin)spin.style.display='';
   btn.disabled=true;
   try{
     const b64=base64.split(',')[1];
     const resp=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      headers:{
+        'Content-Type':'application/json',
+        'x-api-key':'',
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
       body:JSON.stringify({
         model:'claude-sonnet-4-20250514',
         max_tokens:300,
         messages:[{role:'user',content:[
           {type:'image',source:{type:'base64',media_type:'image/jpeg',data:b64}},
-          {type:'text',text:'Ты помощник стилиста. Определи по фото одежды следующее и ответь ТОЛЬКО JSON без пояснений:\n{"name":"короткое название вещи на русском (макс 4 слова)","category":"top|bottom|shoes|outerwear|accessories|dress","season":"all|spring|summer|winter","style":"casual|office|evening|sport|street|chic","color":"white|black|blue|green|pink|yellow|brown|beige|red|gray"}'}
+          {type:'text',text:'Определи вещь на фото. Ответь ТОЛЬКО JSON без комментариев:\n{"name":"короткое название на русском (2-4 слова)","category":"top|bottom|shoes|outerwear|accessories|dress","season":"all|spring|summer|winter","style":"casual|office|evening|sport|street|chic","color":"#RRGGBB основной цвет"}'}
         ]}]
       })
     });
+    if(!resp.ok){const err=await resp.json();throw new Error(err.error?.message||resp.status);}
     const data=await resp.json();
     const text=data.content?.[0]?.text||'';
     const json=JSON.parse(text.replace(/```json|```/g,'').trim());
     if(json.name)document.getElementById('addName').value=json.name;
-    if(json.category){const s=document.getElementById('addCat');s.value=json.category;if(!s.value)s.value='top';}
-    if(json.season){const s=document.getElementById('addSea');s.value=json.season;if(!s.value)s.value='all';}
-    if(json.style){const s=document.getElementById('addStyle');s.value=json.style;if(!s.value)s.value='casual';}
-    if(json.color){const chip=document.querySelector(`#addModal .cc[data-c="${json.color}"]`);if(chip){document.querySelectorAll('#addModal .cc').forEach(c=>c.classList.remove('sel'));chip.classList.add('sel');addColor=json.color;}}
-    indicator.innerHTML='<i class="ti ti-sparkles" style="color:var(--sage)"></i><span style="color:var(--sage)">Заполнено автоматически — проверьте и сохраните</span>';
-  }catch(err){
-    indicator.innerHTML='<span style="color:var(--text-light)">Заполните поля вручную</span>';
+    if(json.category)document.getElementById('addCat').value=json.category;
+    if(json.season)setSeasons('addSeaChips',[json.season]);
+    if(json.style)document.getElementById('addStyle').value=json.style;
+    if(json.color){addColor=json.color;document.getElementById('addSwatch').style.background=json.color;document.getElementById('addHex').textContent=json.color;}
+    document.getElementById('aiBarText').textContent='✨ Заполнено — проверьте и сохраните';
+    if(spin)spin.style.display='none';
+  }catch(e){
+    document.getElementById('aiBarText').textContent='Не удалось — заполните вручную';
+    if(spin)spin.style.display='none';
+    console.warn('AI autofill error:',e.message);
   }
   btn.disabled=false;
 }
-
-async function aiAutofillBulk(entry, idx){
+async function aiAutofillBulk(entry){
   if(!entry.data)return;
   try{
     const b64=entry.data.split(',')[1];
     const resp=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:200,
-        messages:[{role:'user',content:[
-          {type:'image',source:{type:'base64',media_type:'image/jpeg',data:b64}},
-          {type:'text',text:'Ответь ТОЛЬКО JSON без пояснений: {"name":"короткое название на русском (макс 4 слова)","category":"top|bottom|shoes|outerwear|accessories|dress","season":"all|spring|summer|winter","style":"casual|office|evening|sport|street|chic"}'}
-        ]}]
-      })
+      headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,messages:[{role:'user',content:[{type:'image',source:{type:'base64',media_type:'image/jpeg',data:b64}},{type:'text',text:'Ответь ТОЛЬКО JSON: {"name":"название на русском (2-4 слова)","category":"top|bottom|shoes|outerwear|accessories|dress","season":"all|spring|summer|winter","style":"casual|office|evening|sport|street|chic","color":"#RRGGBB"}'}]}]})
     });
+    if(!resp.ok)throw new Error(resp.status);
     const data=await resp.json();
     const text=data.content?.[0]?.text||'';
     const json=JSON.parse(text.replace(/```json|```/g,'').trim());
     if(json.name)entry.name=json.name;
     if(json.category)entry.cat=json.category;
-    if(json.season)entry.sea=json.season;
+    if(json.season)entry.seasons=[json.season];
     if(json.style)entry.style=json.style;
-    entry.status='ready';
-  }catch{entry.status='ready';}
-  renderBulkQueue();
+    if(json.color)entry.color=json.color;
+  }catch(e){console.warn('bulk AI:',e.message);}
+  entry.status='ready';renderBulkQueue();
 }
-function pickColor(el){document.querySelectorAll('#addModal .cc').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');addColor=el.dataset.c;}
+
+// ═══════════════════════════════
+// ADD SINGLE ITEM
+// ═══════════════════════════════
+function openAdd(){
+  addPhotoData=null;addColor='#888888';
+  document.getElementById('addPreview').style.display='none';document.getElementById('addPreview').src='';
+  document.getElementById('addUpZone').style.display='block';
+  document.getElementById('addReCropBtn').style.display='none';
+  document.getElementById('addName').value='';document.getElementById('addFile').value='';
+  document.getElementById('aiBar').classList.remove('show');
+  document.getElementById('addSaveBtn').disabled=false;document.getElementById('addSaveBtn').textContent='Добавить';
+  document.getElementById('addSwatch').style.background='#888';document.getElementById('addHex').textContent='#888888';
+  setSeasons('addSeaChips',['all']);
+  document.getElementById('addCat').value='top';document.getElementById('addStyle').value='casual';
+  document.getElementById('addModal').classList.add('open');
+  setTimeout(()=>initColorPicker('addColorCanvas','addHue','addSwatch','addHex',c=>{addColor=c;}),120);
+}
+function onAddPhoto(e){
+  const f=e.target.files[0];if(!f)return;
+  resizeImg(f,1200,0.9,data=>{
+    openCrop(data,cropped=>{
+      addPhotoData=cropped;
+      document.getElementById('addPreview').src=cropped;document.getElementById('addPreview').style.display='block';
+      document.getElementById('addUpZone').style.display='none';document.getElementById('addReCropBtn').style.display='block';
+      aiAutofill(cropped);
+    });
+  });
+}
 async function saveOne(){
-  const name=document.getElementById('addName').value.trim();
-  if(!name){toast('Введите название вещи');return;}
+  const name=document.getElementById('addName').value.trim();if(!name){toast('Введите название вещи');return;}
   const btn=document.getElementById('addSaveBtn');btn.disabled=true;btn.textContent='Сохранение...';
   const id=Date.now();
-  const item={id,name,category:document.getElementById('addCat').value,season:document.getElementById('addSea').value,style:document.getElementById('addStyle').value,color:addColor,hasPhoto:!!addPhotoData,addedAt:new Date().toISOString()};
-  try{if(addPhotoData){await dbSet(id,addPhotoData);PC[id]=addPhotoData;}wardrobe.unshift(item);save();closeModal('addModal');updateStats();renderRecent();genOutfit();toast('✓ Вещь добавлена');}
+  const item={id,name,category:document.getElementById('addCat').value,seasons:getSeasons('addSeaChips'),style:document.getElementById('addStyle').value,color:addColor,hasPhoto:!!addPhotoData,addedAt:new Date().toISOString()};
+  try{if(addPhotoData){await dbSet(id,addPhotoData);PC[String(id)]=addPhotoData;}wardrobe.unshift(item);save();closeModal('addModal');updateStats();renderRecent();genOutfit();toast('✓ Вещь добавлена');}
   catch{toast('Ошибка сохранения');}
   btn.disabled=false;btn.textContent='Добавить';
 }
 
-
-// ═══════════════════════════════════════════════
-// EDIT & DELETE ITEM
-// ═══════════════════════════════════════════════
-let editingId=null, editPhotoData=null, editColor='black';
-
-async function openEdit(id, e){
+// ═══════════════════════════════
+// EDIT ITEM
+// ═══════════════════════════════
+async function openEdit(id,e){
   e.stopPropagation();
-  const item=wardrobe.find(i=>i.id===id);
-  if(!item)return;
-  editingId=id;
-  editPhotoData=null;
-  // Prefill fields
+  const item=wardrobe.find(i=>i.id===id);if(!item)return;
+  editingId=id;editPhotoData=null;editColor=item.color||'#888888';
   document.getElementById('editName').value=item.name;
   document.getElementById('editCat').value=item.category;
-  document.getElementById('editSea').value=item.season;
-  document.getElementById('editStyle').value=item.style;
-  editColor=item.color||'black';
-  document.querySelectorAll('#editColorChips .cc').forEach(c=>{
-    c.classList.toggle('sel', c.dataset.c===editColor);
-  });
-  // Show photo
+  document.getElementById('editStyle').value=item.style||'casual';
+  setSeasons('editSeaChips',item.seasons||[item.season||'all']);
+  document.getElementById('editSwatch').style.background=editColor;document.getElementById('editHex').textContent=editColor;
   const src=item.hasPhoto?await photo(id):null;
   const prev=document.getElementById('editPreview');
-  if(src){prev.src=src;prev.style.display='block';}
-  else{prev.style.display='none';}
+  if(src){prev.src=src;prev.style.display='block';}else prev.style.display='none';
   document.getElementById('editFile').value='';
   document.getElementById('editModal').classList.add('open');
+  setTimeout(()=>initColorPicker('editColorCanvas','editHue','editSwatch','editHex',c=>{editColor=c;}),120);
 }
-
-function previewEdit(e){
-  const f=e.target.files[0];if(!f)return;
-  resizeImg(f,800,0.75,d=>{
-    editPhotoData=d;
-    const p=document.getElementById('editPreview');
-    p.src=d;p.style.display='block';
-  });
-}
-
-function pickEditColor(el){
-  document.querySelectorAll('#editColorChips .cc').forEach(c=>c.classList.remove('sel'));
-  el.classList.add('sel');editColor=el.dataset.c;
-}
-
+function onEditPhoto(e){const f=e.target.files[0];if(!f)return;resizeImg(f,1200,0.9,data=>{openCrop(data,cropped=>{editPhotoData=cropped;const p=document.getElementById('editPreview');p.src=cropped;p.style.display='block';});});}
 async function saveEdit(){
-  const name=document.getElementById('editName').value.trim();
-  if(!name){toast('Введите название');return;}
-  const btn=document.getElementById('editSaveBtn');
-  btn.disabled=true;btn.textContent='Сохранение...';
-  const idx=wardrobe.findIndex(i=>i.id===editingId);
-  if(idx===-1){btn.disabled=false;btn.textContent='Сохранить';return;}
+  const name=document.getElementById('editName').value.trim();if(!name){toast('Введите название');return;}
+  const btn=document.getElementById('editSaveBtn');btn.disabled=true;btn.textContent='Сохранение...';
+  const idx=wardrobe.findIndex(i=>i.id===editingId);if(idx===-1){btn.disabled=false;btn.textContent='Сохранить';return;}
   const item=wardrobe[idx];
-  item.name=name;
-  item.category=document.getElementById('editCat').value;
-  item.season=document.getElementById('editSea').value;
-  item.style=document.getElementById('editStyle').value;
-  item.color=editColor;
-  if(editPhotoData){
-    await dbSet(editingId,editPhotoData);
-    PC[editingId]=editPhotoData;
-    item.hasPhoto=true;
-  }
-  save();
-  closeModal('editModal');
-  renderWardrobe();
-  renderRecent();
-  genOutfit();
-  toast('✓ Вещь обновлена');
+  item.name=name;item.category=document.getElementById('editCat').value;
+  item.seasons=getSeasons('editSeaChips');item.style=document.getElementById('editStyle').value;item.color=editColor;
+  if(editPhotoData){await dbSet(editingId,editPhotoData);PC[String(editingId)]=editPhotoData;item.hasPhoto=true;}
+  save();closeModal('editModal');renderWardrobe();renderRecent();genOutfit();toast('✓ Вещь обновлена');
   btn.disabled=false;btn.textContent='Сохранить';
 }
+function deleteItem(id,e){e.stopPropagation();if(!confirm('Удалить вещь?'))return;wardrobe=wardrobe.filter(i=>i.id!==id);dbDel(id);delete PC[String(id)];save();updateStats();renderWardrobe();renderRecent();genOutfit();toast('🗑 Вещь удалена');}
+function deleteFromEdit(){if(!confirm('Удалить вещь?'))return;wardrobe=wardrobe.filter(i=>i.id!==editingId);dbDel(editingId);delete PC[String(editingId)];save();updateStats();closeModal('editModal');renderWardrobe();renderRecent();genOutfit();toast('🗑 Вещь удалена');}
 
-function deleteItem(id, e){
-  e.stopPropagation();
-  if(!confirm('Удалить эту вещь из гардероба?'))return;
-  wardrobe=wardrobe.filter(i=>i.id!==id);
-  dbDel(id);
-  delete PC[id];
-  save();updateStats();renderWardrobe();renderRecent();genOutfit();
-  toast('🗑 Вещь удалена');
-}
-
-function deleteItemConfirm(){
-  if(!confirm('Удалить эту вещь из гардероба?'))return;
-  wardrobe=wardrobe.filter(i=>i.id!==editingId);
-  dbDel(editingId);
-  delete PC[editingId];
-  save();updateStats();closeModal('editModal');renderWardrobe();renderRecent();genOutfit();
-  toast('🗑 Вещь удалена');
-}
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 // RENDER WARDROBE
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 const CL={top:'Верх',bottom:'Низ',shoes:'Обувь',outerwear:'Верхняя',accessories:'Акс.',dress:'Платье'};
 async function wiHTML(item){
   const src=item.hasPhoto?await photo(item.id):null;
@@ -1008,16 +1026,18 @@ async function wiHTML(item){
         <button class="wi-act-btn wi-act-del" onclick="deleteItem(${item.id},event)"><i class="ti ti-trash"></i> Удалить</button>
       </div>
     </div>
-    <div class="wi-info"><div class="wi-name">${item.name}</div><div class="wi-meta">${CL[item.category]||item.category} · ${item.style}</div></div>
+    <div class="wi-info">
+      <div class="wi-name">${item.name}</div>
+      <div class="wi-meta"><span class="wi-color-dot" style="background:${item.color||'#aaa'}"></span>${item.style||''}</div>
+    </div>
   </div>`;
 }
 const addCard=()=>`<div class="add-card" onclick="openAdd()"><i class="ti ti-plus"></i><span>Добавить</span></div>`;
-
 async function renderWardrobe(){
   let items=wardrobe;
   const cat=document.getElementById('wbCat').value,sea=document.getElementById('wbSea').value;
   if(cat!=='all')items=items.filter(i=>i.category===cat);
-  if(sea!=='all')items=items.filter(i=>i.season===sea||i.season==='all');
+  if(sea!=='all')items=items.filter(i=>{const s=Array.isArray(i.seasons)?i.seasons:[i.season||'all'];return s.includes(sea)||s.includes('all');});
   const g=document.getElementById('wardrobeGrid');
   g.innerHTML=`<div class="loading-box"><div class="spinner"></div>Загрузка...</div>`;
   const parts=await Promise.all(items.map(i=>wiHTML(i)));
@@ -1034,43 +1054,169 @@ async function renderRecent(cat){
 }
 function recentFilter(cat,el){document.querySelectorAll('#screen-home .chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');renderRecent(cat);}
 
-// ═══════════════════════════════════════════════
-// LOOKS
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
+// BULK UPLOAD
+// ═══════════════════════════════
+const COLORS=['#FDFAF6','#2A1F1A','#7A8FA6','#9BAF96','#E8C4B8','#C9A84C','#8B6F5E','#D4C4A8','#D85A30','#666666'];
+function openBulk(){bulkQueue=[];renderBulkQueue();document.getElementById('bulkSaveBtn').style.display='none';document.getElementById('bulkDrop').style.display='block';document.getElementById('bulkAddMoreRow').style.display='none';document.getElementById('bulkModal').classList.add('open');}
+function handleBulkFiles(e){
+  const files=Array.from(e.target.files);if(!files.length)return;
+  document.getElementById('bulkDrop').style.display='none';document.getElementById('bulkAddMoreRow').style.display='block';
+  files.forEach(file=>{
+    const entry={id:Date.now()+Math.random(),name:'',cat:'top',seasons:['all'],style:'casual',color:COLORS[1],data:null,status:'loading'};
+    bulkQueue.push(entry);
+    resizeImg(file,800,0.75,data=>{entry.data=data;entry.status='analyzing';renderBulkQueue();aiAutofillBulk(entry);});
+  });
+  renderBulkQueue();e.target.value='';
+}
+function renderBulkQueue(){
+  const q=document.getElementById('bulkQueue');if(!bulkQueue.length){q.innerHTML='';return;}
+  const seaL={all:'Год',spring:'В/О',summer:'Лето',winter:'Зима'};
+  const stylesArr=['casual','office','evening','sport','street','chic'];
+  q.innerHTML=bulkQueue.map((item,i)=>`
+    <div class="bq-item">
+      <img class="bq-thumb" src="${item.data||''}" title="Нажмите для кадрирования" onclick="bqCrop(${i})">
+      <div class="bq-fields">
+        <input class="fi" style="font-size:13px;padding:7px 9px;" value="${item.name}" oninput="bulkQueue[${i}].name=this.value" placeholder="Название">
+        <div class="bq-grid2">
+          <select class="bq-sel" onchange="bulkQueue[${i}].cat=this.value">
+            ${['top','bottom','shoes','outerwear','dress','accessories'].map(v=>`<option value="${v}"${item.cat===v?' selected':''}>${CL[v]}</option>`).join('')}
+          </select>
+          <select class="bq-sel" onchange="bulkQueue[${i}].style=this.value">
+            ${stylesArr.map(v=>`<option value="${v}"${item.style===v?' selected':''}>${v}</option>`).join('')}
+          </select>
+        </div>
+        <div class="bq-sea-chips">
+          ${Object.entries(seaL).map(([v,l])=>`<div class="bq-sea-chip${(item.seasons||['all']).includes(v)?' sel':''}" onclick="bqToggleSea(${i},'${v}')">${l}</div>`).join('')}
+        </div>
+        <div class="bq-color-row">
+          ${COLORS.map(c=>`<div class="bq-cc${item.color===c?' sel':''}" style="background:${c};${c==='#FDFAF6'?'border-color:#ccc;':''}" onclick="bqSetColor(${i},'${c}')"></div>`).join('')}
+          <span style="font-size:10px;color:var(--text-light);margin-left:3px;">цвет</span>
+        </div>
+        <div class="bq-status ${item.status==='done'?'done':''}">${{loading:'⏳ Обработка...',analyzing:'✨ AI заполняет...',ready:'✓ Проверьте поля',done:'✓ Добавлено'}[item.status]||''}</div>
+      </div>
+      <button class="bq-remove" onclick="bulkQueue.splice(${i},1);renderBulkQueue()"><i class="ti ti-x"></i></button>
+    </div>`).join('');
+  const ready=bulkQueue.filter(x=>x.status!=='loading'&&x.status!=='done').length;
+  const btn=document.getElementById('bulkSaveBtn');
+  btn.style.display=ready>0?'flex':'none';
+  document.getElementById('bulkCnt').textContent=`(${ready})`;
+}
+function bqToggleSea(idx,v){
+  const e=bulkQueue[idx];if(!e.seasons)e.seasons=['all'];
+  if(v==='all'){e.seasons=['all'];}
+  else{e.seasons=e.seasons.filter(s=>s!=='all');const i=e.seasons.indexOf(v);if(i>=0)e.seasons.splice(i,1);else e.seasons.push(v);if(!e.seasons.length)e.seasons=['all'];}
+  renderBulkQueue();
+}
+function bqSetColor(idx,c){bulkQueue[idx].color=c;renderBulkQueue();}
+function bqCrop(idx){const e=bulkQueue[idx];if(!e.data)return;openCrop(e.data,cropped=>{e.data=cropped;renderBulkQueue();});}
+async function saveAllBulk(){
+  const btn=document.getElementById('bulkSaveBtn');btn.disabled=true;btn.innerHTML='<div class="spinner" style="width:18px;height:18px;border-width:2px;margin:0;"></div> Сохранение...';
+  let saved=0;
+  for(let i=0;i<bulkQueue.length;i++){
+    const entry=bulkQueue[i];if(entry.status==='done')continue;
+    if(!entry.name.trim())entry.name='Вещь '+(wardrobe.length+1);
+    const id=Date.now()+i;
+    const item={id,name:entry.name.trim(),category:entry.cat,seasons:entry.seasons||['all'],style:entry.style,color:entry.color||'#888',hasPhoto:!!entry.data,addedAt:new Date().toISOString()};
+    if(entry.data){await dbSet(id,entry.data);PC[String(id)]=entry.data;}
+    wardrobe.unshift(item);entry.status='done';saved++;
+    await new Promise(r=>setTimeout(r,60));renderBulkQueue();
+  }
+  save();updateStats();renderRecent();genOutfit();
+  btn.disabled=false;btn.innerHTML=`<i class="ti ti-check"></i> Готово — добавлено ${saved} вещей`;
+  setTimeout(()=>{closeModal('bulkModal');bulkQueue=[];},1200);
+  toast(`✓ Добавлено ${saved} вещей`);
+}
+
+// ═══════════════════════════════
+// LOOKS — BUILDER WITH PHOTO PICKER
+// ═══════════════════════════════
+const SLOT_DEFS=[{key:'dress',label:'Платье / комбинезон'},{key:'top',label:'Верх'},{key:'bottom',label:'Низ'},{key:'shoes',label:'Обувь'},{key:'outerwear',label:'Верхняя одежда'},{key:'accessories',label:'Аксессуары'}];
+let pickerSel={};
+
 function openLookModal(){
-  const opts=arr=>['<option value="">— не выбрано —</option>',...arr.map(i=>`<option value="${i.id}">${i.name}</option>`)].join('');
-  document.getElementById('lDress').innerHTML=opts(wardrobe.filter(i=>i.category==='dress'));
-  document.getElementById('lTop').innerHTML=opts(wardrobe.filter(i=>i.category==='top'));
-  document.getElementById('lBottom').innerHTML=opts(wardrobe.filter(i=>i.category==='bottom'));
-  document.getElementById('lShoes').innerHTML=opts(wardrobe.filter(i=>i.category==='shoes'));
-  document.getElementById('lOuter').innerHTML=opts(wardrobe.filter(i=>i.category==='outerwear'));
-  document.getElementById('lookName').value='';
+  pickerSel={};SLOT_DEFS.forEach(s=>pickerSel[s.key]=null);
+  document.getElementById('lookNote').value='';
+  renderItemPicker();
   document.getElementById('lookModal').classList.add('open');
 }
-function saveLook(){
-  const dId=document.getElementById('lDress').value,tId=document.getElementById('lTop').value,bId=document.getElementById('lBottom').value,sId=document.getElementById('lShoes').value,oId=document.getElementById('lOuter').value;
-  const gn=id=>id?(wardrobe.find(i=>i.id==id)?.name||null):null;
-  looks.unshift({id:Date.now(),name:document.getElementById('lookName').value.trim()||'Образ '+(looks.length+1),dressId:dId||null,dressName:gn(dId),topId:tId||null,topName:gn(tId),bottomId:bId||null,bottomName:gn(bId),shoesId:sId||null,outerId:oId||null,style:document.getElementById('lStyle').value,createdAt:new Date().toISOString()});
-  save();closeModal('lookModal');updateStats();renderLooks();toast('✓ Образ сохранён');
+async function renderItemPicker(){
+  const allItems=[
+    ...wardrobe.map(i=>({...i,_wish:false})),
+    ...wishlist.filter(w=>w.category).map(w=>({...w,id:'w'+w.id,_wish:true}))
+  ];
+  const parts=await Promise.all(SLOT_DEFS.map(async slot=>{
+    const items=allItems.filter(i=>i.category===slot.key);
+    const thumbs=await Promise.all(items.map(async item=>{
+      const rawId=String(item.id).replace('w','');
+      const src=item.hasPhoto?await photo(rawId):null;
+      const isSel=pickerSel[slot.key]===String(item.id);
+      return`<div class="picker-thumb${isSel?' sel':''}" onclick="pickerSelect('${slot.key}','${item.id}')" title="${item.name}">
+        ${src?`<img src="${src}">`:`<div style="font-size:26px;">${item.emoji||'👗'}</div>`}
+        ${item._wish?`<div class="wish-dot" title="Из вишлиста"></div>`:''}
+        ${isSel?`<div class="sel-check"><i class="ti ti-check" style="color:white;font-size:18px;text-shadow:0 1px 3px rgba(0,0,0,.5)"></i></div>`:''}
+      </div>`;
+    }));
+    const selId=pickerSel[slot.key];
+    return`<div class="picker-section">
+      <div class="picker-section-label">
+        ${slot.label}
+        ${selId?`<span class="clr-btn" onclick="pickerSelect('${slot.key}',null)">Убрать ✕</span>`:''}
+      </div>
+      <div class="picker-scroll">
+        ${items.length?thumbs.join(''):`<span class="picker-none">Нет вещей этой категории</span>`}
+      </div>
+    </div>`;
+  }));
+  document.getElementById('itemPicker').innerHTML=parts.join('');
 }
-function saveLookFromOutfit(){looks.unshift({id:Date.now(),name:'Образ '+(looks.length+1),style:'casual',createdAt:new Date().toISOString()});save();updateStats();toast('✓ Образ сохранён');}
+async function pickerSelect(cat,id){
+  pickerSel[cat]=(id==='null'||!id)?null:String(id);
+  await renderItemPicker();
+}
+async function saveLook(){
+  const selIds=Object.values(pickerSel).filter(Boolean);
+  if(!selIds.length){toast('Выберите хотя бы одну вещь');return;}
+  const allItems=[...wardrobe.map(i=>({...i})),...wishlist.filter(w=>w.category).map(w=>({...w,id:'w'+w.id}))];
+  const items=selIds.map(id=>allItems.find(i=>String(i.id)===id)).filter(Boolean);
+  const hasWish=items.some(i=>String(i.id).startsWith('w'));
+  const look={id:Date.now(),itemIds:selIds,itemNames:items.map(i=>i.name),itemCats:items.map(i=>i.category),note:document.getElementById('lookNote').value.trim(),hasWish,style:'casual',createdAt:new Date().toISOString()};
+  looks.unshift(look);save();closeModal('lookModal');updateStats();renderLooks();toast('✓ Образ сохранён');
+}
+
+// ═══════════════════════════════
+// LOOKS RENDER
+// ═══════════════════════════════
+function looksFilter(val,el){document.querySelectorAll('.lf-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');looksFilterVal=val;renderLooks();}
 async function renderLooks(){
   const g=document.getElementById('looksGrid');
-  if(!looks.length){g.innerHTML=`<div class="empty-state">Нет сохранённых образов.<br>Создайте свой первый!</div>`;return;}
-  const sl={casual:'Casual',office:'Офис',evening:'Вечерний',sport:'Спорт',street:'Street'};
-  const parts=await Promise.all(looks.map(async l=>{
-    const ids=[l.dressId,l.topId,l.bottomId,l.shoesId,l.outerId].filter(Boolean);
-    const photos=await Promise.all(ids.slice(0,4).map(id=>photo(id)));
-    const names=[l.dressName,l.topName,l.bottomName].filter(Boolean);
-    const cells=ids.length?photos.map(src=>`<div class="lc-cell">${src?`<img src="${src}">`:`<i class="ti ti-hanger" style="font-size:24px;color:var(--sand)"></i>`}</div>`).join(''):`<div class="lc-cell" style="grid-column:span 2;grid-row:span 3"><i class="ti ti-layout-grid" style="font-size:36px;color:var(--sand)"></i></div>`;
-    return`<div class="look-card"><div class="look-collage">${cells}</div><div class="look-info"><div class="look-name">${l.name}</div><div class="look-tags"><span class="look-tag">${sl[l.style]||l.style}</span>${names.slice(0,2).map(n=>`<span class="look-tag">${n.split(' ')[0]}</span>`).join('')}</div></div></div>`;
+  let filtered=looks;
+  if(looksFilterVal==='wish')filtered=looks.filter(l=>l.hasWish);
+  else if(looksFilterVal!=='all')filtered=looks.filter(l=>l.style===looksFilterVal);
+  if(!filtered.length){g.innerHTML=`<div style="text-align:center;padding:36px 16px;color:var(--text-light);font-size:14px;line-height:1.8;">Нет образов.<br>Нажмите «Создать образ» или «↻ Случайный»!</div>`;return;}
+  const allItems=[...wardrobe,...wishlist.filter(w=>w.category).map(w=>({...w,id:'w'+w.id}))];
+  const parts=await Promise.all(filtered.map(async look=>{
+    const items=(look.itemIds||[]).map(id=>allItems.find(i=>String(i.id)===String(id))).filter(Boolean);
+    const photos=await Promise.all(items.map(item=>{const rawId=String(item.id).replace('w','');return item.hasPhoto?photo(rawId):Promise.resolve(null);}));
+    const slots=items.map((item,i)=>{const src=photos[i];return`<div class="look-slot">${src?`<img src="${src}">`:`<div class="empty-icon"><i class="ti ti-hanger" style="font-size:20px;color:var(--sand);"></i></div>`}<div class="look-slot-tag">${item.name}</div></div>`;}).join('');
+    const wishItems=items.filter(i=>String(i.id).startsWith('w'));
+    return`<div class="look-card">
+      ${look.hasWish?`<div class="look-wish-badge">🛍 С вишлистом</div>`:''}
+      <button class="look-del-btn" onclick="deleteLook(${look.id})" title="Удалить образ"><i class="ti ti-x"></i></button>
+      <div class="look-slots">${slots||`<div style="padding:16px;color:var(--text-light);font-size:13px;">Вещи не найдены</div>`}</div>
+      <div class="look-footer">
+        ${look.note?`<div class="look-note">"${look.note}"</div>`:''}
+        ${wishItems.length?`<div class="look-tags">${wishItems.map(i=>`<span class="look-tag wish">🛍 ${i.name}</span>`).join('')}</div>`:look.itemNames&&look.itemNames.length?`<div class="look-tags">${look.itemNames.slice(0,3).map(n=>`<span class="look-tag">${n}</span>`).join('')}</div>`:''}
+      </div>
+    </div>`;
   }));
   g.innerHTML=parts.join('');
 }
+function deleteLook(id){if(!confirm('Удалить образ?'))return;looks=looks.filter(l=>l.id!==id);save();updateStats();renderLooks();toast('🗑 Образ удалён');}
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 // SHOP
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 const SHOP=[
   {id:1,n:'Льняная рубашка оверсайз',s:'wb',p:'1 890 ₽',c:'top',m:92,e:'👕',l:'https://www.wildberries.ru/catalog/0/search.aspx?search=льняная+рубашка+оверсайз+женская'},
   {id:2,n:'Базовый тренч',s:'wb',p:'4 590 ₽',c:'outerwear',m:88,e:'🧥',l:'https://www.wildberries.ru/catalog/0/search.aspx?search=тренч+женский+бежевый'},
@@ -1085,7 +1231,7 @@ const SHOP=[
   {id:11,n:'Шёлковая блуза',s:'ozon',p:'2 999 ₽',c:'top',m:79,e:'👗',l:'https://www.ozon.ru/search/?text=шелковая+блуза+женская'},
   {id:12,n:'Белые кеды',s:'ozon',p:'2 499 ₽',c:'shoes',m:93,e:'👟',l:'https://www.ozon.ru/search/?text=белые+кеды+женские'},
   {id:13,n:'Пиджак оверсайз',s:'ozon',p:'4 299 ₽',c:'top',m:88,e:'🧥',l:'https://www.ozon.ru/search/?text=пиджак+оверсайз+женский'},
-  {id:14,n:'Кожаный ремень тонкий',s:'ozon',p:'1 299 ₽',c:'accessories',m:84,e:'👜',l:'https://www.ozon.ru/search/?text=кожаный+ремень+женский'},
+  {id:14,n:'Кожаный ремень',s:'ozon',p:'1 299 ₽',c:'accessories',m:84,e:'👜',l:'https://www.ozon.ru/search/?text=кожаный+ремень+женский'},
   {id:15,n:'Зимние ботинки',s:'wb',p:'6 990 ₽',c:'shoes',m:81,e:'👢',l:'https://www.wildberries.ru/catalog/0/search.aspx?search=ботинки+зимние+женские'},
   {id:16,n:'Кашемировый свитер',s:'ozon',p:'5 799 ₽',c:'top',m:89,e:'🧶',l:'https://www.ozon.ru/search/?text=кашемировый+свитер+женский'},
   {id:17,n:'Атласная юбка midi',s:'wb',p:'3 190 ₽',c:'bottom',m:86,e:'👗',l:'https://www.wildberries.ru/catalog/0/search.aspx?search=атласная+юбка+миди'},
@@ -1098,9 +1244,9 @@ function renderShop(){
   const items=shopCat==='all'?shopList:shopList.filter(i=>i.c===shopCat);
   document.getElementById('shopGrid').innerHTML=items.map(it=>`
     <div class="shop-item">
-      <div class="si-img">${it.e}<div class="si-match">${it.m}% совпадение</div><div class="si-store ${it.s==='wb'?'wb':'oz'}">${it.s==='wb'?'WB':'Ozon'}</div></div>
+      <div class="si-img">${it.e}<div class="si-match">${it.m}%</div><div class="si-store ${it.s==='wb'?'wb':'oz'}">${it.s==='wb'?'WB':'Ozon'}</div></div>
       <div class="si-body"><div class="si-name">${it.n}</div><div class="si-price">${it.p}</div>
-      <div class="si-actions"><button class="si-btn si-wish" onclick="shopToWish(${it.id})">♥</button><button class="si-btn si-go" onclick="window.open('${it.l}','_blank')">Смотреть →</button></div></div>
+      <div class="si-actions"><button class="si-btn si-wish" onclick="shopToWish(${it.id})">♥ Вишлист</button><button class="si-btn si-go" onclick="window.open('${it.l}','_blank')">Смотреть →</button></div></div>
     </div>`).join('');
 }
 function shopToWish(id){
@@ -1110,65 +1256,71 @@ function shopToWish(id){
   save();updateStats();toast('♥ Добавлено в вишлист');
 }
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 // WISHLIST
-// ═══════════════════════════════════════════════
-function openWish(){
-  wishPhotoData=null;
-  document.getElementById('wishPreview').style.display='none';document.getElementById('wishPreview').src='';
-  document.getElementById('wishFile').value='';
-  ['wishName','wishBrand','wishLink'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('wishPrice').value='';
-  document.getElementById('wishModal').classList.add('open');
+// ═══════════════════════════════
+function openWishAddModal(){
+  wishAddPhotoData=null;
+  document.getElementById('wishAddPreview').style.display='none';document.getElementById('wishAddPreview').src='';
+  document.getElementById('wishUpZone').style.display='block';
+  document.getElementById('wishAddFile').value='';
+  ['waN','waBrand','waLink'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('waPrice').value='';
+  document.getElementById('wishAddModal').classList.add('open');
 }
-function previewWish(e){const f=e.target.files[0];if(!f)return;resizeImg(f,600,.75,d=>{wishPhotoData=d;const p=document.getElementById('wishPreview');p.src=d;p.style.display='block';});}
-async function saveWish(){
-  const name=document.getElementById('wishName').value.trim();if(!name){toast('Введите название');return;}
+function onWishPhoto(e){const f=e.target.files[0];if(!f)return;resizeImg(f,800,0.75,data=>{openCrop(data,cropped=>{wishAddPhotoData=cropped;const p=document.getElementById('wishAddPreview');p.src=cropped;p.style.display='block';document.getElementById('wishUpZone').style.display='none';});});}
+async function saveWishAdd(){
+  const name=document.getElementById('waN').value.trim();if(!name){toast('Введите название');return;}
   const id=Date.now();
-  const item={id,name,brand:document.getElementById('wishBrand').value.trim(),price:document.getElementById('wishPrice').value?document.getElementById('wishPrice').value+' ₽':'',link:document.getElementById('wishLink').value.trim(),category:document.getElementById('wishCat').value,hasPhoto:!!wishPhotoData,emoji:'🛍️'};
-  if(wishPhotoData){await dbSet(id,wishPhotoData);PC[id]=wishPhotoData;}
-  wishlist.unshift(item);save();updateStats();closeModal('wishModal');toast('✓ Добавлено в вишлист');
+  const price=document.getElementById('waPrice').value;
+  const item={id,name,brand:document.getElementById('waBrand').value.trim(),price:price?price+' ₽':'',link:document.getElementById('waLink').value.trim(),category:document.getElementById('waCat').value,hasPhoto:!!wishAddPhotoData,emoji:'🛍️'};
+  if(wishAddPhotoData){await dbSet(id,wishAddPhotoData);PC[String(id)]=wishAddPhotoData;}
+  wishlist.unshift(item);save();updateStats();closeModal('wishAddModal');renderWishlist();toast('✓ Добавлено в вишлист');
 }
 function wishFilter(cat,el){document.querySelectorAll('#screen-wishlist .tab-pill').forEach(t=>t.classList.remove('active'));el.classList.add('active');wishCat=cat;renderWishlist();}
 async function renderWishlist(){
   let items=wishCat==='all'?wishlist:wishlist.filter(i=>i.category===wishCat);
   document.getElementById('wishCnt').textContent=`(${wishlist.length})`;
   const g=document.getElementById('wishGrid');
-  if(!items.length){g.innerHTML=`<div class="empty-state">Вишлист пуст.<br>Добавляйте вещи из Шоппинга!</div>`;return;}
+  if(!items.length){g.innerHTML=`<div style="grid-column:span 2;text-align:center;padding:36px 16px;color:var(--text-light);font-size:14px;line-height:1.8;">Вишлист пуст.<br>Добавляйте вещи из Шоппинга или по кнопке выше!</div>`;return;}
   const parts=await Promise.all(items.map(async it=>{
     const src=it.hasPhoto?await photo(it.id):null;
-    return`<div class="wish-item"><div class="wish-img">${src?`<img src="${src}">`:`<div>${it.emoji||'🛍️'}</div>`}</div><div class="wish-body"><div class="wish-name">${it.name}</div>${it.brand?`<div style="font-size:11px;color:var(--text-light);margin-bottom:4px">${it.brand}</div>`:''}<div class="wish-price">${it.price||'—'}</div>${it.match?`<div class="wish-match"><i class="ti ti-sparkles" style="font-size:12px"></i>${it.match}% совпадение</div>`:''} ${it.link?`<button class="wish-buy" onclick="window.open('${it.link}','_blank')">Купить →</button>`:''}</div><button class="wish-del" onclick="delWish(${it.id})"><i class="ti ti-x" style="font-size:12px"></i></button></div>`;
+    const linkHtml=it.link?`<a class="wish-link-btn" href="${it.link}" target="_blank" rel="noopener"><i class="ti ti-external-link" style="font-size:11px;flex-shrink:0;"></i>Открыть в магазине</a>`:'';
+    return`<div class="wish-item">
+      <div class="wish-img">${src?`<img src="${src}">`:`<div>${it.emoji||'🛍️'}</div>`}</div>
+      <div class="wish-body">
+        <div class="wish-name">${it.name}</div>
+        ${it.brand?`<div style="font-size:11px;color:var(--text-light);margin-bottom:3px;">${it.brand}</div>`:''}
+        ${it.price?`<div class="wish-price">${it.price}</div>`:''}
+        ${linkHtml}
+        ${it.match?`<div class="wish-match"><i class="ti ti-sparkles" style="font-size:11px;"></i>${it.match}% совпадение</div>`:''}
+      </div>
+      <button class="wish-del" onclick="delWish(${it.id})"><i class="ti ti-x" style="font-size:11px;"></i></button>
+    </div>`;
   }));
   g.innerHTML=parts.join('');
 }
-function delWish(id){wishlist=wishlist.filter(i=>i.id!==id);dbDel(id);save();updateStats();renderWishlist();toast('Удалено из вишлиста');}
+function delWish(id){if(!confirm('Удалить из вишлиста?'))return;wishlist=wishlist.filter(i=>i.id!==id);dbDel(id);delete PC[String(id)];save();updateStats();renderWishlist();toast('Удалено из вишлиста');}
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 // UTILS
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 function updateStats(){document.getElementById('sTotal').textContent=wardrobe.length;document.getElementById('sLooks').textContent=looks.length;document.getElementById('sWish').textContent=wishlist.length;}
-let _toast;function toast(msg){clearTimeout(_toast);const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');_toast=setTimeout(()=>t.classList.remove('show'),2400);}
+let _t;function toast(msg){clearTimeout(_t);const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');_t=setTimeout(()=>t.classList.remove('show'),2500);}
 function resizeImg(file,maxPx,q,cb){const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=()=>{let w=img.width,h=img.height;if(w>maxPx||h>maxPx){if(w>h){h=Math.round(h*maxPx/w);w=maxPx;}else{w=Math.round(w*maxPx/h);h=maxPx;}}const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);cb(c.toDataURL('image/jpeg',q));};img.src=ev.target.result;};r.readAsDataURL(file);}
-document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('open');}));
+
 document.getElementById('btnBulk').addEventListener('click',openBulk);
 document.getElementById('btnAdd').addEventListener('click',openAdd);
-document.getElementById('btnWish').addEventListener('click',openWish);
 
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 // INIT
-// ═══════════════════════════════════════════════
+// ═══════════════════════════════
 openDB().then(()=>{
-  load();setDate();loadWeather();updateStats();renderRecent();renderShop();initIphone();
+  load();setDate();loadWeather();updateStats();renderRecent();renderShop();
 }).catch(()=>{
-  load();setDate();loadWeather();updateStats();renderRecent();renderShop();initIphone();
+  load();setDate();loadWeather();updateStats();renderRecent();renderShop();
 });
-
-// Register Service Worker for PWA/offline support
-if('serviceWorker' in navigator){
-  window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('/sw.js').catch(()=>{});
-  });
-}
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));}
 </script>
 </body>
 </html>
