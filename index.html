@@ -309,13 +309,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
     <div class="stat-card"><div class="stat-num" id="sLooks">0</div><div class="stat-label">луков</div></div>
     <div class="stat-card"><div class="stat-num" id="sWish">0</div><div class="stat-label">вишлист</div></div>
   </div>
-  <div class="section-title">Образ на сегодня <span class="see-all" onclick="genOutfit()">↻ Другой</span></div>
+  <div class="section-title">Образ на сегодня</div>
   <div class="outfit-card">
     <div class="outfit-label" id="outfitLabel">По погоде</div>
     <div class="outfit-items" id="outfitSlots"><div class="outfit-slot"><div class="empty-icon"><i class="ti ti-shirt"></i><span>Верх</span></div></div><div class="outfit-slot"><div class="empty-icon"><i class="ti ti-viewfinder"></i><span>Низ</span></div></div><div class="outfit-slot"><div class="empty-icon"><i class="ti ti-shoe"></i><span>Обувь</span></div></div></div>
     <div class="outfit-actions">
       <button class="btn btn-light" onclick="saveOutfitAsLook()"><i class="ti ti-heart"></i> Сохранить</button>
       <button class="btn btn-dark" onclick="genOutfit()">↻ Другой</button>
+      <button class="btn" style="flex:0;padding:11px 13px;background:var(--cream);color:#c0392b;border:1px solid var(--warm-beige);font-size:15px;" onclick="dislikeOutfit('home')" title="Не предлагать">👎</button>
     </div>
   </div>
   <div class="section-title">Последние добавления</div>
@@ -357,6 +358,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
     <div class="outfit-actions" style="margin-top:14px;">
       <button class="btn btn-light" onclick="saveLooksRandomOutfit()"><i class="ti ti-heart"></i> Сохранить</button>
       <button class="btn btn-dark" onclick="genLooksRandom()">↻ Другой</button>
+      <button class="btn" style="flex:0;padding:11px 13px;background:var(--cream);color:#c0392b;border:1px solid var(--warm-beige);font-size:15px;" onclick="dislikeOutfit('looks')" title="Не предлагать">👎</button>
     </div>
   </div>
   <div class="section-title">Создать образ вручную</div>
@@ -371,6 +373,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
     <div class="lf-chip" onclick="looksFilter('evening',this)">Вечерний</div>
     <div class="lf-chip" onclick="looksFilter('sport',this)">Спорт</div>
     <div class="lf-chip" onclick="looksFilter('wish',this)">🛍 С вишлистом</div>
+  </div>
+  <div class="looks-filter-row" id="looksSeaRow">
+    <div class="lf-chip active" onclick="looksSeaFilter('all',this)">Все сезоны</div>
+    <div class="lf-chip" onclick="looksSeaFilter('spring',this)">Весна/Осень</div>
+    <div class="lf-chip" onclick="looksSeaFilter('summer',this)">Лето</div>
+    <div class="lf-chip" onclick="looksSeaFilter('winter',this)">Зима</div>
   </div>
   <div id="looksGrid"></div>
 </div>
@@ -457,6 +465,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
         <div class="settings-row-sub">Данные могут сброситься. Обязательно сделайте экспорт перед удалением, потом импортируйте заново</div>
       </div>
     </div>
+  </div>
+  <div class="settings-section">
+    <h3>👎 Несочетаемые образы</h3>
+    <div style="font-size:12px;color:var(--text-light);margin-bottom:10px;line-height:1.5;">Образы, отмеченные 👎. «Убрать» — снова предлагать.</div>
+    <div id="dislikedList"></div>
   </div>
   <div class="settings-section">
     <h3>О приложении</h3>
@@ -570,9 +583,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
     <div class="fg">
       <label class="fl">Фото</label>
       <img id="editPreview" style="width:100%;max-height:170px;object-fit:cover;border-radius:var(--r-md);display:none;margin-bottom:8px;">
-      <label for="editFile" style="display:flex;align-items:center;justify-content:center;gap:7px;padding:9px;border:1px dashed var(--sand);border-radius:var(--r-sm);font-size:13px;color:var(--text-mid);cursor:pointer;background:var(--cream);">
-        <i class="ti ti-camera-plus"></i> Заменить фото
-      </label>
+      <div style="display:flex;gap:7px;">
+        <label for="editFile" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border:1px dashed var(--sand);border-radius:var(--r-sm);font-size:13px;color:var(--text-mid);cursor:pointer;background:var(--cream);">
+          <i class="ti ti-camera-plus"></i> Заменить
+        </label>
+        <button id="editCropExistBtn" style="flex:1;display:none;align-items:center;justify-content:center;gap:6px;padding:9px;border:1px solid var(--warm-beige);border-radius:var(--r-sm);font-size:13px;color:var(--text-mid);cursor:pointer;background:var(--cream);font-family:'DM Sans',sans-serif;" onclick="reCrop('edit')">&#x2702; Кадрировать</button>
+      </div>
       <input type="file" id="editFile" accept="image/*" style="display:none" onchange="onEditPhoto(event)">
     </div>
     <div class="fg"><label class="fl">Название</label><input class="fi" id="editName"></div>
@@ -715,9 +731,16 @@ let addPhotoData=null,addColor='#888888';
 let editingId=null,editPhotoData=null,editColor='#888888';
 let editingWishId=null,wishAddPhotoData=null,wishAddColor='#888888';
 let weather={temp:18};
-let shopCat='all',wishCatFilter='all',wishSeaFilter='all',looksFilterVal='all';
+let shopCat='all',wishCatFilter='all',wishSeaFilter='all',looksFilterVal='all',looksSeaFilterVal='all';
 let bulkQueue=[];
 let looksRandomItems=[];
+let dislikedOutfits=[];
+function loadDisliked(){try{dislikedOutfits=JSON.parse(localStorage.getItem('wb_disliked')||'[]');}catch{dislikedOutfits=[];}}
+function saveDisliked(){try{localStorage.setItem('wb_disliked',JSON.stringify(dislikedOutfits));}catch{}}
+function outfitKey(items){return items.map(i=>String(i.id)).slice().sort().join(',');}
+function isDisliked(items){const k=outfitKey(items);return dislikedOutfits.some(d=>d.key===k);}
+function isSavedLook(items){const k=outfitKey(items);return looks.some(l=>(l.itemIds||[]).slice().sort().join(',')===k);}
+
 
 function load(){try{wardrobe=JSON.parse(localStorage.getItem('wb_w')||'[]');}catch{wardrobe=[];}try{looks=JSON.parse(localStorage.getItem('wb_l')||'[]');}catch{looks=[];}try{wishlist=JSON.parse(localStorage.getItem('wb_wish')||'[]');}catch{wishlist=[];}}
 function save(){try{localStorage.setItem('wb_w',JSON.stringify(wardrobe));localStorage.setItem('wb_l',JSON.stringify(looks));localStorage.setItem('wb_wish',JSON.stringify(wishlist));}catch{toast('⚠️ Хранилище заполнено');}}
@@ -902,7 +925,7 @@ function go(id){
   if(id==='looks'){renderLooks();genLooksRandom();}
   if(id==='shop')renderShop();
   if(id==='wishlist')renderWishlist();
-  if(id==='home'){renderRecent();updateStats();}
+  if(id==='home'){renderRecent();updateStats();}if(id==='settings'){renderDislikedList();}
 }
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el&&el.id!=='cropModal')el.classList.remove('open');}));
@@ -924,11 +947,17 @@ async function genOutfit(){
   const t=weather.temp;
   const pick=arr=>arr.length?arr[Math.floor(Math.random()*arr.length)]:null;
   const by=cat=>wardrobe.filter(i=>i.category===cat&&seasonsMatch(i,t));
-  const shoe=pick(by('shoes')),outer=t<20?pick(by('outerwear')):null;
-  const dresses=by('dress');const useDress=dresses.length>0&&Math.random()<0.3;
-  let items=[];
+  const hasShoes=by('shoes').length>0;
+  let items=[],_a=0;
+  while(_a<40){
+    items=[];
+    const shoe=pick(by('shoes')),outer=t<20?pick(by('outerwear')):null;
+    const dresses=by('dress');const useDress=dresses.length>0&&Math.random()<0.3;
   if(useDress){const d=pick(dresses);if(d)items.push(d);}else{const top=pick(by('top')),bot=pick(by('bottom'));if(top)items.push(top);if(bot)items.push(bot);}
   if(shoe)items.push(shoe);if(outer)items.push(outer);
+  if(items.length&&!isDisliked(items)&&(!hasShoes||shoe))break;
+  _a++;
+  }
   lastOutfitItems=items;
   if(!items.length){document.getElementById('outfitSlots').innerHTML=`<div style="padding:16px;color:var(--text-light);font-size:13px;width:100%;text-align:center;">Добавьте вещи в гардероб</div>`;return;}
   const photos=await Promise.all(items.map(i=>photo(i.id)));
@@ -940,9 +969,11 @@ async function saveOutfitAsLook(){
   save();updateStats();toast('✓ Образ сохранён в Луки');
 }
 
-// ═══ LOOKS RANDOM (no weather, pure random) ═══
+// ═══ LOOKS RANDOM (п.5,6: wishlist pool, avoids saved+disliked) ═══
 async function genLooksRandom(){
-  const all=wardrobe;if(!all.length){document.getElementById('looksRandomSlots').innerHTML=`<div style="padding:16px;color:var(--text-light);font-size:13px;width:100%;text-align:center;">Добавьте вещи в гардероб</div>`;return;}
+  const wishPool=wishlist.filter(w=>w.category).map(w=>({...w,id:'w'+w.id,_wish:true}));
+  const all=[...wardrobe,...wishPool];
+  if(!wardrobe.length){document.getElementById('looksRandomSlots').innerHTML=`<div style="padding:16px;color:var(--text-light);font-size:13px;width:100%;text-align:center;">Добавьте вещи в гардероб</div>`;return;}
   const pick=arr=>arr.length?arr[Math.floor(Math.random()*arr.length)]:null;
   const by=cat=>all.filter(i=>i.category===cat);
   const shoe=pick(by('shoes')),outer=Math.random()<0.4?pick(by('outerwear')):null;
@@ -957,8 +988,11 @@ async function genLooksRandom(){
 }
 async function saveLooksRandomOutfit(){
   if(!looksRandomItems.length){toast('Сначала сгенерируйте образ');return;}
-  looks.unshift({id:Date.now(),itemIds:looksRandomItems.map(i=>i.id),itemNames:looksRandomItems.map(i=>i.name),itemCats:looksRandomItems.map(i=>i.category),note:'Случайный образ',hasWish:false,style:'casual',createdAt:new Date().toISOString()});
-  save();updateStats();renderLooks();toast('✓ Образ сохранён');
+  const rk=looksRandomItems.map(i=>i.id).slice().sort().join(',');
+  if(looks.some(l=>(l.itemIds||[]).slice().sort().join(',')===rk)){toast('Такой образ уже сохранён!');genLooksRandom();return;}
+  const hasWR=looksRandomItems.some(i=>String(i.id).startsWith('w'));
+  looks.unshift({id:Date.now(),itemIds:looksRandomItems.map(i=>i.id),itemNames:looksRandomItems.map(i=>i.name),itemCats:looksRandomItems.map(i=>i.category),note:'',hasWish:hasWR,style:'casual',createdAt:new Date().toISOString()});
+  save();updateStats();renderLooks();toast('✓ Образ сохранён');genLooksRandom();
 }
 
 // ═══ AI AUTOFILL ═══
@@ -1038,11 +1072,12 @@ async function openEdit(id){
   const src=item.hasPhoto?await photo(id):null;
   const prev=document.getElementById('editPreview');
   if(src){prev.src=src;prev.style.display='block';}else prev.style.display='none';
+  const cropBtn=document.getElementById('editCropExistBtn');if(cropBtn)cropBtn.style.display=src?'flex':'none';
   document.getElementById('editFile').value='';
   document.getElementById('editModal').classList.add('open');
   // CP canvas initializes on demand
 }
-function onEditPhoto(e){const f=e.target.files[0];if(!f)return;resizeImg(f,1200,.9,data=>{openCrop(data,cropped=>{editPhotoData=cropped;document.getElementById('editPreview').src=cropped;document.getElementById('editPreview').style.display='block';});});}
+function onEditPhoto(e){const f=e.target.files[0];if(!f)return;resizeImg(f,1200,.9,data=>{openCrop(data,cropped=>{editPhotoData=cropped;document.getElementById('editPreview').src=cropped;document.getElementById('editPreview').style.display='block';const cb=document.getElementById('editCropExistBtn');if(cb)cb.style.display='flex';});});}
 async function saveEdit(){
   const name=document.getElementById('editName').value.trim();if(!name){toast('Введите название');return;}
   const btn=document.getElementById('editSaveBtn');btn.disabled=true;btn.textContent='Сохранение...';
@@ -1127,9 +1162,24 @@ function renderBulkQueue(){
         <div class="bq-sea-chips">
           ${Object.entries(seaL).map(([v,l])=>`<div class="bq-sea-chip${(item.seasons||['all']).includes(v)?' sel':''}" onclick="bqToggleSea(${i},'${v}')">${l}</div>`).join('')}
         </div>
-        <label class="fl" style="margin-top:4px;">Цвет — нажмите на палитру</label>
-        <canvas class="bq-cp-mini" id="bqCp_${i}"></canvas>
-        <input type="range" class="bq-hue-mini" id="bqHue_${i}" min="0" max="360" value="0">
+        <label class="fl" style="margin-top:4px;">Цвет</label>
+        <div class="color-preset-row" style="margin-bottom:5px;gap:5px;" id="bqPresets_${i}">
+          <div class="color-preset-dot${item.color==="#FDFAF6"?" sel":""}" style="background:#FDFAF6;border-color:#ccc;" data-c="#FDFAF6" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
+          <div class="color-preset-dot${item.color==="#2A1F1A"?" sel":""}" style="background:#2A1F1A;" data-c="#2A1F1A" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
+          <div class="color-preset-dot${item.color==="#7A8FA6"?" sel":""}" style="background:#7A8FA6;" data-c="#7A8FA6" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
+          <div class="color-preset-dot${item.color==="#9BAF96"?" sel":""}" style="background:#9BAF96;" data-c="#9BAF96" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
+          <div class="color-preset-dot${item.color==="#E8C4B8"?" sel":""}" style="background:#E8C4B8;" data-c="#E8C4B8" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
+          <div class="color-preset-dot${item.color==="#C9A84C"?" sel":""}" style="background:#C9A84C;" data-c="#C9A84C" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
+          <div class="color-preset-dot${item.color==="#8B6F5E"?" sel":""}" style="background:#8B6F5E;" data-c="#8B6F5E" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
+          <div class="color-preset-dot${item.color==="#D4C4A8"?" sel":""}" style="background:#D4C4A8;" data-c="#D4C4A8" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
+          <div class="color-preset-dot${item.color==="#D85A30"?" sel":""}" style="background:#D85A30;" data-c="#D85A30" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
+          <div class="color-preset-dot${item.color==="#666666"?" sel":""}" style="background:#666666;" data-c="#666666" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
+          <button class="color-more-btn" onclick="toggleBqPalette(${i})">🎨 Ещё</button>
+        </div>
+        <div class="color-palette-wrap" id="bqPalette_${i}">
+          <canvas class="bq-cp-mini" id="bqCp_${i}"></canvas>
+          <input type="range" class="bq-hue-mini" id="bqHue_${i}" min="0" max="360" value="0">
+        </div>
         <div class="bq-color-preview">
           <div class="bq-color-swatch" id="bqSwatch_${i}" style="background:${item.color||'#888'};"></div>
           <span class="bq-color-hex" id="bqHex_${i}">${item.color||'#888888'}</span>
@@ -1138,12 +1188,7 @@ function renderBulkQueue(){
       </div>
       <button class="bq-remove" onclick="bulkQueue.splice(${i},1);renderBulkQueue()"><i class="ti ti-x"></i></button>
     </div>`).join('');
-  // Init per-item color pickers after render
-  setTimeout(()=>{
-    bulkQueue.forEach((item,i)=>{
-      initCP(`bqCp_${i}`,`bqHue_${i}`,`bqSwatch_${i}`,`bqHex_${i}`,c=>{bulkQueue[i].color=c;});
-    });
-  },50);
+  // Color pickers init on demand via toggleBqPalette
   const ready=bulkQueue.filter(x=>x.status==='ready').length;
   const btn=document.getElementById('bulkSaveBtn');
   btn.style.display=ready>0?'flex':'none';
@@ -1216,9 +1261,32 @@ async function saveLook(){
     if(idx>=0){looks[idx]={...looks[idx],itemIds:selIds,itemNames:items.map(i=>i.name),itemCats:items.map(i=>i.category),note,hasWish};}
     window._editingLookId=null;
   } else {
+    const nk=selIds.slice().sort().join(',');
+    if(looks.some(l=>(l.itemIds||[]).slice().sort().join(',')===nk)){toast('Такой образ уже сохранён!');return;}
     looks.unshift({id:Date.now(),itemIds:selIds,itemNames:items.map(i=>i.name),itemCats:items.map(i=>i.category),note,hasWish,style:'casual',createdAt:new Date().toISOString()});
   }
   save();closeModal('lookModal');updateStats();renderLooks();toast('✓ Образ сохранён');
+}
+function removeDisliked(k){
+  dislikedOutfits=dislikedOutfits.filter(d=>d.key!==k);
+  saveDisliked();renderDislikedList();toast('\u2713 Убрано из несочетаемых');
+}
+function dislikeOutfit(src){
+  const items=src==='home'?lastOutfitItems:looksRandomItems;
+  if(!items||!items.length){toast('Нет образа');return;}
+  const k=outfitKey(items);
+  if(!dislikedOutfits.find(d=>d.key===k)){
+    dislikedOutfits.push({key:k,names:items.map(i=>i.name),ts:Date.now()});
+    saveDisliked();toast('👎 Добавлено в несочетаемые');
+  }
+  if(src==='home')genOutfit();else genLooksRandom();
+}
+function renderDislikedList(){
+  const el=document.getElementById('dislikedList');if(!el)return;
+  if(!dislikedOutfits.length){el.innerHTML='<div style="color:var(--text-light);font-size:13px;padding:6px 0;">Нет несочетаемых образов</div>';return;}
+  el.innerHTML=dislikedOutfits.map((d,di)=>{
+    return'<div class="settings-row" style="flex-wrap:wrap;gap:6px;"><div style="flex:1;min-width:0;"><div class="settings-row-label" style="font-size:12px;">'+d.names.join(' + ')+'</div><div class="settings-row-sub">'+new Date(d.ts).toLocaleDateString('ru-RU')+'</div></div><button onclick="removeDisliked(dislikedOutfits['+di+'].key)" style="padding:5px 10px;border-radius:50px;font-size:12px;cursor:pointer;border:1px solid var(--warm-beige);background:var(--cream);color:var(--text-mid);font-family:\'DM Sans\',sans-serif;flex-shrink:0;">Убрать</button></div>';
+  }).join('');
 }
 function looksFilter(val,el){document.querySelectorAll('.lf-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');looksFilterVal=val;renderLooks();}
 async function renderLooks(){
@@ -1226,6 +1294,7 @@ async function renderLooks(){
   let filtered=looks;
   if(looksFilterVal==='wish')filtered=looks.filter(l=>l.hasWish);
   else if(looksFilterVal!=='all')filtered=looks.filter(l=>l.style===looksFilterVal);
+  if(looksSeaFilterVal!=='all'){const spool=[...wardrobe,...wishlist.filter(w=>w.category).map(w=>({...w,id:'w'+w.id}))];filtered=filtered.filter(l=>{const its=(l.itemIds||[]).map(id=>spool.find(i=>String(i.id)===String(id))).filter(Boolean);return its.some(it=>{const s=Array.isArray(it.seasons)?it.seasons:[it.season||'all'];return s.includes(looksSeaFilterVal)||s.includes('all');});});}
   if(!filtered.length){g.innerHTML=`<div style="text-align:center;padding:24px;color:var(--text-light);font-size:14px;">Нет образов. Нажмите «Собрать образ» или сохраните случайный!</div>`;return;}
   const allItems=[...wardrobe,...wishlist.filter(w=>w.category).map(w=>({...w,id:'w'+w.id}))];
   const parts=await Promise.all(filtered.map(async look=>{
