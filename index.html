@@ -739,7 +739,7 @@ function loadDisliked(){try{dislikedOutfits=JSON.parse(localStorage.getItem('wb_
 function saveDisliked(){try{localStorage.setItem('wb_disliked',JSON.stringify(dislikedOutfits));}catch{}}
 function outfitKey(items){return items.map(i=>String(i.id)).slice().sort().join(',');}
 function isDisliked(items){const k=outfitKey(items);return dislikedOutfits.some(d=>d.key===k);}
-function isSavedLook(items){const k=outfitKey(items);return looks.some(l=>(l.itemIds||[]).slice().sort().join(',')===k);}
+function isSavedLook(items){const k=(items||[]).map(i=>String(i.id)).slice().sort().join(',');return looks.some(l=>(l.itemIds||[]).map(id=>String(id)).slice().sort().join(',')===k);}
 
 
 function load(){try{wardrobe=JSON.parse(localStorage.getItem('wb_w')||'[]');}catch{wardrobe=[];}try{looks=JSON.parse(localStorage.getItem('wb_l')||'[]');}catch{looks=[];}try{wishlist=JSON.parse(localStorage.getItem('wb_wish')||'[]');}catch{wishlist=[];}}
@@ -866,7 +866,10 @@ function applyCrop(){
   }
 }
 function reCrop(ctx){
-  const src=ctx==='add'?addPhotoData:ctx==='wish'?wishAddPhotoData:editPhotoData;
+  let src;
+  if(ctx==='add'){src=addPhotoData;if(!src){const p=document.getElementById('addPreview');if(p&&p.src.startsWith('data:'))src=p.src;}}
+  else if(ctx==='wish'){src=wishAddPhotoData;if(!src){const p=document.getElementById('wishAddPreview');if(p&&p.src.startsWith('data:'))src=p.src;}}
+  else{src=editPhotoData;if(!src){const p=document.getElementById('editPreview');if(p&&p.src.startsWith('data:'))src=p.src;}}
   if(!src)return;
   openCrop(src,result=>{
     if(ctx==='add'){addPhotoData=result;document.getElementById('addPreview').src=result;}
@@ -966,7 +969,7 @@ async function genOutfit(){
 async function saveOutfitAsLook(){
   if(!lastOutfitItems.length){toast('Сначала сгенерируйте образ');return;}
   looks.unshift({id:Date.now(),itemIds:lastOutfitItems.map(i=>i.id),itemNames:lastOutfitItems.map(i=>i.name),itemCats:lastOutfitItems.map(i=>i.category),note:'',hasWish:false,style:'casual',createdAt:new Date().toISOString()});
-  save();updateStats();toast('✓ Образ сохранён в Луки');
+  save();updateStats();toast('✓ Образ сохранён в Луки');genOutfit();
 }
 
 // ═══ LOOKS RANDOM (п.5,6: wishlist pool, avoids saved+disliked) ═══
@@ -983,7 +986,7 @@ async function genLooksRandom(){
   if(shoe)items.push(shoe);if(outer)items.push(outer);
   looksRandomItems=items;
   if(!items.length){document.getElementById('looksRandomSlots').innerHTML=`<div style="padding:16px;color:var(--text-light);font-size:13px;width:100%;text-align:center;">Добавьте вещи в гардероб</div>`;return;}
-  const photos=await Promise.all(items.map(i=>photo(i.id)));
+  const photos=await Promise.all(items.map(i=>photo(String(i.id).replace(/^w/,''))));
   document.getElementById('looksRandomSlots').innerHTML=items.map((item,i)=>{const src=photos[i];return`<div class="outfit-slot">${src?`<img src="${src}">`:`<div class="empty-icon"><i class="ti ti-hanger" style="font-size:20px;color:var(--mocha);"></i></div>`}<div class="slot-label">${item.name}</div></div>`;}).join('');
 }
 async function saveLooksRandomOutfit(){
@@ -1043,8 +1046,8 @@ function openAdd(){
   document.getElementById('addPreview').style.display='none';document.getElementById('addPreview').src='';
   document.getElementById('addUpZone').style.display='block';document.getElementById('addReCropBtn').style.display='none';
   document.getElementById('addName').value='';document.getElementById('addFile').value='';
-  document.getElementById('aiBar').classList.remove('show');document.getElementById('addSaveBtn').disabled=false;document.getElementById('addSaveBtn').textContent='Добавить';
-  document.getElementById('addCpSwatch').style.background='#888';document.getElementById('addCpHex').textContent='#888888';document.querySelectorAll('#addPresetRow .color-preset-dot').forEach(d=>d.classList.remove('sel'));document.getElementById('addPaletteWrap').classList.remove('open');
+  try{document.getElementById('aiBar').classList.remove('show');}catch(e){}const _asb=document.getElementById('addSaveBtn');if(_asb){_asb.disabled=false;_asb.textContent='Добавить';}
+  try{document.getElementById('addCpSwatch').style.background='#888';document.getElementById('addCpHex').textContent='#888888';}catch(e){}document.querySelectorAll('#addPresetRow .color-preset-dot').forEach(d=>d.classList.remove('sel'));document.getElementById('addPaletteWrap').classList.remove('open');
   setSeasons('addSeaChips',['all']);document.getElementById('addCat').value='top';document.getElementById('addStyle').value='casual';
   document.getElementById('addModal').classList.add('open');
   // CP canvas initializes on demand when palette opened
@@ -1164,16 +1167,7 @@ function renderBulkQueue(){
         </div>
         <label class="fl" style="margin-top:4px;">Цвет</label>
         <div class="color-preset-row" style="margin-bottom:5px;gap:5px;" id="bqPresets_${i}">
-          <div class="color-preset-dot${item.color==="#FDFAF6"?" sel":""}" style="background:#FDFAF6;border-color:#ccc;" data-c="#FDFAF6" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
-          <div class="color-preset-dot${item.color==="#2A1F1A"?" sel":""}" style="background:#2A1F1A;" data-c="#2A1F1A" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
-          <div class="color-preset-dot${item.color==="#7A8FA6"?" sel":""}" style="background:#7A8FA6;" data-c="#7A8FA6" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
-          <div class="color-preset-dot${item.color==="#9BAF96"?" sel":""}" style="background:#9BAF96;" data-c="#9BAF96" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
-          <div class="color-preset-dot${item.color==="#E8C4B8"?" sel":""}" style="background:#E8C4B8;" data-c="#E8C4B8" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
-          <div class="color-preset-dot${item.color==="#C9A84C"?" sel":""}" style="background:#C9A84C;" data-c="#C9A84C" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
-          <div class="color-preset-dot${item.color==="#8B6F5E"?" sel":""}" style="background:#8B6F5E;" data-c="#8B6F5E" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
-          <div class="color-preset-dot${item.color==="#D4C4A8"?" sel":""}" style="background:#D4C4A8;" data-c="#D4C4A8" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
-          <div class="color-preset-dot${item.color==="#D85A30"?" sel":""}" style="background:#D85A30;" data-c="#D85A30" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
-          <div class="color-preset-dot${item.color==="#666666"?" sel":""}" style="background:#666666;" data-c="#666666" onclick="bqPickPreset(${i},this,this.dataset.c)"></div>
+          ${['#FDFAF6','#2A1F1A','#7A8FA6','#9BAF96','#E8C4B8','#C9A84C','#8B6F5E','#D4C4A8','#D85A30','#666666'].map(c=>`<div class="color-preset-dot${item.color===c?' sel':''}" style="background:${c};${c==='#FDFAF6'?'border-color:#ccc;':''}" onclick="bqPickPreset(${i},this,'${c}')"></div>`).join('')}
           <button class="color-more-btn" onclick="toggleBqPalette(${i})">🎨 Ещё</button>
         </div>
         <div class="color-palette-wrap" id="bqPalette_${i}">
@@ -1276,19 +1270,27 @@ function dislikeOutfit(src){
   if(!items||!items.length){toast('Нет образа');return;}
   const k=outfitKey(items);
   if(!dislikedOutfits.find(d=>d.key===k)){
-    dislikedOutfits.push({key:k,names:items.map(i=>i.name),ts:Date.now()});
+    dislikedOutfits.push({key:k,names:items.map(i=>i.name),ids:items.map(i=>String(i.id).replace(/^w/,'')),ts:Date.now()});
     saveDisliked();toast('👎 Добавлено в несочетаемые');
   }
   if(src==='home')genOutfit();else genLooksRandom();
 }
-function renderDislikedList(){
+async function renderDislikedList(){
   const el=document.getElementById('dislikedList');if(!el)return;
   if(!dislikedOutfits.length){el.innerHTML='<div style="color:var(--text-light);font-size:13px;padding:6px 0;">Нет несочетаемых образов</div>';return;}
-  el.innerHTML=dislikedOutfits.map((d,di)=>{
-    return'<div class="settings-row" style="flex-wrap:wrap;gap:6px;"><div style="flex:1;min-width:0;"><div class="settings-row-label" style="font-size:12px;">'+d.names.join(' + ')+'</div><div class="settings-row-sub">'+new Date(d.ts).toLocaleDateString('ru-RU')+'</div></div><button onclick="removeDisliked(dislikedOutfits['+di+'].key)" style="padding:5px 10px;border-radius:50px;font-size:12px;cursor:pointer;border:1px solid var(--warm-beige);background:var(--cream);color:var(--text-mid);font-family:\'DM Sans\',sans-serif;flex-shrink:0;">Убрать</button></div>';
-  }).join('');
+  const parts=await Promise.all(dislikedOutfits.map(async(d,di)=>{
+    const thumbsSrc=await Promise.all((d.ids||[]).slice(0,4).map(id=>photo(id)));
+    const thumbsHtml=thumbsSrc.filter(Boolean).map(src=>`<img src="${src}" style="width:38px;height:50px;object-fit:cover;border-radius:6px;flex-shrink:0;">`).join('');
+    return`<div style="padding:10px 0;border-bottom:1px solid var(--warm-beige);display:flex;align-items:center;gap:10px;">
+      <div style="display:flex;gap:3px;flex-shrink:0;">${thumbsHtml||`<div style="width:38px;height:50px;background:var(--warm-beige);border-radius:6px;"></div>`}</div>
+      <div style="flex:1;min-width:0;"><div style="font-size:12px;font-weight:500;color:var(--text-dark);margin-bottom:2px;">${d.names.join(', ')}</div><div style="font-size:11px;color:var(--text-light);">${new Date(d.ts).toLocaleDateString('ru-RU')}</div></div>
+      <button onclick="removeDisliked(dislikedOutfits[${di}].key)" style="padding:5px 10px;border-radius:50px;font-size:12px;cursor:pointer;border:1px solid var(--warm-beige);background:var(--cream);color:var(--text-mid);font-family:'DM Sans',sans-serif;flex-shrink:0;">Убрать</button>
+    </div>`;
+  }));
+  el.innerHTML=parts.join('');
 }
-function looksFilter(val,el){document.querySelectorAll('.lf-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');looksFilterVal=val;renderLooks();}
+function looksSeaFilter(val,el){document.querySelectorAll('#looksSeaRow .lf-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');looksSeaFilterVal=val;renderLooks();}
+function looksFilter(val,el){document.querySelectorAll('#looksFilterRow .lf-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');looksFilterVal=val;renderLooks();}
 async function renderLooks(){
   const g=document.getElementById('looksGrid');
   let filtered=looks;
