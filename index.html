@@ -361,10 +361,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
       <button class="btn" style="flex:0;padding:11px 13px;background:var(--cream);color:#c0392b;border:1px solid var(--warm-beige);font-size:15px;" onclick="dislikeOutfit('looks')" title="Не предлагать">👎</button>
     </div>
   </div>
-  <div class="section-title">Создать образ вручную</div>
-  <div style="margin-bottom:16px;">
-    <button class="btn btn-dark" onclick="openLookModal()" style="width:100%;"><i class="ti ti-sparkles"></i> Собрать образ из гардероба</button>
-  </div>
   <div class="section-title">Мои образы</div>
   <div class="looks-filter-row" id="looksFilterRow">
     <div class="lf-chip active" onclick="looksFilter('all',this)">Все</div>
@@ -380,6 +376,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
     <div class="lf-chip" onclick="looksSeaFilter('summer',this)">Лето</div>
     <div class="lf-chip" onclick="looksSeaFilter('winter',this)">Зима</div>
   </div>
+  <div class="looks-filter-row" id="looksItemRow" style="display:none;">
+  </div>
+  <select id="looksItemFilter" style="width:100%;padding:9px 11px;border:1px solid var(--warm-beige);border-radius:50px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text-dark);background:var(--white);outline:none;appearance:none;margin-bottom:14px;display:none;" onchange="looksItemFilterChange(this.value)">
+    <option value="">Все вещи</option>
+  </select>
   <div id="looksGrid"></div>
 </div>
 
@@ -547,27 +548,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
     <div class="fg"><label class="fl">Стиль</label>
       <select class="fs" id="addStyle"><option value="casual">Casual</option><option value="office">Офис</option><option value="evening">Вечерний</option><option value="sport">Спорт</option><option value="street">Street style</option><option value="chic">Шик</option></select>
     </div>
-    <div class="fg">
-      <label class="fl">Цвет</label>
-      <div class="color-preset-row" id="addPresetRow">
-        <div class="color-preset-dot" style="background:#FDFAF6;border-color:#ccc;" data-c="#FDFAF6" onclick="pickPreset(this,'add')"></div>
-        <div class="color-preset-dot" style="background:#2A1F1A" data-c="#2A1F1A" onclick="pickPreset(this,'add')"></div>
-        <div class="color-preset-dot" style="background:#7A8FA6" data-c="#7A8FA6" onclick="pickPreset(this,'add')"></div>
-        <div class="color-preset-dot" style="background:#9BAF96" data-c="#9BAF96" onclick="pickPreset(this,'add')"></div>
-        <div class="color-preset-dot" style="background:#E8C4B8" data-c="#E8C4B8" onclick="pickPreset(this,'add')"></div>
-        <div class="color-preset-dot" style="background:#C9A84C" data-c="#C9A84C" onclick="pickPreset(this,'add')"></div>
-        <div class="color-preset-dot" style="background:#8B6F5E" data-c="#8B6F5E" onclick="pickPreset(this,'add')"></div>
-        <div class="color-preset-dot" style="background:#D4C4A8" data-c="#D4C4A8" onclick="pickPreset(this,'add')"></div>
-        <div class="color-preset-dot" style="background:#D85A30" data-c="#D85A30" onclick="pickPreset(this,'add')"></div>
-        <div class="color-preset-dot" style="background:#666666" data-c="#666666" onclick="pickPreset(this,'add')"></div>
-        <button class="color-more-btn" onclick="toggleColorPalette('addPaletteWrap')">🎨 Ещё</button>
-      </div>
-      <div class="color-palette-wrap" id="addPaletteWrap">
-        <canvas id="addCpCanvas" class="cp-canvas"></canvas>
-        <input type="range" id="addCpHue" class="cp-hue" min="0" max="360" value="0">
-      </div>
-      <div class="cp-preview-row"><div class="cp-swatch" id="addCpSwatch" style="background:#888;"></div><span class="cp-hex" id="addCpHex">#888888</span></div>
-    </div>
+    <!-- add color removed -->
     <div style="display:flex;gap:8px;margin-top:6px;">
       <button class="btn btn-light" onclick="closeModal('addModal')">Отмена</button>
       <button class="btn btn-dark" id="addSaveBtn" onclick="saveOne()" style="flex:2;">Добавить</button>
@@ -610,27 +591,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
     <div class="fg"><label class="fl">Стиль</label>
       <select class="fs" id="editStyle"><option value="casual">Casual</option><option value="office">Офис</option><option value="evening">Вечерний</option><option value="sport">Спорт</option><option value="street">Street style</option><option value="chic">Шик</option></select>
     </div>
-    <div class="fg">
-      <label class="fl">Цвет</label>
-      <div class="color-preset-row" id="editPresetRow">
-        <div class="color-preset-dot" style="background:#FDFAF6;border-color:#ccc;" data-c="#FDFAF6" onclick="pickPreset(this,'edit')"></div>
-        <div class="color-preset-dot" style="background:#2A1F1A" data-c="#2A1F1A" onclick="pickPreset(this,'edit')"></div>
-        <div class="color-preset-dot" style="background:#7A8FA6" data-c="#7A8FA6" onclick="pickPreset(this,'edit')"></div>
-        <div class="color-preset-dot" style="background:#9BAF96" data-c="#9BAF96" onclick="pickPreset(this,'edit')"></div>
-        <div class="color-preset-dot" style="background:#E8C4B8" data-c="#E8C4B8" onclick="pickPreset(this,'edit')"></div>
-        <div class="color-preset-dot" style="background:#C9A84C" data-c="#C9A84C" onclick="pickPreset(this,'edit')"></div>
-        <div class="color-preset-dot" style="background:#8B6F5E" data-c="#8B6F5E" onclick="pickPreset(this,'edit')"></div>
-        <div class="color-preset-dot" style="background:#D4C4A8" data-c="#D4C4A8" onclick="pickPreset(this,'edit')"></div>
-        <div class="color-preset-dot" style="background:#D85A30" data-c="#D85A30" onclick="pickPreset(this,'edit')"></div>
-        <div class="color-preset-dot" style="background:#666666" data-c="#666666" onclick="pickPreset(this,'edit')"></div>
-        <button class="color-more-btn" onclick="toggleColorPalette('editPaletteWrap')">🎨 Ещё</button>
-      </div>
-      <div class="color-palette-wrap" id="editPaletteWrap">
-        <canvas id="editCpCanvas" class="cp-canvas"></canvas>
-        <input type="range" id="editCpHue" class="cp-hue" min="0" max="360" value="0">
-      </div>
-      <div class="cp-preview-row"><div class="cp-swatch" id="editCpSwatch" style="background:#888;"></div><span class="cp-hex" id="editCpHex">#888888</span></div>
-    </div>
+<!-- color removed -->
     <div style="display:flex;gap:8px;margin-top:6px;">
       <button class="btn btn-danger" onclick="deleteFromEdit()">🗑 Удалить</button>
       <button class="btn btn-dark" id="editSaveBtn" onclick="saveEdit()" style="flex:2;">Сохранить</button>
@@ -706,7 +667,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-d
     </div>
     <div class="fg"><label class="fl">Магазин / Бренд</label><input class="fi" id="waBrand" placeholder="Zara, Wildberries..."></div>
     <div class="fg"><label class="fl">Цена (₽)</label><input class="fi" id="waPrice" placeholder="0" type="number"></div>
-    <div class="fg"><label class="fl">Ссылка на товар</label><input class="fi" id="waLink" placeholder="https://..." type="url"></div>
+    <div class="fg"><label class="fl">Ссылка на товар</label><textarea class="fi" id="waLink" placeholder="https://..." rows="2" style="resize:none;min-height:44px;overflow:hidden;" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';cleanLink(this)" onpaste="setTimeout(()=>{cleanLink(this);this.style.height='auto';this.style.height=this.scrollHeight+'px';},10)"></textarea></div>
     <div style="display:flex;gap:8px;margin-top:6px;">
       <button class="btn btn-light" onclick="closeModal('wishAddModal')">Отмена</button>
       <button class="btn btn-gold" id="wishAddSaveBtn" onclick="saveWishItem()" style="flex:2;">В вишлист</button>
@@ -731,7 +692,7 @@ let addPhotoData=null,addColor='#888888';
 let editingId=null,editPhotoData=null,editColor='#888888';
 let editingWishId=null,wishAddPhotoData=null,wishAddColor='#888888';
 let weather={temp:18};
-let shopCat='all',wishCatFilter='all',wishSeaFilter='all',looksFilterVal='all',looksSeaFilterVal='all';
+let shopCat='all',wishCatFilter='all',wishSeaFilter='all',looksFilterVal='all',looksSeaFilterVal='all',looksItemFilterVal='';
 let bulkQueue=[];
 let looksRandomItems=[];
 let dislikedOutfits=[];
@@ -739,7 +700,14 @@ function loadDisliked(){try{dislikedOutfits=JSON.parse(localStorage.getItem('wb_
 function saveDisliked(){try{localStorage.setItem('wb_disliked',JSON.stringify(dislikedOutfits));}catch{}}
 function outfitKey(items){return items.map(i=>String(i.id)).slice().sort().join(',');}
 function isDisliked(items){const k=outfitKey(items);return dislikedOutfits.some(d=>d.key===k);}
-function isSavedLook(items){const k=(items||[]).map(i=>String(i.id)).slice().sort().join(',');return looks.some(l=>(l.itemIds||[]).map(id=>String(id)).slice().sort().join(',')===k);}
+function isSavedLook(items){
+  if(!items||!items.length)return false;
+  const k=(items).map(i=>String(i.id)).sort().join(',');
+  return looks.some(l=>{
+    const lk=(l.itemIds||[]).map(id=>String(id)).sort().join(',');
+    return lk===k;
+  });
+}
 
 
 function load(){try{wardrobe=JSON.parse(localStorage.getItem('wb_w')||'[]');}catch{wardrobe=[];}try{looks=JSON.parse(localStorage.getItem('wb_l')||'[]');}catch{looks=[];}try{wishlist=JSON.parse(localStorage.getItem('wb_wish')||'[]');}catch{wishlist=[];}}
@@ -909,7 +877,7 @@ async function loadWeatherCoords(lat,lon){
   try{const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code&wind_speed_unit=ms`);const d=await r.json();applyWeather(d.current);
   try{const g=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=ru`);const gd=await g.json();const city=gd.address?.city||gd.address?.town||gd.address?.village||'Ваш город';document.getElementById('wCity').textContent=city;localStorage.setItem('wb_city',city);}catch{}}catch{setDflt();}}
 function loadWeather(){if(!navigator.geolocation){setDflt();return;}navigator.geolocation.getCurrentPosition(p=>loadWeatherCoords(p.coords.latitude,p.coords.longitude),()=>setDflt(),{timeout:8000});}
-function applyWeather(c){weather={temp:Math.round(c.temperature_2m)};document.getElementById('wTemp').textContent=weather.temp+'°';document.getElementById('wFeel').textContent=condRu(c.weather_code);document.getElementById('wHum').textContent=c.relative_humidity_2m+'%';document.getElementById('wWind').textContent=Math.round(c.wind_speed_10m)+' м/с';document.getElementById('wFeel2').textContent=Math.round(c.apparent_temperature)+'°';document.getElementById('wIcon').textContent=wEmoji(c.weather_code);genOutfit();}
+function applyWeather(c){weather={temp:Math.round(c.temperature_2m),code:c.weather_code,wind:c.wind_speed_10m,feel:Math.round(c.apparent_temperature)};document.getElementById('wTemp').textContent=weather.temp+'°';document.getElementById('wFeel').textContent=condRu(c.weather_code);document.getElementById('wHum').textContent=c.relative_humidity_2m+'%';document.getElementById('wWind').textContent=Math.round(c.wind_speed_10m)+' м/с';document.getElementById('wFeel2').textContent=Math.round(c.apparent_temperature)+'°';document.getElementById('wIcon').textContent=wEmoji(c.weather_code);genOutfit();}
 function setDflt(){weather={temp:18};document.getElementById('wTemp').textContent='18°';document.getElementById('wFeel').textContent='Ясно';document.getElementById('wCity').textContent=localStorage.getItem('wb_city')||'Введите город →';document.getElementById('wIcon').textContent='☀️';['wHum','wWind','wFeel2'].forEach(id=>document.getElementById(id).textContent='—');genOutfit();}
 function toggleCity(){const r=document.getElementById('cityRow');r.classList.toggle('open');if(r.classList.contains('open'))setTimeout(()=>document.getElementById('cityInp').focus(),100);}
 async function findCity(){const q=document.getElementById('cityInp').value.trim();if(!q)return;document.getElementById('wCity').textContent='Поиск...';try{const r=await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=1&accept-language=ru`);const d=await r.json();if(!d.length){toast('Город не найден');return;}const city=d[0].display_name.split(',')[0];document.getElementById('wCity').textContent=city;localStorage.setItem('wb_city',city);document.getElementById('cityRow').classList.remove('open');document.getElementById('cityInp').value='';await loadWeatherCoords(parseFloat(d[0].lat),parseFloat(d[0].lon));}catch{toast('Ошибка поиска');setDflt();}}
@@ -924,13 +892,50 @@ function go(id){
   document.querySelectorAll('.nav-item').forEach(t=>t.classList.remove('active'));
   document.getElementById('screen-'+id).classList.add('active');
   document.querySelectorAll('.nav-item')[SCREENS.indexOf(id)].classList.add('active');
+  // Header buttons: vary by tab
+  const btnBulk=document.getElementById('btnBulk');
+  const btnAdd=document.getElementById('btnAdd');
+  const btnWish=document.getElementById('btnWish');
+  if(id==='home'||id==='wardrobe'){
+    btnBulk.style.display='flex';btnAdd.style.display='flex';
+    if(btnWish)btnWish.style.display='none';
+  } else if(id==='looks'){
+    btnBulk.style.display='none';
+    btnAdd.style.display='flex';btnAdd.title='Собрать образ';
+    btnAdd.querySelector('i').className='ti ti-sparkles';
+    btnAdd.onclick=()=>openLookModal();
+    if(btnWish)btnWish.style.display='none';
+  } else if(id==='shop'||id==='wishlist'){
+    btnBulk.style.display='none';
+    btnAdd.style.display='flex';btnAdd.title='Добавить желание';
+    btnAdd.querySelector('i').className='ti ti-heart';
+    btnAdd.onclick=()=>openWishAddModal();
+    if(btnWish)btnWish.style.display='none';
+  } else {
+    btnBulk.style.display='none';btnAdd.style.display='none';
+    if(btnWish)btnWish.style.display='none';
+  }
   if(id==='wardrobe')renderWardrobe();
   if(id==='looks'){renderLooks();genLooksRandom();}
   if(id==='shop')renderShop();
   if(id==='wishlist')renderWishlist();
-  if(id==='home'){renderRecent();updateStats();}if(id==='settings'){renderDislikedList();}
+  if(id==='home'){
+    // Reset add button to default
+    btnAdd.title='Добавить вещь';
+    btnAdd.querySelector('i').className='ti ti-plus';
+    btnAdd.onclick=()=>openAdd();
+    renderRecent();updateStats();
+  }
+  if(id==='settings'){renderDislikedList();}
 }
 function closeModal(id){document.getElementById(id).classList.remove('open');}
+function short4(name){if(!name)return'';const w=name.trim().split(/\s+/);return w.length>4?w.slice(0,4).join(' ')+'…':name;}
+function cleanLink(el){
+  // Extract URL from pasted text (strip everything that's not a URL)
+  let v=el.value;
+  const match=v.match(/https?:\/\/[^\s]+/);
+  if(match&&match[0]!==v.trim()){el.value=match[0];}
+}
 document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el&&el.id!=='cropModal')el.classList.remove('open');}));
 
 // ═══ SEASON ═══
@@ -948,14 +953,32 @@ function seasonsMatch(item,t){const s=Array.isArray(item.seasons)?item.seasons:[
 let lastOutfitItems=[];
 async function genOutfit(){
   const t=weather.temp;
+  const code=weather.code||0;
+  const wind=weather.wind||0;
+  const feel=weather.feel!==undefined?weather.feel:t;
+  // Weather conditions for outfit logic
+  const isRain=code>=51&&code<=82;    // drizzle/rain/showers
+  const isSnow=code>=71&&code<=77;    // snow
+  const isStormy=code>=80||wind>10;   // strong wind or storms
+  const isCold=feel<5;
+  const isWarm=feel>=22;
+  const isMild=feel>=12&&feel<22;
+  // Prefer outerwear if: rain, snow, cold, strong wind, or mild
+  const wantOuter=isRain||isSnow||isCold||isStormy||isMild;
+  // Heavy outerwear on cold/rain/snow, light on mild
   const pick=arr=>arr.length?arr[Math.floor(Math.random()*arr.length)]:null;
   const by=cat=>wardrobe.filter(i=>i.category===cat&&seasonsMatch(i,t));
   const hasShoes=by('shoes').length>0;
   let items=[],_a=0;
   while(_a<40){
     items=[];
-    const shoe=pick(by('shoes')),outer=t<20?pick(by('outerwear')):null;
-    const dresses=by('dress');const useDress=dresses.length>0&&Math.random()<0.3;
+    const shoe=pick(by('shoes'));
+    // Outer: always if rain/snow/cold, 70% if mild, skip if warm
+    const outerChance=isRain||isSnow||isCold?1:isMild?0.7:0.15;
+    const outer=Math.random()<outerChance?pick(by('outerwear')):null;
+    const dresses=by('dress');
+    // Skip dresses on rain/strong wind unless that's all we have
+    const useDress=dresses.length>0&&Math.random()<(isRain||isStormy?0.1:0.3);
   if(useDress){const d=pick(dresses);if(d)items.push(d);}else{const top=pick(by('top')),bot=pick(by('bottom'));if(top)items.push(top);if(bot)items.push(bot);}
   if(shoe)items.push(shoe);if(outer)items.push(outer);
   if(items.length&&!isDisliked(items)&&(!hasShoes||shoe))break;
@@ -964,7 +987,10 @@ async function genOutfit(){
   lastOutfitItems=items;
   if(!items.length){document.getElementById('outfitSlots').innerHTML=`<div style="padding:16px;color:var(--text-light);font-size:13px;width:100%;text-align:center;">Добавьте вещи в гардероб</div>`;return;}
   const photos=await Promise.all(items.map(i=>photo(i.id)));
-  document.getElementById('outfitSlots').innerHTML=items.map((item,i)=>{const src=photos[i];return`<div class="outfit-slot">${src?`<img src="${src}">`:`<div class="empty-icon"><i class="ti ti-hanger" style="font-size:20px;color:var(--mocha);"></i></div>`}<div class="slot-label">${item.name}</div></div>`;}).join('');
+  // Update label with weather context
+  const condLabel=isRain?'☔ Дождливо':isSnow?'❄️ Снег':isStormy?'💨 Ветрено':isCold?'🧊 Холодно':isWarm?'☀️ Тепло':'🌤 Комфортно';
+  document.getElementById('outfitLabel').textContent=`${condLabel} · ${feel}° · Образ дня`;
+  document.getElementById('outfitSlots').innerHTML=items.map((item,i)=>{const src=photos[i];return`<div class="outfit-slot">${src?`<img src="${src}">`:`<div class="empty-icon"><i class="ti ti-hanger" style="font-size:20px;color:var(--mocha);"></i></div>`}<div class="slot-label">${item.name}${item._wish?' <span style="font-size:9px">🛍</span>':''}</div></div>`;}).join('');
 }
 async function saveOutfitAsLook(){
   if(!lastOutfitItems.length){toast('Сначала сгенерируйте образ');return;}
@@ -1105,7 +1131,7 @@ async function wiHTML(item){
     </div>
     <div class="wi-info">
       <div class="wi-name">${item.name}</div>
-      <div class="wi-meta"><span class="wi-color-dot" style="background:${item.color||'#aaa'}"></span>${item.style||''}</div>
+      <div class="wi-meta">${item.style||''}</div>
     </div>
   </div>`;
 }
@@ -1165,8 +1191,8 @@ function renderBulkQueue(){
         <div class="bq-sea-chips">
           ${Object.entries(seaL).map(([v,l])=>`<div class="bq-sea-chip${(item.seasons||['all']).includes(v)?' sel':''}" onclick="bqToggleSea(${i},'${v}')">${l}</div>`).join('')}
         </div>
-        <label class="fl" style="margin-top:4px;">Цвет</label>
-        <div class="color-preset-row" style="margin-bottom:5px;gap:5px;" id="bqPresets_${i}">
+        <!-- color removed -->
+        <div style="display:none" id="bqPresets_${i}">
           ${['#FDFAF6','#2A1F1A','#7A8FA6','#9BAF96','#E8C4B8','#C9A84C','#8B6F5E','#D4C4A8','#D85A30','#666666'].map(c=>`<div class="color-preset-dot${item.color===c?' sel':''}" style="background:${c};${c==='#FDFAF6'?'border-color:#ccc;':''}" onclick="bqPickPreset(${i},this,'${c}')"></div>`).join('')}
           <button class="color-more-btn" onclick="toggleBqPalette(${i})">🎨 Ещё</button>
         </div>
@@ -1235,8 +1261,13 @@ async function renderItemPicker(){
     </div>`;
   }));
   document.getElementById('itemPicker').innerHTML=parts.join('');
+  // Restore scroll positions
+  document.querySelectorAll('.picker-scroll').forEach((el,i)=>{if(scrollPos&&scrollPos[i])el.scrollLeft=scrollPos[i];});
 }
 async function pickerSelect(cat,id){
+  // Save scroll positions before re-render
+  const scrollPos={};
+  document.querySelectorAll('.picker-scroll').forEach((el,i)=>{scrollPos[i]=el.scrollLeft;});
   if(id==='null'||!id){pickerSel[cat]=[];await renderItemPicker();return;}
   const sid=String(id);
   if(!Array.isArray(pickerSel[cat]))pickerSel[cat]=[];
@@ -1289,6 +1320,18 @@ async function renderDislikedList(){
   }));
   el.innerHTML=parts.join('');
 }
+function looksItemFilterChange(val){looksItemFilterVal=val;renderLooks();}
+function populateLooksItemFilter(){
+  const sel=document.getElementById('looksItemFilter');
+  if(!sel)return;
+  const pool=[...wardrobe,...wishlist.filter(w=>w.category).map(w=>({...w,id:'w'+w.id}))];
+  const usedIds=new Set(looks.flatMap(l=>l.itemIds||[]));
+  const used=pool.filter(i=>usedIds.has(String(i.id)));
+  sel.style.display=used.length?'block':'none';
+  const cur=sel.value;
+  sel.innerHTML='<option value="">Все вещи</option>'+used.map(i=>`<option value="${i.id}">${short4(i.name)}</option>`).join('');
+  if(cur)sel.value=cur;
+}
 function looksSeaFilter(val,el){document.querySelectorAll('#looksSeaRow .lf-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');looksSeaFilterVal=val;renderLooks();}
 function looksFilter(val,el){document.querySelectorAll('#looksFilterRow .lf-chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');looksFilterVal=val;renderLooks();}
 async function renderLooks(){
@@ -1297,6 +1340,8 @@ async function renderLooks(){
   if(looksFilterVal==='wish')filtered=looks.filter(l=>l.hasWish);
   else if(looksFilterVal!=='all')filtered=looks.filter(l=>l.style===looksFilterVal);
   if(looksSeaFilterVal!=='all'){const spool=[...wardrobe,...wishlist.filter(w=>w.category).map(w=>({...w,id:'w'+w.id}))];filtered=filtered.filter(l=>{const its=(l.itemIds||[]).map(id=>spool.find(i=>String(i.id)===String(id))).filter(Boolean);return its.some(it=>{const s=Array.isArray(it.seasons)?it.seasons:[it.season||'all'];return s.includes(looksSeaFilterVal)||s.includes('all');});});}
+  if(looksItemFilterVal){filtered=filtered.filter(l=>(l.itemIds||[]).some(id=>String(id)===String(looksItemFilterVal)));}
+  populateLooksItemFilter();
   if(!filtered.length){g.innerHTML=`<div style="text-align:center;padding:24px;color:var(--text-light);font-size:14px;">Нет образов. Нажмите «Собрать образ» или сохраните случайный!</div>`;return;}
   const allItems=[...wardrobe,...wishlist.filter(w=>w.category).map(w=>({...w,id:'w'+w.id}))];
   const parts=await Promise.all(filtered.map(async look=>{
@@ -1305,7 +1350,7 @@ async function renderLooks(){
     const slots=items.map((item,i)=>{const src=photos[i];return`<div class="look-slot">${src?`<img src="${src}">`:`<div class="empty-icon"><i class="ti ti-hanger" style="font-size:18px;color:var(--sand);"></i></div>`}<div class="look-slot-tag">${item.name}</div></div>`;}).join('');
     const wishItems=items.filter(i=>String(i.id).startsWith('w'));
     return`<div class="look-card">
-      ${look.hasWish?`<div class="look-wish-badge" style="z-index:2;">🛍 С вишлистом</div>`:''}
+      
       <div class="look-card-actions" style="position:absolute;top:10px;right:10px;display:flex;gap:6px;z-index:3;">
         <button style="background:rgba(61,43,36,.75);border:none;color:white;width:28px;height:28px;border-radius:50%;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="event.stopPropagation();openLookModal(${look.id})" title="Редактировать"><i class="ti ti-pencil"></i></button>
         <button style="background:rgba(180,50,50,.85);border:none;color:white;width:28px;height:28px;border-radius:50%;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;" onclick="event.stopPropagation();deleteLook(${look.id})" title="Удалить"><i class="ti ti-x"></i></button>
@@ -1313,7 +1358,7 @@ async function renderLooks(){
       <div class="look-slots">${slots||`<div style="padding:16px;color:var(--text-light);font-size:13px;">Вещи не найдены</div>`}</div>
       <div class="look-footer">
         ${look.note?`<div class="look-note">"${look.note}"</div>`:''}
-        ${wishItems.length?`<div class="look-tags"><span class="look-tag" style="background:var(--blush);border-color:var(--mocha);color:var(--espresso);">🛍 С вишлистом</span>${wishItems.map(i=>`<span class="look-tag wish">${i.name}</span>`).join('')}</div>`:look.itemNames&&look.itemNames.length?`<div class="look-tags">${look.itemNames.slice(0,3).map(n=>`<span class="look-tag">${n}</span>`).join('')}</div>`:''}
+        ${wishItems.length?`<div class="look-tags">${wishItems.map(i=>`<span class="look-tag wish" style="background:var(--blush);border-color:var(--mocha);color:var(--espresso);">🛍 ${short4(i.name)}</span>`).join('')}</div>`:look.itemNames&&look.itemNames.length?`<div class="look-tags">${look.itemNames.slice(0,3).map(n=>`<span class="look-tag">${n}</span>`).join('')}</div>`:''}
       </div>
     </div>`;
   }));
@@ -1371,7 +1416,7 @@ function openWishAddModal(editId){
   document.getElementById('wishAddPreview').style.display='none';document.getElementById('wishAddPreview').src='';
   document.getElementById('wishUpZone').style.display='block';document.getElementById('wishReCropBtn').style.display='none';
   document.getElementById('wishAddFile').value='';
-  ['waN','waBrand','waLink'].forEach(id=>document.getElementById(id).value='');
+  ['waN','waBrand'].forEach(id=>document.getElementById(id).value='');const wlEl=document.getElementById('waLink');if(wlEl){wlEl.value='';wlEl.style.height='auto';}
   document.getElementById('waPrice').value='';
   setSeasons('wishSeaChips',['all']);document.getElementById('waCat').value='top';
   document.getElementById('wishAddSaveBtn').textContent='В вишлист';
@@ -1430,7 +1475,7 @@ async function renderWishlist(){
       <div class="wish-img">${src?`<img src="${src}">`:`<div>${it.emoji||'🛍️'}</div>`}</div>
       <button class="wish-del" onclick="delWish(${it.id},event)"><i class="ti ti-x" style="font-size:10px;"></i></button>
       <div class="wish-body">
-        <div class="wish-name">${it.name}</div>
+        <div class="wish-name" title="${it.name}">${short4(it.name)}</div>
         ${it.brand?`<div style="font-size:11px;color:var(--text-light);margin-bottom:3px;">${it.brand}</div>`:''}
         ${it.price?`<div class="wish-price">${it.price}</div>`:''}
         ${linkHtml}
